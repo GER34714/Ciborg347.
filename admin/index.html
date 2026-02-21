@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Panel Admin</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    body{font-family:Arial;background:#0b0f19;color:#fff;margin:0;padding:20px}
+    input,select,button{padding:8px;margin:4px 0;width:100%}
+    section{margin-bottom:30px}
+    .card{background:#141a33;padding:12px;border-radius:10px;margin-bottom:10px}
+  </style>
+</head>
+
+<body>
+
+<h1>Panel Admin</h1>
+
+<section id="login">
+  <h3>Login</h3>
+  <input id="email" placeholder="Email">
+  <input id="pass" type="password" placeholder="Password">
+  <button onclick="login()">Entrar</button>
+</section>
+
+<section id="panel" style="display:none">
+
+  <h3>Crear categoría</h3>
+  <input id="catTitle" placeholder="Nombre visible">
+  <input id="catSlug" placeholder="slug">
+  <button onclick="addCategory()">Agregar categoría</button>
+
+  <h3>Crear card</h3>
+  <input id="title" placeholder="Titulo">
+  <input id="short" placeholder="Descripcion corta">
+  <input id="link" placeholder="Link demo">
+  <select id="category"></select>
+  <input type="file" id="image">
+  <button onclick="addCard()">Agregar card</button>
+
+</section>
+
+<script>
+const SUPABASE_URL = "https://xgeeqsobmfrimdqfbsye.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhnZWVxc29ibWZyaW1kcWZic3llIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2NDcxODksImV4cCI6MjA4NzIyMzE4OX0.XNcuIjbIswPh1BRKkbID2C755Jpwy6gVqXDuDSphkF4";
+
+const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+async function login(){
+  const email = email.value;
+  const password = pass.value;
+
+  const { error } = await supabase.auth.signInWithPassword({ email, password });
+  if(error) return alert(error.message);
+
+  const { data } = await supabase.from("admin_users").select("*");
+  if(!data.length) return alert("No sos admin");
+
+  document.getElementById("login").style.display="none";
+  document.getElementById("panel").style.display="block";
+
+  loadCategories();
+}
+
+async function loadCategories(){
+  const { data } = await supabase.from("categories").select("*");
+  const sel = document.getElementById("category");
+  sel.innerHTML="";
+  data.forEach(c=>{
+    const o=document.createElement("option");
+    o.value=c.id;o.textContent=c.title;
+    sel.appendChild(o);
+  });
+}
+
+async function addCategory(){
+  await supabase.from("categories").insert({
+    title:catTitle.value,
+    slug:catSlug.value
+  });
+  loadCategories();
+}
+
+async function addCard(){
+  let image_url=null;
+  const file=image.files[0];
+  if(file){
+    const path=`${Date.now()}_${file.name}`;
+    await supabase.storage.from("portfolio-images").upload(path,file);
+    image_url = `${SUPABASE_URL}/storage/v1/object/public/portfolio-images/${path}`;
+  }
+
+  await supabase.from("cards").insert({
+    title:title.value,
+    short:short.value,
+    link_url:link.value,
+    category_id:category.value,
+    image_url
+  });
+
+  alert("Card creada");
+}
+</script>
+
+</body>
+</html>
