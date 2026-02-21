@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Portfolio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    body{font-family:Arial;background:#0b0f19;color:#fff;margin:0;padding:20px}
+    .chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
+    .chip{padding:8px 14px;border-radius:20px;border:1px solid #444;cursor:pointer}
+    .chip.active{background:#00e5ff;color:#000}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+    .card{background:#141a33;border-radius:12px;padding:12px;cursor:pointer}
+    .card img{width:100%;border-radius:8px;margin-bottom:8px}
+    .title{font-weight:bold}
+    .short{font-size:14px;color:#ccc}
+  </style>
+</head>
+
+<body>
+
+<h1>Trabajos / Portfolio</h1>
+
+<div class="chips" id="chips"></div>
+<div class="grid" id="grid"></div>
+
+<script>
+const SUPABASE_URL = "https://xgeeqsobmfrimdqfbsye.supabase.co";
+const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhnZWVxc29ibWZyaW1kcWZic3llIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2NDcxODksImV4cCI6MjA4NzIyMzE4OX0.XNcuIjbIswPh1BRKkbID2C755Jpwy6gVqXDuDSphkF4";
+
+const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+let categories = [];
+let cards = [];
+let activeCat = "all";
+
+async function loadData(){
+  const { data: cats } = await supabase.from("categories").select("*").order("sort");
+  const { data: items } = await supabase.from("cards").select("*").order("sort");
+
+  categories = cats || [];
+  cards = items || [];
+
+  renderChips();
+  renderCards();
+}
+
+function renderChips(){
+  const el = document.getElementById("chips");
+  el.innerHTML = "";
+
+  const all = document.createElement("div");
+  all.className = "chip active";
+  all.textContent = "Todo";
+  all.onclick = () => { activeCat="all"; setActive(all); renderCards(); };
+  el.appendChild(all);
+
+  categories.forEach(c=>{
+    const chip = document.createElement("div");
+    chip.className = "chip";
+    chip.textContent = c.title;
+    chip.onclick = ()=>{ activeCat=c.id; setActive(chip); renderCards(); };
+    el.appendChild(chip);
+  });
+}
+
+function setActive(el){
+  document.querySelectorAll(".chip").forEach(c=>c.classList.remove("active"));
+  el.classList.add("active");
+}
+
+function renderCards(){
+  const el = document.getElementById("grid");
+  el.innerHTML = "";
+
+  let list = activeCat==="all" ? cards : cards.filter(c=>c.category_id===activeCat);
+
+  if(list.length===0){
+    el.innerHTML = `
+      <div class="card">
+        <div class="title">Ejemplo de card</div>
+        <div class="short">Aca vas a ver tus demos cuando cargues contenido desde el panel admin.</div>
+      </div>
+    `;
+    return;
+  }
+
+  list.forEach(c=>{
+    const card = document.createElement("div");
+    card.className="card";
+    card.innerHTML = `
+      ${c.image_url ? `<img src="${c.image_url}">` : ""}
+      <div class="title">${c.title}</div>
+      <div class="short">${c.short || ""}</div>
+    `;
+    card.onclick = ()=> window.open(c.link_url,"_blank");
+    el.appendChild(card);
+  });
+}
+
+loadData();
+</script>
+
+</body>
+</html>
