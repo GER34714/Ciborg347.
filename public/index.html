@@ -19,6 +19,12 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
+  <div class="video-bg" aria-hidden="true">
+    <video autoplay muted loop playsinline preload="auto">
+      <source src="https://fhxcumwhgtfirznnznjx.supabase.co/storage/v1/object/public/video%20ciborg%20347/overlay.mp4" type="video/mp4" />
+    </video>
+  </div>
+
   <div class="bg-grid" aria-hidden="true"></div>
 
   <header class="topbar">
@@ -40,6 +46,9 @@
       </nav>
 
       <div class="topbar__cta">
+        <button id="themeToggleBtn" class="themeToggle" type="button" aria-label="Cambiar tema">
+          <span id="themeToggleText">Tema claro</span>
+        </button>
         <a id="topWhatsAppBtn" class="btn btn--primary" href="#" target="_blank" rel="noopener">WhatsApp</a>
         <button id="burgerBtn" class="burger" type="button" aria-label="Abrir menú" aria-expanded="false">
           <span></span><span></span><span></span>
@@ -53,6 +62,9 @@
       <a href="#autoadmin" data-close>Autoadministrable</a>
       <a href="#faq" data-close>FAQ</a>
       <a href="#contacto" data-close>Contacto</a>
+      <button id="themeToggleBtnMobile" class="themeToggle themeToggle--mobile" type="button" data-close>
+        <span id="themeToggleTextMobile">Tema claro</span>
+      </button>
       <a id="mobileWhatsAppBtn" class="btn btn--primary btn--block" href="#" target="_blank" rel="noopener" data-close>WhatsApp</a>
     </div>
   </header>
@@ -74,9 +86,9 @@
           </div>
 
           <div class="hero__chips">
-            <span class="chip">Pago único</span>
-            <span class="chip">Full responsive</span>
-            <span class="chip">Listo para publicar</span>
+            <span class="chip chip--static">Pago único</span>
+            <span class="chip chip--static">Full responsive</span>
+            <span class="chip chip--static">Listo para publicar</span>
           </div>
         </div>
 
@@ -104,7 +116,7 @@
         <div class="authority__grid" id="authorityGrid">
           <article class="authority__item">
             <strong>Demos reales por rubro</strong>
-            <span>Portfolio visible y explorables</span>
+            <span>Portfolio visible y explorable</span>
           </article>
           <article class="authority__item">
             <strong>Diseño + estructura</strong>
