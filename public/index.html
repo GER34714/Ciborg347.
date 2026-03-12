@@ -1,108 +1,380 @@
-<!DOCTYPE html>
-<html lang="es">
+<!-- /public/index.html -->
+<!doctype html>
+<html lang="es-AR">
 <head>
-  <meta charset="UTF-8" />
-  <title>Portfolio</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#070a12" />
 
+  <title>CIBORG 347™ | Landing Pages & Web Designs</title>
+  <meta name="description" content="CIBORG 347™ crea páginas web profesionales, demos reales por rubro, webs autoadministrables y sistemas con enfoque comercial." />
+
+  <meta property="og:title" content="CIBORG 347™ | Landing Pages & Web Designs" />
+  <meta property="og:description" content="Portfolio real, soluciones por nivel y demos administrables desde panel." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://iili.io/fETkPEv.md.png" />
+
+  <link rel="icon" type="image/png" href="https://iili.io/fETkPEv.md.png" />
+  <link rel="stylesheet" href="./styles.css" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <style>
-    body{font-family:Arial;background:#0b0f19;color:#fff;margin:0;padding:20px}
-    .chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
-    .chip{padding:8px 14px;border-radius:20px;border:1px solid #444;cursor:pointer}
-    .chip.active{background:#00e5ff;color:#000}
-    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
-    .card{background:#141a33;border-radius:12px;padding:12px;cursor:pointer}
-    .card img{width:100%;border-radius:8px;margin-bottom:8px}
-    .title{font-weight:bold}
-    .short{font-size:14px;color:#ccc}
-  </style>
 </head>
-
 <body>
+  <div class="bg-grid" aria-hidden="true"></div>
 
-<h1>Trabajos / Portfolio</h1>
+  <header class="topbar">
+    <div class="wrap topbar__inner">
+      <a class="brand" href="#inicio" aria-label="Ir al inicio">
+        <img class="brand__logo" src="https://iili.io/fETkPEv.md.png" alt="CIBORG 347" />
+        <div class="brand__text">
+          <strong>CIBORG 347™</strong>
+          <span>Landing Pages & Web Designs</span>
+        </div>
+      </a>
 
-<div class="chips" id="chips"></div>
-<div class="grid" id="grid"></div>
+      <nav class="nav" id="nav">
+        <a href="#soluciones">Soluciones</a>
+        <a href="#trabajos">Trabajos</a>
+        <a href="#autoadmin">Autoadministrable</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
 
-<script>
-const SUPABASE_URL = "https://xgeeqsobmfrimdqfbsye.supabase.co";
-const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhnZWVxc29ibWZyaW1kcWZic3llIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2NDcxODksImV4cCI6MjA4NzIyMzE4OX0.XNcuIjbIswPh1BRKkbID2C755Jpwy6gVqXDuDSphkF4";
-
-const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-let categories = [];
-let cards = [];
-let activeCat = "all";
-
-async function loadData(){
-  const { data: cats } = await supabase.from("categories").select("*").order("sort");
-  const { data: items } = await supabase.from("cards").select("*").order("sort");
-
-  categories = cats || [];
-  cards = items || [];
-
-  renderChips();
-  renderCards();
-}
-
-function renderChips(){
-  const el = document.getElementById("chips");
-  el.innerHTML = "";
-
-  const all = document.createElement("div");
-  all.className = "chip active";
-  all.textContent = "Todo";
-  all.onclick = () => { activeCat="all"; setActive(all); renderCards(); };
-  el.appendChild(all);
-
-  categories.forEach(c=>{
-    const chip = document.createElement("div");
-    chip.className = "chip";
-    chip.textContent = c.title;
-    chip.onclick = ()=>{ activeCat=c.id; setActive(chip); renderCards(); };
-    el.appendChild(chip);
-  });
-}
-
-function setActive(el){
-  document.querySelectorAll(".chip").forEach(c=>c.classList.remove("active"));
-  el.classList.add("active");
-}
-
-function renderCards(){
-  const el = document.getElementById("grid");
-  el.innerHTML = "";
-
-  let list = activeCat==="all" ? cards : cards.filter(c=>c.category_id===activeCat);
-
-  if(list.length===0){
-    el.innerHTML = `
-      <div class="card">
-        <div class="title">Ejemplo de card</div>
-        <div class="short">Aca vas a ver tus demos cuando cargues contenido desde el panel admin.</div>
+      <div class="topbar__cta">
+        <a id="topWhatsAppBtn" class="btn btn--primary" href="#" target="_blank" rel="noopener">WhatsApp</a>
+        <button id="burgerBtn" class="burger" type="button" aria-label="Abrir menú" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
       </div>
-    `;
-    return;
-  }
+    </div>
 
-  list.forEach(c=>{
-    const card = document.createElement("div");
-    card.className="card";
-    card.innerHTML = `
-      ${c.image_url ? `<img src="${c.image_url}">` : ""}
-      <div class="title">${c.title}</div>
-      <div class="short">${c.short || ""}</div>
-    `;
-    card.onclick = ()=> window.open(c.link_url,"_blank");
-    el.appendChild(card);
-  });
-}
+    <div class="mobileMenu" id="mobileMenu" aria-hidden="true">
+      <a href="#soluciones" data-close>Soluciones</a>
+      <a href="#trabajos" data-close>Trabajos</a>
+      <a href="#autoadmin" data-close>Autoadministrable</a>
+      <a href="#faq" data-close>FAQ</a>
+      <a href="#contacto" data-close>Contacto</a>
+      <a id="mobileWhatsAppBtn" class="btn btn--primary btn--block" href="#" target="_blank" rel="noopener" data-close>WhatsApp</a>
+    </div>
+  </header>
 
-loadData();
-</script>
+  <main id="inicio">
+    <section class="hero">
+      <div class="hero__glow" aria-hidden="true"></div>
+      <div class="wrap hero__grid">
+        <div class="hero__copy">
+          <div class="badge" id="heroBadge">Diseño web profesional • Pago único • Buenos Aires, Argentina</div>
+          <h1 id="heroTitle">Páginas web que convierten visitas en clientes.</h1>
+          <p id="heroSubtitle">
+            CIBORG 347 crea landings, webs profesionales y sistemas con enfoque comercial, demos reales por rubro y soluciones listas para crecer.
+          </p>
 
+          <div class="hero__actions">
+            <a id="heroWhatsAppBtn" class="btn btn--primary" href="#" target="_blank" rel="noopener">Pedí tu web por WhatsApp</a>
+            <a class="btn btn--ghost" href="#trabajos">Ver trabajos reales</a>
+          </div>
+
+          <div class="hero__chips">
+            <span class="chip">Pago único</span>
+            <span class="chip">Full responsive</span>
+            <span class="chip">Listo para publicar</span>
+          </div>
+        </div>
+
+        <div class="hero__card">
+          <div class="hero__logoWrap">
+            <img src="https://iili.io/fETkPEv.md.png" alt="Logo CIBORG 347" />
+          </div>
+
+          <div class="hero__miniGrid">
+            <article>
+              <strong>Demos reales</strong>
+              <span>Portfolio por rubros y proyectos visibles.</span>
+            </article>
+            <article>
+              <strong>Sistema escalable</strong>
+              <span>Estructura pensada para crecer a A/B.</span>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="authority">
+      <div class="wrap">
+        <div class="authority__grid" id="authorityGrid">
+          <article class="authority__item">
+            <strong>Demos reales por rubro</strong>
+            <span>Portfolio visible y explorables</span>
+          </article>
+          <article class="authority__item">
+            <strong>Diseño + estructura</strong>
+            <span>No solo visual, también criterio comercial</span>
+          </article>
+          <article class="authority__item">
+            <strong>Full responsive</strong>
+            <span>Bien resuelto en celular y escritorio</span>
+          </article>
+          <article class="authority__item">
+            <strong>Escalable</strong>
+            <span>Base preparada para crecer</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="soluciones" class="section">
+      <div class="wrap">
+        <div class="section__head">
+          <h2>Soluciones</h2>
+          <p id="solutionsIntro">
+            No todo negocio necesita lo mismo. Estas son las soluciones base sobre las que trabajo y escalo cada proyecto.
+          </p>
+        </div>
+
+        <div class="solutionsGrid">
+          <article class="solutionCard">
+            <div class="solutionCard__icon">01</div>
+            <h3>Landing Pages</h3>
+            <p>La opción más directa para mostrar bien, generar confianza y llevar tráfico a WhatsApp.</p>
+          </article>
+
+          <article class="solutionCard">
+            <div class="solutionCard__icon">02</div>
+            <h3>Webs Profesionales</h3>
+            <p>Más profundidad, más secciones y mejor organización para marcas que necesitan sostener su presencia.</p>
+          </article>
+
+          <article class="solutionCard">
+            <div class="solutionCard__icon">03</div>
+            <h3>Webs Autoadministrables</h3>
+            <p>Frente público + panel privado para administrar contenido sin tocar código.</p>
+          </article>
+
+          <article class="solutionCard">
+            <div class="solutionCard__icon">04</div>
+            <h3>Sistemas / Soluciones Especiales</h3>
+            <p>Estructuras más personalizadas para casos donde una web simple ya no alcanza.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--soft">
+      <div class="wrap">
+        <div class="section__head">
+          <h2>Trabajos destacados</h2>
+          <p>Una selección curada para mostrar variedad, criterio y nivel de resolución.</p>
+        </div>
+
+        <div class="featuredGrid" id="featuredGrid"></div>
+      </div>
+    </section>
+
+    <section id="trabajos" class="section">
+      <div class="wrap">
+        <div class="section__head">
+          <h2>Portfolio explorables</h2>
+          <p>Filtrá por rubro, buscá por nombre y explorá demos reales cargadas desde el sistema.</p>
+        </div>
+
+        <div class="toolbar">
+          <div class="chips" id="categoryChips"></div>
+
+          <div class="toolbar__right">
+            <div class="field">
+              <label for="searchInput">Buscar</label>
+              <input id="searchInput" type="search" placeholder="Ej: radio, nails, refacciones..." />
+            </div>
+
+            <div class="field field--small">
+              <label for="typeFilter">Tipo</label>
+              <select id="typeFilter">
+                <option value="__all__">Todos</option>
+                <option value="Landing Pages">Landing Pages</option>
+                <option value="Webs Profesionales">Webs Profesionales</option>
+                <option value="Webs Autoadministrables">Webs Autoadministrables</option>
+                <option value="Sistemas / Soluciones Especiales">Sistemas / Soluciones Especiales</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div id="stateBox" class="state" aria-live="polite"></div>
+        <div id="projectsGrid" class="projectsGrid"></div>
+
+        <div class="moreWrap" id="moreWrap" style="display:none">
+          <button id="moreBtn" class="btn btn--ghost" type="button">Ver más</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="autoadmin" class="section section--soft">
+      <div class="wrap splitBlock">
+        <div class="splitBlock__copy">
+          <div class="section__head section__head--left">
+            <h2 id="autoadminTitle">Webs autoadministrables</h2>
+            <p id="autoadminSubtitle">Sistema con panel para cargar y actualizar contenido.</p>
+          </div>
+
+          <div class="richText" id="autoadminContent">
+            Frente público + panel privado. Ideal para proyectos que necesitan actualizar demos, productos, trabajos, imágenes o bloques sin tocar código.
+          </div>
+
+          <div class="hero__actions">
+            <a id="autoadminBtn" class="btn btn--primary" href="#" target="_blank" rel="noopener">Quiero algo así</a>
+            <a class="btn btn--ghost" href="#contacto">Ver contacto</a>
+          </div>
+        </div>
+
+        <div class="splitBlock__visual">
+          <div class="visualCard">
+            <div class="visualCard__badge">A/B</div>
+            <strong>Frente A + Panel B</strong>
+            <span>Arquitectura pensada para mostrar, administrar y crecer.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="wrap splitBlock">
+        <div class="splitBlock__copy">
+          <div class="section__head section__head--left">
+            <h2 id="budgetTitle">Sistema de presupuestos</h2>
+            <p id="budgetSubtitle">Herramienta o sistema especial para procesos comerciales.</p>
+          </div>
+
+          <div class="richText" id="budgetContent">
+            También puedo integrar o desarrollar herramientas especiales según la necesidad del proyecto y el proceso comercial que quieras resolver.
+          </div>
+
+          <div class="hero__actions">
+            <a id="budgetBtn" class="btn btn--primary" href="#" target="_blank" rel="noopener">Consultar sistema</a>
+          </div>
+        </div>
+
+        <div class="splitBlock__visual">
+          <div class="visualCard visualCard--alt">
+            <div class="visualCard__badge">Sistema</div>
+            <strong>Herramientas propias</strong>
+            <span>La idea es que CIBORG 347 no sea solo una web linda, sino una base operativa real.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--soft">
+      <div class="wrap">
+        <div class="section__head">
+          <h2>Por qué CIBORG 347</h2>
+          <p id="differentialsSubtitle">Diseño, criterio y estructura pensada para vender mejor.</p>
+        </div>
+
+        <div class="differentialsGrid">
+          <article class="diffCard">
+            <strong>Demos reales</strong>
+            <span>Portfolio real por rubros, no promesas vacías.</span>
+          </article>
+          <article class="diffCard">
+            <strong>Trato directo</strong>
+            <span>Hablás conmigo y bajamos cada solución a tu caso.</span>
+          </article>
+          <article class="diffCard">
+            <strong>Enfoque comercial</strong>
+            <span>No solo diseño: estructura pensada para contacto real.</span>
+          </article>
+          <article class="diffCard">
+            <strong>Escalable</strong>
+            <span>La base puede crecer a autoadministrable y más.</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="faq" class="section">
+      <div class="wrap">
+        <div class="section__head">
+          <h2>Preguntas frecuentes</h2>
+          <p>Lo básico que conviene dejar claro antes de avanzar.</p>
+        </div>
+
+        <div id="faqList" class="faqList"></div>
+      </div>
+    </section>
+
+    <section id="contacto" class="section section--soft">
+      <div class="wrap ctaPanel">
+        <div>
+          <h2 id="finalCtaTitle">¿Querés algo así para tu marca?</h2>
+          <p id="finalCtaSubtitle">Contame tu rubro y vemos qué solución te conviene.</p>
+        </div>
+
+        <div class="hero__actions">
+          <a id="finalWhatsAppBtn" class="btn btn--primary" href="#" target="_blank" rel="noopener">Hablar por WhatsApp</a>
+          <a class="btn btn--ghost" href="mailto:ciborg347@gmail.com">Enviar email</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer" id="siteFooter">
+    <div class="wrap footer__inner">
+      <div class="footer__brand">
+        <img src="https://iili.io/fETkPEv.md.png" alt="CIBORG 347" />
+        <div>
+          <strong>CIBORG 347™</strong>
+          <span>Landing Pages & Web Designs</span>
+        </div>
+      </div>
+
+      <div class="footer__links">
+        <a href="#soluciones">Soluciones</a>
+        <a href="#trabajos">Trabajos</a>
+        <a href="#autoadmin">Autoadministrable</a>
+        <a href="#contacto">Contacto</a>
+      </div>
+    </div>
+  </footer>
+
+  <a id="waFloat" class="waFloat" href="#" target="_blank" rel="noopener" aria-label="WhatsApp">
+    <img src="https://iili.io/qBZhqGf.md.png" alt="WhatsApp" />
+  </a>
+
+  <div id="projectModal" class="modal" aria-hidden="true">
+    <button id="modalBackdrop" class="modal__backdrop" type="button" aria-label="Cerrar"></button>
+
+    <div class="modal__panel" role="dialog" aria-modal="true">
+      <div class="modal__header">
+        <div>
+          <span id="modalCategory" class="tag">Categoría</span>
+          <h3 id="modalTitle">Proyecto</h3>
+        </div>
+        <button id="modalClose" class="iconBtn" type="button" aria-label="Cerrar">×</button>
+      </div>
+
+      <div class="modal__content">
+        <div class="modal__imageWrap">
+          <img id="modalImage" src="" alt="" />
+        </div>
+
+        <div class="modal__info">
+          <div class="metaList">
+            <div><strong>Tipo:</strong> <span id="modalType"></span></div>
+            <div><strong>Preview:</strong> <span id="modalPreviewType"></span></div>
+          </div>
+
+          <p id="modalShort"></p>
+          <p id="modalFull" class="muted"></p>
+
+          <div class="hero__actions hero__actions--column">
+            <a id="modalDemoBtn" class="btn btn--primary" href="#" target="_blank" rel="noopener">Abrir demo</a>
+            <a id="modalWhatsAppBtn" class="btn btn--ghost" href="#" target="_blank" rel="noopener">Quiero algo así</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="./app.js"></script>
 </body>
 </html>
