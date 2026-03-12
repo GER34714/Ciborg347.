@@ -1,109 +1,502 @@
-<!DOCTYPE html>
-<html lang="es">
+<!doctype html>
+<html lang="es-AR">
 <head>
-  <meta charset="UTF-8">
-  <title>Panel Admin</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Admin | CIBORG 347</title>
+  <meta name="description" content="Panel admin de CIBORG 347 para gestionar proyectos, categorias, contenido global y FAQs." />
+  <link rel="stylesheet" href="./styles.css" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <style>
-    body{font-family:Arial;background:#0b0f19;color:#fff;margin:0;padding:20px}
-    input,select,button{padding:8px;margin:4px 0;width:100%}
-    section{margin-bottom:30px}
-    .card{background:#141a33;padding:12px;border-radius:10px;margin-bottom:10px}
-  </style>
 </head>
-
 <body>
+  <header class="topbar">
+    <div class="wrap topbar__inner">
+      <div class="brand">
+        <div class="brand__title">Admin</div>
+        <div class="brand__subtitle">CIBORG 347 | Sistema A/B</div>
+      </div>
 
-<h1>Panel Admin</h1>
+      <div class="topbar__right">
+        <span id="userEmail" class="muted"></span>
+        <button id="logoutBtn" class="btn btn--ghost" type="button">Salir</button>
+      </div>
+    </div>
+  </header>
 
-<section id="login">
-  <h3>Login</h3>
-  <input id="email" placeholder="Email">
-  <input id="pass" type="password" placeholder="Password">
-  <button onclick="login()">Entrar</button>
-</section>
+  <main class="wrap">
+    <!-- LOGIN -->
+    <section id="authBox" class="panel authBox">
+      <h1>Ingresar al panel</h1>
+      <p class="muted">Solo usuarios autorizados en la tabla admin_users.</p>
 
-<section id="panel" style="display:none">
+      <div class="grid2">
+        <div class="field">
+          <label for="emailInput">Email</label>
+          <input id="emailInput" type="email" autocomplete="email" placeholder="ciborg347@gmail.com" />
+        </div>
 
-  <h3>Crear categoría</h3>
-  <input id="catTitle" placeholder="Nombre visible">
-  <input id="catSlug" placeholder="slug">
-  <button onclick="addCategory()">Agregar categoría</button>
+        <div class="field">
+          <label for="passInput">Password</label>
+          <input id="passInput" type="password" autocomplete="current-password" placeholder="********" />
+        </div>
+      </div>
 
-  <h3>Crear card</h3>
-  <input id="title" placeholder="Titulo">
-  <input id="short" placeholder="Descripcion corta">
-  <input id="link" placeholder="Link demo">
-  <select id="category"></select>
-  <input type="file" id="image">
-  <button onclick="addCard()">Agregar card</button>
+      <div class="actions">
+        <button id="loginBtn" class="btn btn--primary" type="button">Ingresar</button>
+      </div>
 
-</section>
+      <div id="authMsg" class="msg"></div>
+    </section>
 
-<script>
-const SUPABASE_URL = "https://xgeeqsobmfrimdqfbsye.supabase.co";
-const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhnZWVxc29ibWZyaW1kcWZic3llIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE2NDcxODksImV4cCI6MjA4NzIyMzE4OX0.XNcuIjbIswPh1BRKkbID2C755Jpwy6gVqXDuDSphkF4";
+    <!-- ADMIN -->
+    <section id="adminBox" class="adminLayout" style="display:none">
+      <!-- SIDEBAR -->
+      <aside class="sidebar panel">
+        <div class="sidebar__head">
+          <div class="sidebar__title">Panel B</div>
+          <div class="sidebar__subtitle">Gestión de CIBORG 347</div>
+        </div>
 
-const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        <nav class="sidebar__nav">
+          <button class="navBtn is-active" data-view="dashboard" type="button">Dashboard</button>
+          <button class="navBtn" data-view="projects" type="button">Proyectos</button>
+          <button class="navBtn" data-view="new-project" type="button">Nueva web</button>
+          <button class="navBtn" data-view="categories" type="button">Categorías</button>
+          <button class="navBtn" data-view="site-content" type="button">Contenido global</button>
+          <button class="navBtn" data-view="faqs" type="button">FAQs</button>
+        </nav>
 
-async function login(){
-  const email = email.value;
-  const password = pass.value;
+        <div class="sidebar__foot">
+          <button id="quickNewProjectBtn" class="btn btn--primary btn--block" type="button">Cargar nueva web</button>
+        </div>
+      </aside>
 
-  const { error } = await supabase.auth.signInWithPassword({ email, password });
-  if(error) return alert(error.message);
+      <!-- CONTENT -->
+      <section class="contentArea">
+        <!-- DASHBOARD -->
+        <section class="panel viewPanel" data-panel="dashboard">
+          <div class="row row--between row--wrap">
+            <div>
+              <h2>Dashboard</h2>
+              <p class="muted">Resumen general del sistema y acceso rápido a las acciones principales.</p>
+            </div>
 
-  const { data } = await supabase.from("admin_users").select("*");
-  if(!data.length) return alert("No sos admin");
+            <div class="row row--wrap">
+              <button id="dashboardRefreshBtn" class="btn btn--ghost" type="button">Actualizar</button>
+              <button id="dashboardNewBtn" class="btn btn--primary" type="button">Cargar nueva web</button>
+            </div>
+          </div>
 
-  document.getElementById("login").style.display="none";
-  document.getElementById("panel").style.display="block";
+          <div class="statsGrid">
+            <article class="statCard">
+              <span class="statCard__label">Total proyectos</span>
+              <strong id="statProjects">0</strong>
+            </article>
 
-  loadCategories();
-}
+            <article class="statCard">
+              <span class="statCard__label">Activos</span>
+              <strong id="statActive">0</strong>
+            </article>
 
-async function loadCategories(){
-  const { data } = await supabase.from("categories").select("*");
-  const sel = document.getElementById("category");
-  sel.innerHTML="";
-  data.forEach(c=>{
-    const o=document.createElement("option");
-    o.value=c.id;o.textContent=c.title;
-    sel.appendChild(o);
-  });
-}
+            <article class="statCard">
+              <span class="statCard__label">Destacados</span>
+              <strong id="statHighlight">0</strong>
+            </article>
 
-async function addCategory(){
-  await supabase.from("categories").insert({
-    title:catTitle.value,
-    slug:catSlug.value
-  });
-  loadCategories();
-}
+            <article class="statCard">
+              <span class="statCard__label">Home</span>
+              <strong id="statHome">0</strong>
+            </article>
 
-async function addCard(){
-  let image_url=null;
-  const file=image.files[0];
-  if(file){
-    const path=`${Date.now()}_${file.name}`;
-    await supabase.storage.from("portfolio-images").upload(path,file);
-    image_url = `${SUPABASE_URL}/storage/v1/object/public/portfolio-images/${path}`;
-  }
+            <article class="statCard">
+              <span class="statCard__label">Portfolio</span>
+              <strong id="statPortfolio">0</strong>
+            </article>
 
-  await supabase.from("cards").insert({
-    title:title.value,
-    short:short.value,
-    link_url:link.value,
-    category_id:category.value,
-    image_url
-  });
+            <article class="statCard">
+              <span class="statCard__label">Categorías activas</span>
+              <strong id="statCategories">0</strong>
+            </article>
+          </div>
 
-  alert("Card creada");
-}
-</script>
+          <div class="subPanel">
+            <div class="row row--between row--wrap">
+              <h3>Últimas webs cargadas</h3>
+              <button id="dashboardSeeProjectsBtn" class="btn btn--ghost" type="button">Ver proyectos</button>
+            </div>
+            <div id="dashboardRecentList" class="stackList"></div>
+          </div>
+        </section>
 
+        <!-- PROYECTOS -->
+        <section class="panel viewPanel" data-panel="projects" style="display:none">
+          <div class="row row--between row--wrap">
+            <div>
+              <h2>Proyectos</h2>
+              <p class="muted">Listado completo de demos y webs cargadas.</p>
+            </div>
+
+            <div class="row row--wrap">
+              <button id="projectsRefreshBtn" class="btn btn--ghost" type="button">Actualizar</button>
+              <button id="projectsNewBtn" class="btn btn--primary" type="button">Nueva web</button>
+            </div>
+          </div>
+
+          <div class="filtersGrid">
+            <div class="field">
+              <label for="projectSearchInput">Buscar</label>
+              <input id="projectSearchInput" type="search" placeholder="Título..." />
+            </div>
+
+            <div class="field">
+              <label for="projectCategoryFilter">Categoría</label>
+              <select id="projectCategoryFilter">
+                <option value="__all__">Todas</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="projectTypeFilter">Tipo de solución</label>
+              <select id="projectTypeFilter">
+                <option value="__all__">Todos</option>
+                <option value="Landing Pages">Landing Pages</option>
+                <option value="Webs Profesionales">Webs Profesionales</option>
+                <option value="Webs Autoadministrables">Webs Autoadministrables</option>
+                <option value="Sistemas / Soluciones Especiales">Sistemas / Soluciones Especiales</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="projectStatusFilter">Estado</label>
+              <select id="projectStatusFilter">
+                <option value="__all__">Todos</option>
+                <option value="active">Activos</option>
+                <option value="inactive">Inactivos</option>
+                <option value="highlight">Destacados</option>
+              </select>
+            </div>
+          </div>
+
+          <div id="projectsMsg" class="msg"></div>
+          <div id="projectsList" class="stackList"></div>
+        </section>
+
+        <!-- NUEVO / EDITAR PROYECTO -->
+        <section class="panel viewPanel" data-panel="new-project" style="display:none">
+          <div class="row row--between row--wrap">
+            <div>
+              <h2 id="projectFormTitle">Nueva web</h2>
+              <p class="muted">Cargá una demo nueva o editá una existente. La imagen se pega por URL externa.</p>
+            </div>
+
+            <div class="row row--wrap">
+              <button id="projectFormResetBtn" class="btn btn--ghost" type="button">Limpiar</button>
+            </div>
+          </div>
+
+          <div class="grid2">
+            <div class="field">
+              <label for="projectImageUrlInput">URL de imagen</label>
+              <input id="projectImageUrlInput" type="url" placeholder="https://..." />
+              <small class="muted">Pegá una URL directa de Free Image Host o similar.</small>
+            </div>
+
+            <div class="field">
+              <label>Preview</label>
+              <div class="preview preview--large">
+                <img id="projectPreviewImg" alt="Preview de imagen" />
+              </div>
+            </div>
+          </div>
+
+          <div class="grid2">
+            <div class="field">
+              <label for="projectTitleInput">Título</label>
+              <input id="projectTitleInput" type="text" placeholder="Nombre de la web/demo" />
+            </div>
+
+            <div class="field">
+              <label for="projectDemoUrlInput">Link demo</label>
+              <input id="projectDemoUrlInput" type="url" placeholder="https://..." />
+            </div>
+          </div>
+
+          <div class="grid2">
+            <div class="field">
+              <label for="projectCategorySelect">Categoría</label>
+              <select id="projectCategorySelect">
+                <option value="">Elegir...</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="projectTypeSelect">Tipo de solución</label>
+              <select id="projectTypeSelect">
+                <option value="">Elegir...</option>
+                <option value="Landing Pages">Landing Pages</option>
+                <option value="Webs Profesionales">Webs Profesionales</option>
+                <option value="Webs Autoadministrables">Webs Autoadministrables</option>
+                <option value="Sistemas / Soluciones Especiales">Sistemas / Soluciones Especiales</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="projectShortDescInput">Descripción corta</label>
+            <textarea id="projectShortDescInput" rows="3" placeholder="Texto corto para cards, destacados y portfolio."></textarea>
+          </div>
+
+          <div class="togglesGrid">
+            <label class="switchRow">
+              <input id="projectActiveInput" type="checkbox" checked />
+              <span>Activo</span>
+            </label>
+
+            <label class="switchRow">
+              <input id="projectHighlightInput" type="checkbox" />
+              <span>Destacado</span>
+            </label>
+
+            <label class="switchRow">
+              <input id="projectFeaturedHomeInput" type="checkbox" />
+              <span>Mostrar en home</span>
+            </label>
+
+            <label class="switchRow">
+              <input id="projectFeaturedPortfolioInput" type="checkbox" />
+              <span>Mostrar en portfolio destacado</span>
+            </label>
+          </div>
+
+          <div class="actions">
+            <button id="projectAdvancedToggleBtn" class="btn btn--ghost" type="button">Abrir ajustes avanzados</button>
+          </div>
+
+          <div id="projectAdvancedBox" class="advancedBox" style="display:none">
+            <div class="field">
+              <label for="projectFullDescInput">Descripción larga</label>
+              <textarea id="projectFullDescInput" rows="5" placeholder="Texto ampliado para modal o ficha."></textarea>
+            </div>
+
+            <div class="grid2">
+              <div class="field">
+                <label for="projectPreviewTypeSelect">Tipo de preview</label>
+                <select id="projectPreviewTypeSelect">
+                  <option value="image">image</option>
+                  <option value="embed">embed</option>
+                  <option value="video">video</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="projectOrderInput">Orden manual</label>
+                <input id="projectOrderInput" type="number" step="1" value="0" />
+              </div>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button id="projectSaveBtn" class="btn btn--primary" type="button">Publicar</button>
+            <button id="projectDeleteBtn" class="btn btn--danger" type="button" style="display:none">Borrar</button>
+          </div>
+
+          <div id="projectFormMsg" class="msg"></div>
+        </section>
+
+        <!-- CATEGORIAS -->
+        <section class="panel viewPanel" data-panel="categories" style="display:none">
+          <div class="row row--between row--wrap">
+            <div>
+              <h2>Categorías</h2>
+              <p class="muted">Administrá las categorías del portfolio.</p>
+            </div>
+
+            <div class="row row--wrap">
+              <button id="categoriesRefreshBtn" class="btn btn--ghost" type="button">Actualizar</button>
+            </div>
+          </div>
+
+          <div class="subPanel">
+            <h3>Nueva categoría</h3>
+
+            <div class="grid3">
+              <div class="field">
+                <label for="categoryNameInput">Nombre</label>
+                <input id="categoryNameInput" type="text" placeholder="Ej: Estética" />
+              </div>
+
+              <div class="field">
+                <label for="categorySlugInput">Slug</label>
+                <input id="categorySlugInput" type="text" placeholder="ej-estetica" />
+              </div>
+
+              <div class="field">
+                <label for="categoryOrderInput">Orden</label>
+                <input id="categoryOrderInput" type="number" step="1" value="0" />
+              </div>
+            </div>
+
+            <div class="togglesGrid">
+              <label class="switchRow">
+                <input id="categoryActiveInput" type="checkbox" checked />
+                <span>Activa</span>
+              </label>
+            </div>
+
+            <div class="actions">
+              <button id="categorySaveBtn" class="btn btn--primary" type="button">Guardar categoría</button>
+              <button id="categoryResetBtn" class="btn btn--ghost" type="button">Limpiar</button>
+            </div>
+
+            <div id="categoriesMsg" class="msg"></div>
+          </div>
+
+          <div class="subPanel">
+            <h3>Listado de categorías</h3>
+            <div id="categoriesList" class="stackList"></div>
+          </div>
+        </section>
+
+        <!-- CONTENIDO GLOBAL -->
+        <section class="panel viewPanel" data-panel="site-content" style="display:none">
+          <div class="row row--between row--wrap">
+            <div>
+              <h2>Contenido global</h2>
+              <p class="muted">Editá los bloques fijos del frente A.</p>
+            </div>
+
+            <div class="row row--wrap">
+              <button id="siteContentRefreshBtn" class="btn btn--ghost" type="button">Actualizar</button>
+            </div>
+          </div>
+
+          <div class="subPanel">
+            <div class="field">
+              <label for="siteContentSelect">Bloque</label>
+              <select id="siteContentSelect">
+                <option value="">Elegir bloque...</option>
+              </select>
+            </div>
+
+            <div class="grid2">
+              <div class="field">
+                <label for="siteContentTitleInput">Título</label>
+                <input id="siteContentTitleInput" type="text" />
+              </div>
+
+              <div class="field">
+                <label for="siteContentSubtitleInput">Subtítulo</label>
+                <input id="siteContentSubtitleInput" type="text" />
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="siteContentBodyInput">Contenido</label>
+              <textarea id="siteContentBodyInput" rows="5"></textarea>
+            </div>
+
+            <div class="grid3">
+              <div class="field">
+                <label for="siteContentImageUrlInput">URL de imagen</label>
+                <input id="siteContentImageUrlInput" type="url" placeholder="https://..." />
+              </div>
+
+              <div class="field">
+                <label for="siteContentCtaLabelInput">Texto CTA</label>
+                <input id="siteContentCtaLabelInput" type="text" />
+              </div>
+
+              <div class="field">
+                <label for="siteContentCtaUrlInput">URL CTA</label>
+                <input id="siteContentCtaUrlInput" type="text" />
+              </div>
+            </div>
+
+            <div class="grid2">
+              <div class="field">
+                <label for="siteContentOrderInput">Orden</label>
+                <input id="siteContentOrderInput" type="number" step="1" value="0" />
+              </div>
+
+              <div class="togglesGrid togglesGrid--single">
+                <label class="switchRow">
+                  <input id="siteContentActiveInput" type="checkbox" checked />
+                  <span>Activo</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="actions">
+              <button id="siteContentSaveBtn" class="btn btn--primary" type="button">Guardar bloque</button>
+            </div>
+
+            <div id="siteContentMsg" class="msg"></div>
+          </div>
+        </section>
+
+        <!-- FAQS -->
+        <section class="panel viewPanel" data-panel="faqs" style="display:none">
+          <div class="row row--between row--wrap">
+            <div>
+              <h2>FAQs</h2>
+              <p class="muted">Preguntas frecuentes del sitio.</p>
+            </div>
+
+            <div class="row row--wrap">
+              <button id="faqsRefreshBtn" class="btn btn--ghost" type="button">Actualizar</button>
+            </div>
+          </div>
+
+          <div class="subPanel">
+            <h3>Nueva FAQ</h3>
+
+            <div class="field">
+              <label for="faqQuestionInput">Pregunta</label>
+              <input id="faqQuestionInput" type="text" placeholder="¿Cómo trabajás?" />
+            </div>
+
+            <div class="field">
+              <label for="faqAnswerInput">Respuesta</label>
+              <textarea id="faqAnswerInput" rows="4" placeholder="Respuesta..."></textarea>
+            </div>
+
+            <div class="grid2">
+              <div class="field">
+                <label for="faqOrderInput">Orden</label>
+                <input id="faqOrderInput" type="number" step="1" value="0" />
+              </div>
+
+              <div class="togglesGrid togglesGrid--single">
+                <label class="switchRow">
+                  <input id="faqActiveInput" type="checkbox" checked />
+                  <span>Activa</span>
+                </label>
+              </div>
+            </div>
+
+            <div class="actions">
+              <button id="faqSaveBtn" class="btn btn--primary" type="button">Guardar FAQ</button>
+              <button id="faqResetBtn" class="btn btn--ghost" type="button">Limpiar</button>
+            </div>
+
+            <div id="faqsMsg" class="msg"></div>
+          </div>
+
+          <div class="subPanel">
+            <h3>Listado de FAQs</h3>
+            <div id="faqsList" class="stackList"></div>
+          </div>
+        </section>
+      </section>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer__inner">
+      <small>Panel autoadministrable | CIBORG 347 | Supabase Auth + DB</small>
+    </div>
+  </footer>
+
+  <script src="./app.js"></script>
 </body>
 </html>
