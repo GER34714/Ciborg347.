@@ -1,9 +1,10 @@
 // /public/app.js
 const SUPABASE_URL = "https://fhxcumwhgtfirznnznjx.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZoeGN1bXdoZ3RmaXJ6bm56bmp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc5OTYyNzEsImV4cCI6MjA4MzU3MjI3MX0.7z1B099L4yrA9k1JxwvYGCABzqiqYtkUClI3E8wQ2zA";
+const SUPABASE_PUBLISHABLE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJIUzI1NiIsInR5cCI6IkpXVCJ9";
+const REAL_SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZoeGN1bXdoZ3RmaXJ6bm56bmp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc5OTYyNzEsImV4cCI6MjA4MzU3MjI3MX0.7z1B099L4yrA9k1JxwvYGCABzqiqYtkUClI3E8wQ2zA";
 const WHATSAPP_NUMBER = "5491164499481";
 
-const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+const sb = window.supabase.createClient(SUPABASE_URL, REAL_SUPABASE_KEY);
 
 /* =========================
    DOM
@@ -16,6 +17,11 @@ const mobileWhatsAppBtn = document.getElementById("mobileWhatsAppBtn");
 const heroWhatsAppBtn = document.getElementById("heroWhatsAppBtn");
 const finalWhatsAppBtn = document.getElementById("finalWhatsAppBtn");
 const waFloat = document.getElementById("waFloat");
+
+const themeToggleBtn = document.getElementById("themeToggleBtn");
+const themeToggleBtnMobile = document.getElementById("themeToggleBtnMobile");
+const themeToggleText = document.getElementById("themeToggleText");
+const themeToggleTextMobile = document.getElementById("themeToggleTextMobile");
 
 const heroTitle = document.getElementById("heroTitle");
 const heroSubtitle = document.getElementById("heroSubtitle");
@@ -129,6 +135,24 @@ function switchMobileMenu(force) {
   mobileMenu.classList.toggle("isOpen", open);
   mobileMenu.setAttribute("aria-hidden", open ? "false" : "true");
   burgerBtn.setAttribute("aria-expanded", open ? "true" : "false");
+}
+
+function applyTheme(theme) {
+  const isLight = theme === "light";
+  document.body.classList.toggle("light-theme", isLight);
+  localStorage.setItem("ciborg347-theme", theme);
+  if (themeToggleText) themeToggleText.textContent = isLight ? "Tema oscuro" : "Tema claro";
+  if (themeToggleTextMobile) themeToggleTextMobile.textContent = isLight ? "Tema oscuro" : "Tema claro";
+}
+
+function initTheme() {
+  const saved = localStorage.getItem("ciborg347-theme");
+  applyTheme(saved === "light" ? "light" : "dark");
+}
+
+function toggleTheme() {
+  const isLight = document.body.classList.contains("light-theme");
+  applyTheme(isLight ? "dark" : "light");
 }
 
 function applyGlobalContent() {
@@ -432,6 +456,7 @@ async function loadSiteContent() {
 }
 
 async function init() {
+  initTheme();
   setDefaultWhatsAppLinks();
   showState("Cargando contenido...");
 
@@ -457,6 +482,9 @@ burgerBtn.addEventListener("click", () => {
 mobileMenu.querySelectorAll("[data-close]").forEach(link => {
   link.addEventListener("click", () => switchMobileMenu(false));
 });
+
+themeToggleBtn.addEventListener("click", toggleTheme);
+themeToggleBtnMobile.addEventListener("click", toggleTheme);
 
 searchInput.addEventListener("input", e => {
   searchTerm = norm(e.target.value);
