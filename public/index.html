@@ -19,8 +19,6 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
-  <div class="bg-grid" aria-hidden="true"></div>
-
   <header class="topbar">
     <div class="wrap topbar__inner">
       <a class="brand" href="#inicio" aria-label="Ir al inicio">
@@ -40,9 +38,6 @@
       </nav>
 
       <div class="topbar__cta">
-        <button id="themeToggleBtn" class="themeToggle" type="button" aria-label="Cambiar tema">
-          <span id="themeToggleText">Tema claro</span>
-        </button>
         <a id="topWhatsAppBtn" class="btn btn--primary" href="#" target="_blank" rel="noopener">WhatsApp</a>
         <button id="burgerBtn" class="burger" type="button" aria-label="Abrir menú" aria-expanded="false">
           <span></span><span></span><span></span>
@@ -56,9 +51,6 @@
       <a href="#autoadmin" data-close>Autoadministrable</a>
       <a href="#faq" data-close>FAQ</a>
       <a href="#contacto" data-close>Contacto</a>
-      <button id="themeToggleBtnMobile" class="themeToggle themeToggle--mobile" type="button" data-close>
-        <span id="themeToggleTextMobile">Tema claro</span>
-      </button>
       <a id="mobileWhatsAppBtn" class="btn btn--primary btn--block" href="#" target="_blank" rel="noopener" data-close>WhatsApp</a>
     </div>
   </header>
@@ -66,10 +58,13 @@
   <main id="inicio">
     <section class="hero">
       <div class="hero__glow" aria-hidden="true"></div>
+
       <div class="wrap hero__grid">
         <div class="hero__copy">
           <div class="badge" id="heroBadge">Diseño web profesional • Pago único • Buenos Aires, Argentina</div>
+
           <h1 id="heroTitle">Páginas web que convierten visitas en clientes.</h1>
+
           <p id="heroSubtitle">
             CIBORG 347 crea landings, webs profesionales y sistemas con enfoque comercial, demos reales por rubro y soluciones listas para crecer.
           </p>
@@ -96,6 +91,7 @@
               <strong>Demos reales</strong>
               <span>Portfolio por rubros y proyectos visibles.</span>
             </article>
+
             <article>
               <strong>Sistema escalable</strong>
               <span>Estructura pensada para crecer a A/B.</span>
@@ -105,21 +101,24 @@
       </div>
     </section>
 
-    <section class="authority">
+    <section class="authority sectionAnchor">
       <div class="wrap">
         <div class="authority__grid" id="authorityGrid">
           <article class="authority__item">
             <strong>Demos reales por rubro</strong>
             <span>Portfolio visible y explorable</span>
           </article>
+
           <article class="authority__item">
             <strong>Diseño + estructura</strong>
             <span>No solo visual, también criterio comercial</span>
           </article>
+
           <article class="authority__item">
             <strong>Full responsive</strong>
             <span>Bien resuelto en celular y escritorio</span>
           </article>
+
           <article class="authority__item">
             <strong>Escalable</strong>
             <span>Base preparada para crecer</span>
@@ -128,7 +127,7 @@
       </div>
     </section>
 
-    <section id="soluciones" class="section">
+    <section id="soluciones" class="section sectionAnchor">
       <div class="wrap">
         <div class="section__head">
           <h2>Soluciones</h2>
@@ -165,7 +164,7 @@
       </div>
     </section>
 
-    <section class="section section--soft">
+    <section class="section section--soft sectionAnchor">
       <div class="wrap">
         <div class="section__head">
           <h2>Trabajos destacados</h2>
@@ -176,7 +175,7 @@
       </div>
     </section>
 
-    <section id="trabajos" class="section">
+    <section id="trabajos" class="section sectionAnchor">
       <div class="wrap">
         <div class="section__head">
           <h2>Portfolio explorables</h2>
@@ -214,7 +213,7 @@
       </div>
     </section>
 
-    <section id="autoadmin" class="section section--soft">
+    <section id="autoadmin" class="section section--soft sectionAnchor">
       <div class="wrap splitBlock">
         <div class="splitBlock__copy">
           <div class="section__head section__head--left">
@@ -242,7 +241,7 @@
       </div>
     </section>
 
-    <section class="section">
+    <section class="section sectionAnchor">
       <div class="wrap splitBlock">
         <div class="splitBlock__copy">
           <div class="section__head section__head--left">
@@ -269,7 +268,7 @@
       </div>
     </section>
 
-    <section class="section section--soft">
+    <section class="section section--soft sectionAnchor">
       <div class="wrap">
         <div class="section__head">
           <h2>Por qué CIBORG 347</h2>
@@ -281,14 +280,17 @@
             <strong>Demos reales</strong>
             <span>Portfolio real por rubros, no promesas vacías.</span>
           </article>
+
           <article class="diffCard">
             <strong>Trato directo</strong>
             <span>Hablás conmigo y bajamos cada solución a tu caso.</span>
           </article>
+
           <article class="diffCard">
             <strong>Enfoque comercial</strong>
             <span>No solo diseño: estructura pensada para contacto real.</span>
           </article>
+
           <article class="diffCard">
             <strong>Escalable</strong>
             <span>La base puede crecer a autoadministrable y más.</span>
@@ -297,7 +299,7 @@
       </div>
     </section>
 
-    <section id="faq" class="section">
+    <section id="faq" class="section sectionAnchor">
       <div class="wrap">
         <div class="section__head">
           <h2>Preguntas frecuentes</h2>
@@ -308,7 +310,7 @@
       </div>
     </section>
 
-    <section id="contacto" class="section section--soft">
+    <section id="contacto" class="section section--soft sectionAnchor">
       <div class="wrap ctaPanel">
         <div>
           <h2 id="finalCtaTitle">¿Querés algo así para tu marca?</h2>
@@ -355,6 +357,7 @@
           <span id="modalCategory" class="tag">Categoría</span>
           <h3 id="modalTitle">Proyecto</h3>
         </div>
+
         <button id="modalClose" class="iconBtn" type="button" aria-label="Cerrar">×</button>
       </div>
 
