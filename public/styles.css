@@ -42,7 +42,10 @@ body{
   margin:0;
   font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   color:var(--text);
-  background:linear-gradient(180deg,var(--bg),var(--bg2));
+  background:
+    radial-gradient(circle at 18% 12%, rgba(0,229,255,.10), transparent 28%),
+    radial-gradient(circle at 82% 18%, rgba(255,60,255,.08), transparent 26%),
+    linear-gradient(180deg,var(--bg),var(--bg2));
   min-height:100vh;
   overflow-x:hidden;
 }
@@ -59,14 +62,30 @@ a{text-decoration:none;color:inherit}
   z-index:-3;
   overflow:hidden;
 }
+.video-bg::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(180deg, rgba(7,10,18,.70), rgba(7,10,18,.80)),
+    radial-gradient(circle at 50% 18%, rgba(7,10,18,.18), rgba(7,10,18,.62) 65%);
+  pointer-events:none;
+}
 .video-bg video{
   width:100%;
   height:100%;
   object-fit:cover;
-  opacity:.48;
+  opacity:.14;
+  transform:scale(1.06);
+  filter:saturate(.72) blur(.4px);
+}
+body.light-theme .video-bg::after{
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.56), rgba(255,255,255,.70)),
+    radial-gradient(circle at 50% 18%, rgba(255,255,255,.10), rgba(255,255,255,.44) 65%);
 }
 body.light-theme .video-bg video{
-  opacity:.28;
+  opacity:.08;
 }
 
 .wrap{
@@ -1008,9 +1027,28 @@ body.light-theme .footer__links a{
   .featuredGrid{
     grid-template-columns:repeat(2,minmax(0,1fr));
   }
+
+  .featuredCard__image,
+  .projectCard__image{
+    aspect-ratio:16/9.4;
+    padding:14px;
+  }
+
+  .featuredCard__image img,
+  .projectCard__image img{
+    max-height:150px;
+    width:auto;
+    height:auto;
+    max-width:100%;
+    margin:0 auto;
+  }
 }
 
 @media (max-width:640px){
+  .video-bg{
+    display:none;
+  }
+
   .topbar__inner{
     min-height:72px;
   }
@@ -1045,5 +1083,53 @@ body.light-theme .footer__links a{
   }
   .footer__inner{
     justify-content:center;
+  }
+
+  .featuredCard,
+  .projectCard{
+    border-radius:20px;
+  }
+
+  .featuredCard__image,
+  .projectCard__image{
+    aspect-ratio:16/8.6;
+    padding:14px 14px 10px;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .featuredCard__image img,
+  .projectCard__image img{
+    width:auto;
+    height:auto;
+    max-width:100%;
+    max-height:135px;
+    object-fit:contain;
+    object-position:center;
+    margin:0 auto;
+    border-radius:14px;
+  }
+
+  .featuredCard__body,
+  .projectCard__body{
+    padding:14px;
+  }
+
+  .featuredCard__body h3,
+  .projectCard__body h3{
+    font-size:17px;
+    line-height:1.18;
+  }
+
+  .featuredCard__body p,
+  .projectCard__body p{
+    font-size:13px;
+    line-height:1.55;
+  }
+
+  .projectCard__top{
+    align-items:flex-start;
+    flex-direction:column;
+    gap:8px;
   }
 }
