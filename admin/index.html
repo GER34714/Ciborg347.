@@ -197,7 +197,7 @@
           <div class="row row--between row--wrap">
             <div>
               <h2 id="projectFormTitle">Nueva web</h2>
-              <p class="muted">Cargá una demo nueva o editá una existente. Por ahora seguís usando URL de imagen manual.</p>
+              <p class="muted">Cargá una demo nueva o editá una existente. Podés pegar URL manual o subir la imagen desde el panel.</p>
             </div>
 
             <div class="row row--wrap">
@@ -210,7 +210,7 @@
             <div class="field">
               <label for="projectImageUrlInput">URL de imagen</label>
               <input id="projectImageUrlInput" type="url" placeholder="https://..." />
-              <small class="muted">Seguís pegando la URL como venías haciendo.</small>
+              <small class="muted">Podés pegar URL manual o subir imagen desde el panel.</small>
             </div>
 
             <div class="field">
@@ -219,6 +219,25 @@
                 <img id="projectPreviewImg" alt="Preview de imagen" />
               </div>
             </div>
+          </div>
+
+          <div class="subPanel">
+            <h3>Subida de imagen</h3>
+
+            <div class="grid2">
+              <div class="field">
+                <label for="projectImageFileInput">Elegir imagen</label>
+                <input id="projectImageFileInput" type="file" accept="image/*" />
+                <small class="muted">Seleccioná una imagen y tocá subir.</small>
+              </div>
+
+              <div class="field">
+                <label>&nbsp;</label>
+                <button id="projectUploadBtn" class="btn btn--ghost" type="button">Subir imagen</button>
+              </div>
+            </div>
+
+            <div id="projectUploadMsg" class="msg"></div>
           </div>
 
           <div class="grid2">
