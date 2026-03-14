@@ -1,6 +1,6 @@
 const SUPABASE_URL = "https://fhxcumwhgtfirznnznjx.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZoeGN1bXdoZ3RmaXJ6bm56bmp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc5OTYyNzEsImV4cCI6MjA4MzU3MjI3MX0.7z1B099L4yrA9k1JxwvYGCABzqiqYtkUClI3E8wQ2zA";
-const FREEIMAGE_UPLOAD_ENDPOINT = "ACA_VA_EL_ENDPOINT_DE_TU_FUNCTION";
+const FREEIMAGE_UPLOAD_ENDPOINT = "https://fhxcumwhgtfirznnznjx.supabase.co/functions/v1/freeimage-upload";
 
 const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
 
@@ -1091,6 +1091,7 @@ async function upsertTagsAndBindings(projectId, names) {
 async function uploadImageToFreeImage() {
   if (!projectImageFileInput || !projectUploadBtn || !projectUploadMsg) return;
   setProjectUploadMsg("");
+
   const file = projectImageFileInput.files?.[0];
   if (!file) return setProjectUploadMsg("Seleccioná una imagen primero.", "error");
   if (!file.type.startsWith("image/")) return setProjectUploadMsg("El archivo debe ser una imagen.", "error");
@@ -1100,15 +1101,20 @@ async function uploadImageToFreeImage() {
   setProjectUploadMsg("Subiendo imagen...", "success");
 
   try {
+    const { data: sessionData } = await sb.auth.getSession();
+    const accessToken = sessionData?.session?.access_token || "";
+
     const form = new FormData();
     form.append("file", file);
 
     const res = await fetch(FREEIMAGE_UPLOAD_ENDPOINT, {
       method: "POST",
+      headers: accessToken ? { Authorization: `Bearer ${accessToken}` } : {},
       body: form,
     });
 
-    const json = await res.json();
+    const json = await res.json().catch(() => ({}));
+
     if (!res.ok || !json?.image_url) {
       throw new Error(json?.error || "Falló la subida.");
     }
