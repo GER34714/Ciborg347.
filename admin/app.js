@@ -1,8 +1,10 @@
 const SUPABASE_URL = "https://fhxcumwhgtfirznnznjx.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZoeGN1bXdoZ3RmaXJ6bm56bmp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc5OTYyNzEsImV4cCI6MjA4MzU3MjI3MX0.7z1B099L4yrA9k1JxwvYGCABzqiqYtkUClI3E8wQ2zA";
-const FREEIMAGE_UPLOAD_ENDPOINT = "https://fhxcumwhgtfirznnznjx.supabase.co/functions/v1/freeimage-upload";
+const SUPABASE_PUBLISHABLE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJIUzI1NiIsInR5cCI6IkpXVCJ9";
 
-const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+const sb = window.supabase.createClient(
+  "https://fhxcumwhgtfirznnznjx.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZoeGN1bXdoZ3RmaXJ6bm56bmp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc5OTYyNzEsImV4cCI6MjA4MzU3MjI3MX0.7z1B099L4yrA9k1JxwvYGCABzqiqYtkUClI3E8wQ2zA"
+);
 
 /* =========================
    DOM
@@ -331,6 +333,14 @@ function safeUrl(value) {
 async function getCurrentUserEmail() {
   const { data } = await sb.auth.getUser();
   return data?.user?.email || "";
+}
+
+function buildStorageFilePath(file) {
+  const ext = (file.name.split(".").pop() || "jpg").toLowerCase().replace(/[^a-z0-9]/g, "");
+  const titleSlug = slugify(projectTitleInput.value || "proyecto");
+  const stamp = Date.now();
+  const random = Math.random().toString(36).slice(2, 8);
+  return `projects/${titleSlug || "proyecto"}-${stamp}-${random}.${ext || "jpg"}`;
 }
 
 /* =========================
@@ -1086,9 +1096,9 @@ async function upsertTagsAndBindings(projectId, names) {
 }
 
 /* =========================
-   UPLOAD
+   UPLOAD STORAGE
 ========================= */
-async function uploadImageToFreeImage() {
+async function uploadImageToStorage() {
   if (!projectImageFileInput || !projectUploadBtn || !projectUploadMsg) return;
   setProjectUploadMsg("");
 
@@ -1101,23 +1111,30 @@ async function uploadImageToFreeImage() {
   setProjectUploadMsg("Subiendo imagen...", "success");
 
   try {
-    const form = new FormData();
-    form.append("file", file);
+    const filePath = buildStorageFilePath(file);
 
-    const { data, error } = await sb.functions.invoke("freeimage-upload", {
-      body: form,
-    });
+    const { error: uploadError } = await sb
+      .storage
+      .from("project-images")
+      .upload(filePath, file, {
+        cacheControl: "3600",
+        upsert: false,
+        contentType: file.type,
+      });
 
-    if (error) {
-      throw new Error(error.message || "Falló la subida.");
+    if (uploadError) {
+      throw new Error(uploadError.message || "No se pudo subir la imagen.");
     }
 
-    if (!data?.image_url) {
-      throw new Error(data?.error || "La función no devolvió image_url.");
+    const { data: publicData } = sb.storage.from("project-images").getPublicUrl(filePath);
+    const publicUrl = publicData?.publicUrl || "";
+
+    if (!publicUrl) {
+      throw new Error("No se pudo obtener la URL pública.");
     }
 
-    projectImageUrlInput.value = data.image_url;
-    projectPreviewImg.src = data.image_url;
+    projectImageUrlInput.value = publicUrl;
+    projectPreviewImg.src = publicUrl;
     setProjectUploadMsg("Imagen subida y URL completada.", "success");
   } catch (error) {
     setProjectUploadMsg(error instanceof Error ? error.message : "No se pudo subir la imagen.", "error");
@@ -1145,7 +1162,7 @@ if (projectImageFileInput) {
 }
 
 if (projectUploadBtn) {
-  projectUploadBtn.addEventListener("click", uploadImageToFreeImage);
+  projectUploadBtn.addEventListener("click", uploadImageToStorage);
 }
 
 projectAdvancedToggleBtn.addEventListener("click", () => {
