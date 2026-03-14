@@ -1101,26 +1101,23 @@ async function uploadImageToFreeImage() {
   setProjectUploadMsg("Subiendo imagen...", "success");
 
   try {
-    const { data: sessionData } = await sb.auth.getSession();
-    const accessToken = sessionData?.session?.access_token || "";
-
     const form = new FormData();
     form.append("file", file);
 
-    const res = await fetch(FREEIMAGE_UPLOAD_ENDPOINT, {
-      method: "POST",
-      headers: accessToken ? { Authorization: `Bearer ${accessToken}` } : {},
+    const { data, error } = await sb.functions.invoke("freeimage-upload", {
       body: form,
     });
 
-    const json = await res.json().catch(() => ({}));
-
-    if (!res.ok || !json?.image_url) {
-      throw new Error(json?.error || "Falló la subida.");
+    if (error) {
+      throw new Error(error.message || "Falló la subida.");
     }
 
-    projectImageUrlInput.value = json.image_url;
-    projectPreviewImg.src = json.image_url;
+    if (!data?.image_url) {
+      throw new Error(data?.error || "La función no devolvió image_url.");
+    }
+
+    projectImageUrlInput.value = data.image_url;
+    projectPreviewImg.src = data.image_url;
     setProjectUploadMsg("Imagen subida y URL completada.", "success");
   } catch (error) {
     setProjectUploadMsg(error instanceof Error ? error.message : "No se pudo subir la imagen.", "error");
