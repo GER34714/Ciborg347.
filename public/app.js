@@ -158,6 +158,10 @@ function mapStatusLabel(status) {
   return map[status] || "Publicado";
 }
 
+function shouldShowFrontStatus(status) {
+  return status === "featured" || status === "new";
+}
+
 function getProjectTags(projectId) {
   const ids = projectTagsData
     .filter(row => String(row.project_id) === String(projectId))
@@ -348,6 +352,7 @@ function renderFeatured() {
 
   featuredGrid.innerHTML = list.map(project => {
     const tags = getProjectTags(project.id).slice(0, 2);
+    const showStatus = shouldShowFrontStatus(project.status);
     return `
       <article class="featuredCard" data-open-project="${project.id}">
         <div class="featuredCard__image">
@@ -357,7 +362,7 @@ function renderFeatured() {
         <div class="featuredCard__body">
           <div class="featuredCard__topline">
             <span class="tag">${escapeHtml(findCategoryName(project.category_id))}</span>
-            <span class="statusPill statusPill--${escapeHtml(project.status || "published")}">${escapeHtml(mapStatusLabel(project.status || "published"))}</span>
+            ${showStatus ? `<span class="statusPill statusPill--${escapeHtml(project.status)}">${escapeHtml(mapStatusLabel(project.status))}</span>` : ""}
           </div>
 
           <h3>${escapeHtml(project.title)}</h3>
@@ -478,6 +483,8 @@ function renderProjects() {
 
   projectsGrid.innerHTML = slice.map(project => {
     const tags = getProjectTags(project.id).slice(0, 2);
+    const showStatus = shouldShowFrontStatus(project.status);
+
     return `
       <article class="projectCard" data-open-project="${project.id}">
         <div class="projectCard__image">
@@ -490,9 +497,7 @@ function renderProjects() {
             <span class="projectCard__type">${escapeHtml(project.solution_type)}</span>
           </div>
 
-          <div class="projectCard__statusRow">
-            <span class="statusPill statusPill--${escapeHtml(project.status || "published")}">${escapeHtml(mapStatusLabel(project.status || "published"))}</span>
-          </div>
+          ${showStatus ? `<div class="projectCard__statusRow"><span class="statusPill statusPill--${escapeHtml(project.status)}">${escapeHtml(mapStatusLabel(project.status))}</span></div>` : ""}
 
           <h3>${escapeHtml(project.title)}</h3>
           <p>${escapeHtml(project.short_description)}</p>
@@ -520,12 +525,21 @@ function openProjectModal(project) {
   if (!modal) return;
 
   const tags = getProjectTags(project.id);
+  const showStatus = shouldShowFrontStatus(project.status);
 
   if (modalCategory) modalCategory.textContent = findCategoryName(project.category_id);
+
   if (modalStatus) {
-    modalStatus.textContent = mapStatusLabel(project.status || "published");
-    modalStatus.className = `statusPill statusPill--${project.status || "published"}`;
+    if (showStatus) {
+      modalStatus.textContent = mapStatusLabel(project.status);
+      modalStatus.className = `statusPill statusPill--${project.status}`;
+      modalStatus.style.display = "inline-flex";
+    } else {
+      modalStatus.textContent = "";
+      modalStatus.style.display = "none";
+    }
   }
+
   if (modalTitle) modalTitle.textContent = project.title;
   if (modalImage) {
     modalImage.src = project.image_url || "";
