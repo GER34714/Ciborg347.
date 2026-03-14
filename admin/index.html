@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Admin | CIBORG 347</title>
-  <meta name="description" content="Panel admin de CIBORG 347 para gestionar proyectos, categorias, contenido global y FAQs." />
+  <meta name="description" content="Panel admin de CIBORG 347 para gestionar proyectos, categorias, contenido global, settings visuales y FAQs." />
   <link rel="stylesheet" href="./styles.css" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -16,7 +16,14 @@
         <div class="brand__subtitle">CIBORG 347 | Sistema A/B</div>
       </div>
 
-      <div class="topbar__right">
+      <div class="topbar__right topbar__right--extended">
+        <div class="modeSwitchCard">
+          <span class="modeSwitchCard__label">Modo</span>
+          <div class="modeSwitch">
+            <button id="safeModeBtn" class="modeBtn is-active" type="button">Seguro</button>
+            <button id="fastModeBtn" class="modeBtn" type="button">Rápido</button>
+          </div>
+        </div>
         <span id="userEmail" class="muted"></span>
         <button id="logoutBtn" class="btn btn--ghost" type="button">Salir</button>
       </div>
@@ -24,7 +31,6 @@
   </header>
 
   <main class="wrap">
-    <!-- LOGIN -->
     <section id="authBox" class="panel authBox">
       <h1>Ingresar al panel</h1>
       <p class="muted">Solo usuarios autorizados en la tabla admin_users.</p>
@@ -48,9 +54,7 @@
       <div id="authMsg" class="msg"></div>
     </section>
 
-    <!-- ADMIN -->
     <section id="adminBox" class="adminLayout" style="display:none">
-      <!-- SIDEBAR -->
       <aside class="sidebar panel">
         <div class="sidebar__head">
           <div class="sidebar__title">Panel B</div>
@@ -63,6 +67,8 @@
           <button class="navBtn" data-view="new-project" type="button">Nueva web</button>
           <button class="navBtn" data-view="categories" type="button">Categorías</button>
           <button class="navBtn" data-view="site-content" type="button">Contenido global</button>
+          <button class="navBtn" data-view="site-settings" type="button">Settings visuales</button>
+          <button class="navBtn" data-view="history" type="button">Historial</button>
           <button class="navBtn" data-view="faqs" type="button">FAQs</button>
         </nav>
 
@@ -71,9 +77,7 @@
         </div>
       </aside>
 
-      <!-- CONTENT -->
       <section class="contentArea">
-        <!-- DASHBOARD -->
         <section class="panel viewPanel" data-panel="dashboard">
           <div class="row row--between row--wrap">
             <div>
@@ -94,7 +98,7 @@
             </article>
 
             <article class="statCard">
-              <span class="statCard__label">Activos</span>
+              <span class="statCard__label">Publicados</span>
               <strong id="statActive">0</strong>
             </article>
 
@@ -128,7 +132,6 @@
           </div>
         </section>
 
-        <!-- PROYECTOS -->
         <section class="panel viewPanel" data-panel="projects" style="display:none">
           <div class="row row--between row--wrap">
             <div>
@@ -142,7 +145,7 @@
             </div>
           </div>
 
-          <div class="filtersGrid">
+          <div class="filtersGrid filtersGrid--5">
             <div class="field">
               <label for="projectSearchInput">Buscar</label>
               <input id="projectSearchInput" type="search" placeholder="Título..." />
@@ -170,9 +173,18 @@
               <label for="projectStatusFilter">Estado</label>
               <select id="projectStatusFilter">
                 <option value="__all__">Todos</option>
-                <option value="active">Activos</option>
-                <option value="inactive">Inactivos</option>
-                <option value="highlight">Destacados</option>
+                <option value="published">Publicados</option>
+                <option value="draft">Borradores</option>
+                <option value="featured">Destacados</option>
+                <option value="archived">Archivados</option>
+                <option value="new">Nuevos</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label for="projectTagFilter">Tag</label>
+              <select id="projectTagFilter">
+                <option value="__all__">Todos</option>
               </select>
             </div>
           </div>
@@ -181,16 +193,16 @@
           <div id="projectsList" class="stackList"></div>
         </section>
 
-        <!-- NUEVO / EDITAR PROYECTO -->
         <section class="panel viewPanel" data-panel="new-project" style="display:none">
           <div class="row row--between row--wrap">
             <div>
               <h2 id="projectFormTitle">Nueva web</h2>
-              <p class="muted">Cargá una demo nueva o editá una existente. La imagen se pega por URL externa.</p>
+              <p class="muted">Cargá una demo nueva o editá una existente. Por ahora seguís usando URL de imagen manual.</p>
             </div>
 
             <div class="row row--wrap">
               <button id="projectFormResetBtn" class="btn btn--ghost" type="button">Limpiar</button>
+              <button id="projectDuplicateBtn" class="btn btn--ghost" type="button" style="display:none">Duplicar</button>
             </div>
           </div>
 
@@ -198,7 +210,7 @@
             <div class="field">
               <label for="projectImageUrlInput">URL de imagen</label>
               <input id="projectImageUrlInput" type="url" placeholder="https://..." />
-              <small class="muted">Pegá una URL directa de Free Image Host o similar.</small>
+              <small class="muted">Seguís pegando la URL como venías haciendo.</small>
             </div>
 
             <div class="field">
@@ -221,7 +233,7 @@
             </div>
           </div>
 
-          <div class="grid2">
+          <div class="grid3">
             <div class="field">
               <label for="projectCategorySelect">Categoría</label>
               <select id="projectCategorySelect">
@@ -239,11 +251,29 @@
                 <option value="Sistemas / Soluciones Especiales">Sistemas / Soluciones Especiales</option>
               </select>
             </div>
+
+            <div class="field">
+              <label for="projectStatusSelect">Status</label>
+              <select id="projectStatusSelect">
+                <option value="published">Publicado</option>
+                <option value="draft">Borrador</option>
+                <option value="featured">Destacado</option>
+                <option value="archived">Archivado</option>
+                <option value="new">Nuevo</option>
+              </select>
+            </div>
           </div>
 
           <div class="field">
             <label for="projectShortDescInput">Descripción corta</label>
             <textarea id="projectShortDescInput" rows="3" placeholder="Texto corto para cards, destacados y portfolio."></textarea>
+          </div>
+
+          <div class="field">
+            <label for="projectTagsInput">Tags</label>
+            <input id="projectTagsInput" type="text" placeholder="Ej: Web nueva, Destacada, Premium, Demo" />
+            <small class="muted">Separalos por coma.</small>
+            <div id="projectTagsPreview" class="tagEditorPreview"></div>
           </div>
 
           <div class="togglesGrid">
@@ -254,7 +284,7 @@
 
             <label class="switchRow">
               <input id="projectHighlightInput" type="checkbox" />
-              <span>Destacado</span>
+              <span>Destacado clásico</span>
             </label>
 
             <label class="switchRow">
@@ -297,13 +327,12 @@
 
           <div class="actions">
             <button id="projectSaveBtn" class="btn btn--primary" type="button">Publicar</button>
-            <button id="projectDeleteBtn" class="btn btn--danger" type="button" style="display:none">Borrar</button>
+            <button id="projectDeleteBtn" class="btn btn--danger" type="button" style="display:none">Archivar</button>
           </div>
 
           <div id="projectFormMsg" class="msg"></div>
         </section>
 
-        <!-- CATEGORIAS -->
         <section class="panel viewPanel" data-panel="categories" style="display:none">
           <div class="row row--between row--wrap">
             <div>
@@ -336,7 +365,7 @@
               </div>
             </div>
 
-            <div class="togglesGrid">
+            <div class="togglesGrid togglesGrid--single">
               <label class="switchRow">
                 <input id="categoryActiveInput" type="checkbox" checked />
                 <span>Activa</span>
@@ -357,12 +386,11 @@
           </div>
         </section>
 
-        <!-- CONTENIDO GLOBAL -->
         <section class="panel viewPanel" data-panel="site-content" style="display:none">
           <div class="row row--between row--wrap">
             <div>
               <h2>Contenido global</h2>
-              <p class="muted">Editá los bloques fijos del frente A.</p>
+              <p class="muted">Editá los bloques fijos editoriales del frente A.</p>
             </div>
 
             <div class="row row--wrap">
@@ -434,7 +462,173 @@
           </div>
         </section>
 
-        <!-- FAQS -->
+        <section class="panel viewPanel" data-panel="site-settings" style="display:none">
+          <div class="row row--between row--wrap">
+            <div>
+              <h2>Settings visuales</h2>
+              <p class="muted">Configuración global visual y de contacto del frente A.</p>
+            </div>
+
+            <div class="row row--wrap">
+              <button id="siteSettingsRefreshBtn" class="btn btn--ghost" type="button">Actualizar</button>
+            </div>
+          </div>
+
+          <div class="subPanel">
+            <h3>Marca y hero</h3>
+            <div class="grid2">
+              <div class="field">
+                <label for="siteTitleInput">Título del sitio</label>
+                <input id="siteTitleInput" type="text" />
+              </div>
+              <div class="field">
+                <label for="siteTaglineInput">Tagline</label>
+                <input id="siteTaglineInput" type="text" />
+              </div>
+            </div>
+
+            <div class="grid2">
+              <div class="field">
+                <label for="heroBadgeInput">Badge hero</label>
+                <input id="heroBadgeInput" type="text" />
+              </div>
+              <div class="field">
+                <label for="heroTitleInput">Título hero</label>
+                <input id="heroTitleInput" type="text" />
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="heroSubtitleInput">Subtítulo hero</label>
+              <textarea id="heroSubtitleInput" rows="3"></textarea>
+            </div>
+
+            <div class="grid2">
+              <div class="field">
+                <label for="heroCtaLabelInput">Texto CTA hero</label>
+                <input id="heroCtaLabelInput" type="text" />
+              </div>
+              <div class="field">
+                <label for="heroCtaUrlInput">URL CTA hero</label>
+                <input id="heroCtaUrlInput" type="text" />
+              </div>
+            </div>
+          </div>
+
+          <div class="subPanel">
+            <h3>Assets y contacto</h3>
+            <div class="grid2">
+              <div class="field">
+                <label for="logoUrlInput">Logo principal</label>
+                <input id="logoUrlInput" type="url" />
+              </div>
+              <div class="field">
+                <label for="heroLogoUrlInput">Logo hero</label>
+                <input id="heroLogoUrlInput" type="url" />
+              </div>
+            </div>
+
+            <div class="grid2">
+              <div class="field">
+                <label for="footerLogoUrlInput">Logo footer</label>
+                <input id="footerLogoUrlInput" type="url" />
+              </div>
+              <div class="field">
+                <label for="faviconUrlInput">Favicon</label>
+                <input id="faviconUrlInput" type="url" />
+              </div>
+            </div>
+
+            <div class="grid2">
+              <div class="field">
+                <label for="backgroundImageUrlInput">Background general</label>
+                <input id="backgroundImageUrlInput" type="url" />
+              </div>
+              <div class="field">
+                <label for="heroImageUrlInput">Imagen hero</label>
+                <input id="heroImageUrlInput" type="url" />
+              </div>
+            </div>
+
+            <div class="grid2">
+              <div class="field">
+                <label for="heroOverlayUrlInput">Overlay hero</label>
+                <input id="heroOverlayUrlInput" type="url" />
+              </div>
+              <div class="field">
+                <label for="heroVideoUrlInput">Video hero</label>
+                <input id="heroVideoUrlInput" type="url" />
+              </div>
+            </div>
+
+            <div class="grid2">
+              <div class="field">
+                <label for="whatsappNumberInput">WhatsApp</label>
+                <input id="whatsappNumberInput" type="text" placeholder="54911..." />
+              </div>
+              <div class="field">
+                <label for="emailContactInput">Email</label>
+                <input id="emailContactInput" type="email" />
+              </div>
+            </div>
+
+            <div class="grid3">
+              <div class="field">
+                <label for="instagramUrlInput">Instagram</label>
+                <input id="instagramUrlInput" type="url" />
+              </div>
+              <div class="field">
+                <label for="facebookUrlInput">Facebook</label>
+                <input id="facebookUrlInput" type="url" />
+              </div>
+              <div class="field">
+                <label for="tiktokUrlInput">TikTok</label>
+                <input id="tiktokUrlInput" type="url" />
+              </div>
+            </div>
+
+            <div class="togglesGrid togglesGrid--single">
+              <label class="switchRow">
+                <input id="useHeroVideoInput" type="checkbox" />
+                <span>Usar video en hero</span>
+              </label>
+              <label class="switchRow">
+                <input id="useBackgroundImageInput" type="checkbox" />
+                <span>Usar background global</span>
+              </label>
+            </div>
+
+            <div class="actions">
+              <button id="siteSettingsSaveBtn" class="btn btn--primary" type="button">Guardar settings</button>
+            </div>
+
+            <div id="siteSettingsMsg" class="msg"></div>
+          </div>
+        </section>
+
+        <section class="panel viewPanel" data-panel="history" style="display:none">
+          <div class="row row--between row--wrap">
+            <div>
+              <h2>Historial</h2>
+              <p class="muted">Versiones previas y restauración segura.</p>
+            </div>
+
+            <div class="row row--wrap">
+              <button id="historyRefreshBtn" class="btn btn--ghost" type="button">Actualizar</button>
+            </div>
+          </div>
+
+          <div class="subPanel">
+            <h3>Historial de proyectos</h3>
+            <div id="projectHistoryList" class="stackList"></div>
+          </div>
+
+          <div class="subPanel">
+            <h3>Historial de settings</h3>
+            <div id="settingsHistoryList" class="stackList"></div>
+          </div>
+        </section>
+
         <section class="panel viewPanel" data-panel="faqs" style="display:none">
           <div class="row row--between row--wrap">
             <div>
