@@ -74,6 +74,43 @@ a{text-decoration:none;color:inherit}
   align-items:center;
   gap:12px;
 }
+.topbar__right--extended{
+  flex-wrap:wrap;
+  justify-content:flex-end;
+}
+
+.modeSwitchCard{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:8px 10px;
+  border:1px solid var(--line);
+  border-radius:14px;
+  background:rgba(255,255,255,.04);
+}
+.modeSwitchCard__label{
+  color:var(--muted);
+  font-size:12px;
+  font-weight:900;
+  text-transform:uppercase;
+}
+.modeSwitch{
+  display:flex;
+  gap:6px;
+}
+.modeBtn{
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.04);
+  color:var(--text);
+  border-radius:12px;
+  padding:9px 12px;
+  font-weight:800;
+}
+.modeBtn.is-active{
+  color:#07111a;
+  border-color:transparent;
+  background:linear-gradient(135deg, rgba(0,229,255,.95), rgba(255,60,255,.85));
+}
 
 main.wrap{
   padding-top:26px;
@@ -283,6 +320,8 @@ textarea{
   font-weight:700;
   font-size:14px;
 }
+.msg--success{color:#8af5c3}
+.msg--error{color:#ff9aaa}
 
 .statsGrid{
   display:grid;
@@ -365,6 +404,12 @@ textarea{
   font-weight:700;
   line-height:1.45;
 }
+.listCard__badges{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-top:10px;
+}
 .listCard__actions{
   display:flex;
   flex-wrap:wrap;
@@ -378,6 +423,9 @@ textarea{
   gap:14px;
   margin-top:18px;
   margin-bottom:18px;
+}
+.filtersGrid--5{
+  grid-template-columns:2fr 1fr 1fr 1fr 1fr;
 }
 
 .preview{
@@ -434,6 +482,37 @@ textarea{
   background:rgba(255,255,255,.03);
 }
 
+.tagEditorPreview{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  min-height:18px;
+}
+.miniTag,
+.statusBadge{
+  display:inline-flex;
+  align-items:center;
+  border-radius:999px;
+  padding:8px 10px;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.3px;
+  text-transform:uppercase;
+}
+.miniTag{
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.12);
+}
+.statusBadge{
+  color:#07111a;
+  background:linear-gradient(135deg, rgba(0,229,255,.98), rgba(255,60,255,.88));
+}
+.statusBadge--draft{background:rgba(255,255,255,.18); color:#fff}
+.statusBadge--published{background:rgba(36,211,102,.9); color:#04120b}
+.statusBadge--featured{background:linear-gradient(135deg, rgba(0,229,255,.98), rgba(255,60,255,.88)); color:#07111a}
+.statusBadge--archived{background:rgba(255,90,106,.84); color:#16060a}
+.statusBadge--new{background:rgba(185,124,255,.92); color:#0d0714}
+
 .emptyState{
   padding:18px;
   border:1px dashed rgba(255,255,255,.16);
@@ -477,6 +556,7 @@ textarea{
   .grid2,
   .grid3,
   .filtersGrid,
+  .filtersGrid--5,
   .togglesGrid{
     grid-template-columns:1fr;
   }
@@ -531,5 +611,10 @@ textarea{
   .actions .btn,
   .row .btn{
     width:100%;
+  }
+
+  .modeSwitchCard{
+    width:100%;
+    justify-content:space-between;
   }
 }
