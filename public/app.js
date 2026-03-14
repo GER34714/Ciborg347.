@@ -1,9 +1,8 @@
-// /public/app.js
 const SUPABASE_URL = "https://fhxcumwhgtfirznnznjx.supabase.co";
-const REAL_SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZoeGN1bXdoZ3RmaXJ6bm56bmp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc5OTYyNzEsImV4cCI6MjA4MzU3MjI3MX0.7z1B099L4yrA9k1JxwvYGCABzqiqYtkUClI3E8wQ2zA";
-const WHATSAPP_NUMBER = "5491164499481";
+const SUPABASE_PUBLISHABLE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZoeGN1bXdoZ3RmaXJ6bm56bmp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc5OTYyNzEsImV4cCI6MjA4MzU3MjI3MX0.7z1B099L4yrA9k1JxwvYGCABzqiqYtkUClI3E8wQ2zA";
+const DEFAULT_WHATSAPP_NUMBER = "5491164499481";
 
-const sb = window.supabase.createClient(SUPABASE_URL, REAL_SUPABASE_KEY);
+const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
 
 /* =========================
    DOM
@@ -16,7 +15,22 @@ const mobileWhatsAppBtn = document.getElementById("mobileWhatsAppBtn");
 const heroWhatsAppBtn = document.getElementById("heroWhatsAppBtn");
 const finalWhatsAppBtn = document.getElementById("finalWhatsAppBtn");
 const waFloat = document.getElementById("waFloat");
+const emailContactBtn = document.getElementById("emailContactBtn");
 
+const dynamicFavicon = document.getElementById("dynamicFavicon");
+const brandLogo = document.getElementById("brandLogo");
+const heroLogo = document.getElementById("heroLogo");
+const footerBrandLogo = document.getElementById("footerBrandLogo");
+const brandTitle = document.getElementById("brandTitle");
+const brandTagline = document.getElementById("brandTagline");
+const footerBrandTitle = document.getElementById("footerBrandTitle");
+const footerBrandTagline = document.getElementById("footerBrandTagline");
+
+const heroBackgroundLayer = document.getElementById("heroBackgroundLayer");
+const heroOverlayLayer = document.getElementById("heroOverlayLayer");
+const heroVideo = document.getElementById("heroVideo");
+
+const heroBadge = document.getElementById("heroBadge");
 const heroTitle = document.getElementById("heroTitle");
 const heroSubtitle = document.getElementById("heroSubtitle");
 
@@ -26,6 +40,7 @@ const featuredGrid = document.getElementById("featuredGrid");
 const categoryChips = document.getElementById("categoryChips");
 const searchInput = document.getElementById("searchInput");
 const typeFilter = document.getElementById("typeFilter");
+const tagFilter = document.getElementById("tagFilter");
 const stateBox = document.getElementById("stateBox");
 const projectsGrid = document.getElementById("projectsGrid");
 const moreWrap = document.getElementById("moreWrap");
@@ -52,6 +67,7 @@ const modal = document.getElementById("projectModal");
 const modalBackdrop = document.getElementById("modalBackdrop");
 const modalClose = document.getElementById("modalClose");
 const modalCategory = document.getElementById("modalCategory");
+const modalStatus = document.getElementById("modalStatus");
 const modalTitle = document.getElementById("modalTitle");
 const modalImage = document.getElementById("modalImage");
 const modalType = document.getElementById("modalType");
@@ -60,6 +76,7 @@ const modalShort = document.getElementById("modalShort");
 const modalFull = document.getElementById("modalFull");
 const modalDemoBtn = document.getElementById("modalDemoBtn");
 const modalWhatsAppBtn = document.getElementById("modalWhatsAppBtn");
+const modalTagsList = document.getElementById("modalTagsList");
 
 /* =========================
    STATE
@@ -68,11 +85,15 @@ let categoriesData = [];
 let projectsData = [];
 let faqsData = [];
 let siteContentData = [];
+let siteSettingsData = null;
+let tagsData = [];
+let projectTagsData = [];
 
 let activeCategory = "__all__";
 let searchTerm = "";
 let activeType = "__all__";
-let visibleCount = 8;
+let activeTag = "__all__";
+let visibleCount = 6;
 
 /* =========================
    HELPERS
@@ -90,31 +111,16 @@ function norm(s) {
   return String(s || "").toLowerCase().trim();
 }
 
-function getWhatsAppUrl(text) {
-  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
+function getCurrentWhatsAppNumber() {
+  return siteSettingsData?.whatsapp_number || DEFAULT_WHATSAPP_NUMBER;
 }
 
-function setDefaultWhatsAppLinks() {
-  const msg = "Hola CIBORG 347, vi tus demos y quiero consultar por una web para mi marca o emprendimiento.";
-
-  [topWhatsAppBtn, mobileWhatsAppBtn, heroWhatsAppBtn, finalWhatsAppBtn, waFloat].forEach(el => {
-    if (!el) return;
-    el.href = getWhatsAppUrl(msg);
-    el.target = "_blank";
-    el.rel = "noopener";
-  });
-
-  if (autoadminBtn) {
-    autoadminBtn.href = getWhatsAppUrl("Hola CIBORG 347, quiero consultar por una web autoadministrable para mi proyecto.");
-  }
-
-  if (budgetBtn) {
-    budgetBtn.href = getWhatsAppUrl("Hola CIBORG 347, quiero consultar por un sistema o herramienta especial para mi negocio.");
-  }
+function getWhatsAppUrl(text) {
+  return `https://wa.me/${getCurrentWhatsAppNumber()}?text=${encodeURIComponent(text)}`;
 }
 
 function findCategoryName(id) {
-  return categoriesData.find(c => c.id === id)?.name || "Sin categoría";
+  return categoriesData.find(c => String(c.id) === String(id))?.name || "Sin categoría";
 }
 
 function findSiteContent(key) {
@@ -135,11 +141,120 @@ function hideState() {
 
 function switchMobileMenu(force) {
   if (!mobileMenu || !burgerBtn) return;
-
   const open = typeof force === "boolean" ? force : !mobileMenu.classList.contains("isOpen");
   mobileMenu.classList.toggle("isOpen", open);
   mobileMenu.setAttribute("aria-hidden", open ? "false" : "true");
   burgerBtn.setAttribute("aria-expanded", open ? "true" : "false");
+}
+
+function mapStatusLabel(status) {
+  const map = {
+    draft: "Borrador",
+    published: "Publicado",
+    featured: "Destacado",
+    archived: "Archivado",
+    new: "Nuevo",
+  };
+  return map[status] || "Publicado";
+}
+
+function getProjectTags(projectId) {
+  const ids = projectTagsData
+    .filter(row => String(row.project_id) === String(projectId))
+    .map(row => String(row.tag_id));
+  return tagsData.filter(tag => ids.includes(String(tag.id)));
+}
+
+function setDefaultWhatsAppLinks() {
+  const msg = "Hola CIBORG 347, vi tus demos y quiero consultar por una web para mi marca o emprendimiento.";
+
+  [topWhatsAppBtn, mobileWhatsAppBtn, heroWhatsAppBtn, finalWhatsAppBtn, waFloat].forEach(el => {
+    if (!el) return;
+    el.href = getWhatsAppUrl(msg);
+    el.target = "_blank";
+    el.rel = "noopener";
+  });
+
+  if (autoadminBtn) {
+    autoadminBtn.href = getWhatsAppUrl("Hola CIBORG 347, quiero consultar por una web autoadministrable para mi proyecto.");
+  }
+
+  if (budgetBtn) {
+    budgetBtn.href = getWhatsAppUrl("Hola CIBORG 347, quiero consultar por un sistema o herramienta especial para mi negocio.");
+  }
+
+  if (siteSettingsData?.email_contact && emailContactBtn) {
+    emailContactBtn.href = `mailto:${siteSettingsData.email_contact}`;
+  }
+}
+
+function applySiteSettings() {
+  const s = siteSettingsData;
+  if (!s) return;
+
+  const logo = s.logo_url || "https://iili.io/fETkPEv.md.png";
+  const heroLogoUrl = s.hero_logo_url || logo;
+  const footerLogo = s.footer_logo_url || logo;
+  const siteTitle = s.site_title || "CIBORG 347™";
+  const siteTagline = s.site_tagline || "Landing Pages & Web Designs";
+
+  if (brandLogo) brandLogo.src = logo;
+  if (heroLogo) heroLogo.src = heroLogoUrl;
+  if (footerBrandLogo) footerBrandLogo.src = footerLogo;
+  if (dynamicFavicon && s.favicon_url) dynamicFavicon.href = s.favicon_url;
+
+  if (brandTitle) brandTitle.textContent = siteTitle;
+  if (footerBrandTitle) footerBrandTitle.textContent = siteTitle;
+  if (brandTagline) brandTagline.textContent = siteTagline;
+  if (footerBrandTagline) footerBrandTagline.textContent = siteTagline;
+
+  if (heroBadge && s.hero_badge) heroBadge.textContent = s.hero_badge;
+  if (heroTitle && s.hero_title) heroTitle.textContent = s.hero_title;
+  if (heroSubtitle && s.hero_subtitle) heroSubtitle.textContent = s.hero_subtitle;
+  if (heroWhatsAppBtn && s.hero_cta_label) heroWhatsAppBtn.textContent = s.hero_cta_label;
+  if (heroWhatsAppBtn && s.hero_cta_url) heroWhatsAppBtn.href = s.hero_cta_url;
+
+  if (heroBackgroundLayer) {
+    if (s.use_background_image && s.background_image_url) {
+      heroBackgroundLayer.style.backgroundImage = `url("${s.background_image_url}")`;
+      heroBackgroundLayer.style.display = "block";
+    } else if (s.hero_image_url) {
+      heroBackgroundLayer.style.backgroundImage = `url("${s.hero_image_url}")`;
+      heroBackgroundLayer.style.display = "block";
+    } else {
+      heroBackgroundLayer.style.display = "none";
+    }
+  }
+
+  if (heroOverlayLayer) {
+    if (s.hero_overlay_url) {
+      heroOverlayLayer.style.backgroundImage = `url("${s.hero_overlay_url}")`;
+      heroOverlayLayer.style.display = "block";
+    } else {
+      heroOverlayLayer.style.display = "none";
+    }
+  }
+
+  if (heroVideo) {
+    if (s.use_hero_video && s.hero_video_url) {
+      heroVideo.src = s.hero_video_url;
+      heroVideo.style.display = "block";
+    } else {
+      heroVideo.pause();
+      heroVideo.removeAttribute("src");
+      heroVideo.style.display = "none";
+    }
+  }
+
+  if (document.body && s.use_background_image && s.background_image_url) {
+    document.body.style.setProperty("--dynamic-bg-image", `url("${s.background_image_url}")`);
+    document.body.classList.add("hasDynamicBackground");
+  } else {
+    document.body.classList.remove("hasDynamicBackground");
+    document.body.style.removeProperty("--dynamic-bg-image");
+  }
+
+  setDefaultWhatsAppLinks();
 }
 
 function applyGlobalContent() {
@@ -222,28 +337,41 @@ function renderFeatured() {
   if (!featuredGrid) return;
 
   const list = projectsData
-    .filter(p => p.active && p.featured_home)
-    .sort((a, b) => (a.order_index ?? 0) - (b.order_index ?? 0));
+    .filter(p => p.active && p.featured_home && p.status !== "archived")
+    .sort((a, b) => (a.order_index ?? 0) - (b.order_index ?? 0))
+    .slice(0, 6);
 
   if (!list.length) {
     featuredGrid.innerHTML = `<div class="emptyState">No hay destacados cargados.</div>`;
     return;
   }
 
-  featuredGrid.innerHTML = list.map(project => `
-    <article class="featuredCard" data-open-project="${project.id}">
-      <div class="featuredCard__image">
-        <img src="${escapeHtml(project.image_url)}" alt="${escapeHtml(project.title)}" loading="lazy" />
-      </div>
+  featuredGrid.innerHTML = list.map(project => {
+    const tags = getProjectTags(project.id).slice(0, 2);
+    return `
+      <article class="featuredCard" data-open-project="${project.id}">
+        <div class="featuredCard__image">
+          <img src="${escapeHtml(project.image_url)}" alt="${escapeHtml(project.title)}" loading="lazy" />
+        </div>
 
-      <div class="featuredCard__body">
-        <span class="tag">${escapeHtml(findCategoryName(project.category_id))}</span>
-        <h3>${escapeHtml(project.title)}</h3>
-        <p>${escapeHtml(project.short_description)}</p>
-        <div class="featuredCard__meta">${escapeHtml(project.solution_type)}</div>
-      </div>
-    </article>
-  `).join("");
+        <div class="featuredCard__body">
+          <div class="featuredCard__topline">
+            <span class="tag">${escapeHtml(findCategoryName(project.category_id))}</span>
+            <span class="statusPill statusPill--${escapeHtml(project.status || "published")}">${escapeHtml(mapStatusLabel(project.status || "published"))}</span>
+          </div>
+
+          <h3>${escapeHtml(project.title)}</h3>
+          <p>${escapeHtml(project.short_description)}</p>
+
+          <div class="projectTagsRow">
+            ${tags.map(tag => `<span class="softTag">${escapeHtml(tag.name)}</span>`).join("")}
+          </div>
+
+          <div class="featuredCard__meta">${escapeHtml(project.solution_type)}</div>
+        </div>
+      </article>
+    `;
+  }).join("");
 
   featuredGrid.querySelectorAll("[data-open-project]").forEach(card => {
     card.addEventListener("click", () => {
@@ -273,15 +401,30 @@ function renderCategoryChips() {
   categoryChips.querySelectorAll("[data-category]").forEach(btn => {
     btn.addEventListener("click", () => {
       activeCategory = btn.getAttribute("data-category");
-      visibleCount = 8;
+      visibleCount = 6;
       renderCategoryChips();
       renderProjects();
     });
   });
 }
 
+function renderTagFilter() {
+  if (!tagFilter) return;
+
+  const options = [`<option value="__all__">Todos</option>`]
+    .concat(
+      tagsData
+        .filter(tag => tag.active)
+        .sort((a, b) => a.name.localeCompare(b.name))
+        .map(tag => `<option value="${tag.id}">${escapeHtml(tag.name)}</option>`)
+    )
+    .join("");
+
+  tagFilter.innerHTML = options;
+}
+
 function getFilteredProjects() {
-  let list = projectsData.filter(p => p.active);
+  let list = projectsData.filter(p => p.active && p.status !== "archived");
 
   if (activeCategory !== "__all__") {
     list = list.filter(p => String(p.category_id) === String(activeCategory));
@@ -291,10 +434,17 @@ function getFilteredProjects() {
     list = list.filter(p => p.solution_type === activeType);
   }
 
+  if (activeTag !== "__all__") {
+    list = list.filter(project => {
+      const tags = getProjectTags(project.id);
+      return tags.some(tag => String(tag.id) === String(activeTag));
+    });
+  }
+
   if (searchTerm) {
     list = list.filter(project => {
       const hay = norm(
-        `${project.title} ${project.short_description} ${project.full_description || ""} ${findCategoryName(project.category_id)} ${project.solution_type}`
+        `${project.title} ${project.short_description} ${project.full_description || ""} ${findCategoryName(project.category_id)} ${project.solution_type} ${getProjectTags(project.id).map(t => t.name).join(" ")}`
       );
       return hay.includes(searchTerm);
     });
@@ -326,23 +476,34 @@ function renderProjects() {
 
   const slice = filtered.slice(0, visibleCount);
 
-  projectsGrid.innerHTML = slice.map(project => `
-    <article class="projectCard" data-open-project="${project.id}">
-      <div class="projectCard__image">
-        <img src="${escapeHtml(project.image_url)}" alt="${escapeHtml(project.title)}" loading="lazy" />
-      </div>
-
-      <div class="projectCard__body">
-        <div class="projectCard__top">
-          <span class="tag">${escapeHtml(findCategoryName(project.category_id))}</span>
-          <span class="projectCard__type">${escapeHtml(project.solution_type)}</span>
+  projectsGrid.innerHTML = slice.map(project => {
+    const tags = getProjectTags(project.id).slice(0, 2);
+    return `
+      <article class="projectCard" data-open-project="${project.id}">
+        <div class="projectCard__image">
+          <img src="${escapeHtml(project.image_url)}" alt="${escapeHtml(project.title)}" loading="lazy" />
         </div>
 
-        <h3>${escapeHtml(project.title)}</h3>
-        <p>${escapeHtml(project.short_description)}</p>
-      </div>
-    </article>
-  `).join("");
+        <div class="projectCard__body">
+          <div class="projectCard__top">
+            <span class="tag">${escapeHtml(findCategoryName(project.category_id))}</span>
+            <span class="projectCard__type">${escapeHtml(project.solution_type)}</span>
+          </div>
+
+          <div class="projectCard__statusRow">
+            <span class="statusPill statusPill--${escapeHtml(project.status || "published")}">${escapeHtml(mapStatusLabel(project.status || "published"))}</span>
+          </div>
+
+          <h3>${escapeHtml(project.title)}</h3>
+          <p>${escapeHtml(project.short_description)}</p>
+
+          <div class="projectTagsRow">
+            ${tags.map(tag => `<span class="softTag">${escapeHtml(tag.name)}</span>`).join("")}
+          </div>
+        </div>
+      </article>
+    `;
+  }).join("");
 
   projectsGrid.querySelectorAll("[data-open-project]").forEach(card => {
     card.addEventListener("click", () => {
@@ -358,7 +519,13 @@ function renderProjects() {
 function openProjectModal(project) {
   if (!modal) return;
 
+  const tags = getProjectTags(project.id);
+
   if (modalCategory) modalCategory.textContent = findCategoryName(project.category_id);
+  if (modalStatus) {
+    modalStatus.textContent = mapStatusLabel(project.status || "published");
+    modalStatus.className = `statusPill statusPill--${project.status || "published"}`;
+  }
   if (modalTitle) modalTitle.textContent = project.title;
   if (modalImage) {
     modalImage.src = project.image_url || "";
@@ -369,6 +536,10 @@ function openProjectModal(project) {
   if (modalShort) modalShort.textContent = project.short_description || "";
   if (modalFull) modalFull.textContent = project.full_description || "";
   if (modalDemoBtn) modalDemoBtn.href = project.demo_url || "#";
+
+  if (modalTagsList) {
+    modalTagsList.innerHTML = tags.map(tag => `<span class="softTag">${escapeHtml(tag.name)}</span>`).join("");
+  }
 
   if (modalWhatsAppBtn) {
     const msg = `Hola CIBORG 347, vi la demo "${project.title}" (${findCategoryName(project.category_id)} - ${project.solution_type}) y quiero algo así para mi marca o emprendimiento.`;
@@ -387,6 +558,9 @@ function closeProjectModal() {
   document.body.classList.remove("bodyLock");
 }
 
+/* =========================
+   LOADERS
+========================= */
 async function loadCategories() {
   const { data, error } = await sb
     .from("categories")
@@ -409,6 +583,8 @@ async function loadProjects() {
     .from("projects")
     .select("*")
     .eq("active", true)
+    .is("deleted_at", null)
+    .neq("status", "archived")
     .order("order_index", { ascending: true })
     .order("created_at", { ascending: false });
 
@@ -421,6 +597,35 @@ async function loadProjects() {
   projectsData = data || [];
   renderFeatured();
   renderProjects();
+}
+
+async function loadTags() {
+  const { data, error } = await sb
+    .from("tags")
+    .select("*")
+    .eq("active", true)
+    .order("name", { ascending: true });
+
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  tagsData = data || [];
+  renderTagFilter();
+}
+
+async function loadProjectTags() {
+  const { data, error } = await sb
+    .from("project_tags")
+    .select("project_id, tag_id");
+
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  projectTagsData = data || [];
 }
 
 async function loadFaqs() {
@@ -455,14 +660,35 @@ async function loadSiteContent() {
   applyGlobalContent();
 }
 
+async function loadSiteSettings() {
+  const { data, error } = await sb
+    .from("site_settings")
+    .select("*")
+    .eq("id", "global")
+    .maybeSingle();
+
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  siteSettingsData = data || null;
+  applySiteSettings();
+}
+
 async function init() {
   setDefaultWhatsAppLinks();
   showState("Cargando contenido...");
 
-  await loadCategories();
-  await loadProjects();
-  await loadFaqs();
-  await loadSiteContent();
+  await loadSiteSettings();
+  await Promise.all([
+    loadCategories(),
+    loadTags(),
+    loadProjectTags(),
+    loadProjects(),
+    loadFaqs(),
+    loadSiteContent(),
+  ]);
 
   if (!projectsData.length) {
     showState("Todavía no hay proyectos para mostrar.");
@@ -489,7 +715,7 @@ if (mobileMenu) {
 if (searchInput) {
   searchInput.addEventListener("input", e => {
     searchTerm = norm(e.target.value);
-    visibleCount = 8;
+    visibleCount = 6;
     renderProjects();
   });
 }
@@ -497,14 +723,22 @@ if (searchInput) {
 if (typeFilter) {
   typeFilter.addEventListener("change", e => {
     activeType = e.target.value;
-    visibleCount = 8;
+    visibleCount = 6;
+    renderProjects();
+  });
+}
+
+if (tagFilter) {
+  tagFilter.addEventListener("change", e => {
+    activeTag = e.target.value;
+    visibleCount = 6;
     renderProjects();
   });
 }
 
 if (moreBtn) {
   moreBtn.addEventListener("click", () => {
-    visibleCount += 8;
+    visibleCount += 6;
     renderProjects();
   });
 }
