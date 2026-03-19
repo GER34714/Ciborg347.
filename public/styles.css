@@ -1,5 +1,4 @@
 /* /public/styles.css */
-/* Futurista claro + ordenado + secciones bien diferenciadas + banners con imagen */
 
 :root{
   --bg:#edf4f7;
@@ -45,6 +44,33 @@
   --contactImage:url("https://iili.io/qwykOWQ.jpg");
 }
 
+/* =========================
+   DARK THEME
+========================= */
+body.theme-dark{
+  --bg:#09111b;
+  --bg2:#0d1622;
+  --bg3:#132030;
+
+  --surface:#101a27;
+  --surface2:#132031;
+  --surface3:#162537;
+  --surface4:#1a2b40;
+
+  --text:#edf3ff;
+  --text2:#d9e5fb;
+  --muted:#a3b4ca;
+  --muted2:#8da1bb;
+
+  --line:rgba(255,255,255,.09);
+  --line2:rgba(255,255,255,.14);
+  --line3:rgba(255,255,255,.20);
+
+  --shadow:0 16px 40px rgba(0,0,0,.22);
+  --shadow2:0 22px 56px rgba(0,0,0,.28);
+  --shadow3:0 30px 80px rgba(0,0,0,.34);
+}
+
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 
@@ -82,8 +108,7 @@ body::after{
   inset:0;
   z-index:-2;
   pointer-events:none;
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.18), rgba(255,255,255,.44));
+  background:transparent;
 }
 
 img{max-width:100%;display:block}
@@ -105,8 +130,8 @@ a{text-decoration:none;color:inherit}
   top:0;
   z-index:60;
   backdrop-filter:blur(14px);
-  background:rgba(255,255,255,.78);
-  border-bottom:1px solid rgba(216,226,238,.9);
+  background:color-mix(in srgb, var(--surface) 78%, transparent);
+  border-bottom:1px solid var(--line);
   box-shadow:0 10px 30px rgba(18,35,56,.05);
 }
 .topbar__inner{
@@ -192,7 +217,7 @@ a{text-decoration:none;color:inherit}
 .btn--ghost{
   color:var(--text);
   border:1px solid var(--line2);
-  background:rgba(255,255,255,.78);
+  background:color-mix(in srgb, var(--surface) 86%, transparent);
 }
 .btn--block{width:100%}
 
@@ -202,7 +227,7 @@ a{text-decoration:none;color:inherit}
   height:48px;
   border:1px solid var(--line2);
   border-radius:14px;
-  background:rgba(255,255,255,.8);
+  background:color-mix(in srgb, var(--surface) 86%, transparent);
   align-items:center;
   justify-content:center;
   flex-direction:column;
@@ -228,7 +253,7 @@ a{text-decoration:none;color:inherit}
   padding:12px 14px;
   border:1px solid var(--line2);
   border-radius:14px;
-  background:rgba(255,255,255,.88);
+  background:color-mix(in srgb, var(--surface) 90%, transparent);
   color:var(--text);
   font-weight:800;
 }
@@ -258,9 +283,7 @@ a{text-decoration:none;color:inherit}
   content:"";
   position:absolute;
   inset:0;
-  background:
-    linear-gradient(90deg, rgba(247,251,253,.94) 0%, rgba(247,251,253,.86) 34%, rgba(247,251,253,.54) 58%, rgba(247,251,253,.28) 100%),
-    linear-gradient(180deg, rgba(255,255,255,.30), rgba(255,255,255,.42));
+  background:transparent;
   pointer-events:none;
 }
 .hero__glow{
@@ -273,16 +296,13 @@ a{text-decoration:none;color:inherit}
   filter:blur(24px);
   pointer-events:none;
 }
+
+/* overlays removidos */
 .hero__backgroundLayer,
 .hero__overlayLayer,
 .hero__video{
-  position:absolute;
-  inset:0;
-  pointer-events:none;
+  display:none !important;
 }
-.hero__backgroundLayer{display:none !important}
-.hero__overlayLayer{display:none !important}
-.hero__video{display:none !important}
 
 .hero__grid{
   position:relative;
@@ -317,7 +337,7 @@ a{text-decoration:none;color:inherit}
   padding:10px 14px;
   border-radius:999px;
   border:1px solid rgba(124,58,237,.16);
-  background:rgba(255,255,255,.78);
+  background:color-mix(in srgb, var(--surface) 84%, transparent);
   color:var(--violet);
   box-shadow:var(--shadow);
   font-size:13px;
@@ -342,7 +362,7 @@ a{text-decoration:none;color:inherit}
   border:none;
   padding:10px 14px;
   border-radius:999px;
-  background:rgba(255,255,255,.82);
+  background:color-mix(in srgb, var(--surface) 88%, transparent);
   border:1px solid var(--line2);
   color:var(--text2);
   font-weight:800;
@@ -367,9 +387,9 @@ a{text-decoration:none;color:inherit}
 }
 
 .hero__card{
-  border:1px solid rgba(255,255,255,.88);
+  border:1px solid color-mix(in srgb, var(--surface) 88%, transparent);
   border-radius:var(--radiusLg);
-  background:rgba(255,255,255,.68);
+  background:color-mix(in srgb, var(--surface) 74%, transparent);
   box-shadow:var(--shadow3);
   overflow:hidden;
   padding:22px;
@@ -382,9 +402,8 @@ a{text-decoration:none;color:inherit}
   align-items:center;
   justify-content:center;
   border-radius:22px;
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.88), rgba(238,244,250,.88));
-  border:1px solid rgba(216,226,238,.92);
+  background:linear-gradient(180deg, var(--surface), var(--surface3));
+  border:1px solid var(--line);
 }
 .hero__logoWrap img{
   width:100%;
@@ -404,7 +423,7 @@ a{text-decoration:none;color:inherit}
   padding:16px;
   border-radius:16px;
   border:1px solid var(--line);
-  background:rgba(255,255,255,.74);
+  background:color-mix(in srgb, var(--surface) 82%, transparent);
 }
 .hero__miniGrid strong{
   display:block;
@@ -471,7 +490,7 @@ a{text-decoration:none;color:inherit}
   padding:8px 12px;
   border-radius:999px;
   border:1px solid rgba(124,58,237,.16);
-  background:rgba(255,255,255,.82);
+  background:color-mix(in srgb, var(--surface) 84%, transparent);
   color:var(--violet);
   font-size:11px;
   font-weight:900;
@@ -497,7 +516,7 @@ a{text-decoration:none;color:inherit}
   padding:20px;
   border:1px solid var(--line);
   border-radius:20px;
-  background:rgba(255,255,255,.80);
+  background:color-mix(in srgb, var(--surface) 84%, transparent);
   backdrop-filter:blur(10px);
   box-shadow:var(--shadow);
 }
@@ -519,7 +538,7 @@ a{text-decoration:none;color:inherit}
 ========================= */
 .section--solutions{
   background:
-    linear-gradient(180deg, rgba(255,255,255,.52), rgba(255,255,255,.16));
+    linear-gradient(180deg, color-mix(in srgb, var(--surface) 52%, transparent), color-mix(in srgb, var(--surface) 16%, transparent));
 }
 .section--solutions::before{
   content:"";
@@ -539,7 +558,7 @@ a{text-decoration:none;color:inherit}
   padding:24px;
   border:1px solid var(--line);
   border-radius:24px;
-  background:rgba(255,255,255,.84);
+  background:color-mix(in srgb, var(--surface) 86%, transparent);
   box-shadow:var(--shadow);
   position:relative;
   overflow:hidden;
@@ -584,7 +603,7 @@ a{text-decoration:none;color:inherit}
 ========================= */
 .section--featured{
   background:
-    linear-gradient(180deg, #eff6fb, #eaf1f8);
+    linear-gradient(180deg, var(--surface3), var(--surface4));
 }
 .section--featured::before{
   content:"";
@@ -604,7 +623,7 @@ a{text-decoration:none;color:inherit}
 .projectCard{
   border:1px solid var(--line);
   border-radius:24px;
-  background:rgba(255,255,255,.86);
+  background:color-mix(in srgb, var(--surface) 88%, transparent);
   box-shadow:var(--shadow2);
   overflow:hidden;
   cursor:pointer;
@@ -622,7 +641,7 @@ a{text-decoration:none;color:inherit}
   display:flex;
   align-items:center;
   justify-content:center;
-  background:linear-gradient(180deg, rgba(245,249,252,.98), rgba(238,244,250,.88));
+  background:linear-gradient(180deg, var(--surface2), var(--surface3));
 }
 .featuredCard__image img,
 .projectCard__image img{
@@ -631,7 +650,7 @@ a{text-decoration:none;color:inherit}
   object-fit:contain;
   object-position:center;
   border-radius:16px;
-  background:#fff;
+  background:var(--surface);
 }
 .featuredCard__body,
 .projectCard__body{
@@ -687,11 +706,11 @@ a{text-decoration:none;color:inherit}
   font-weight:900;
   text-transform:uppercase;
   letter-spacing:.45px;
-  background:#eef4fb;
+  background:var(--surface3);
   color:var(--text2);
   border:1px solid var(--line);
 }
-.statusPill--draft{background:#f2f5f8}
+.statusPill--draft{background:var(--surface2)}
 .statusPill--published{background:#e5fff9;color:#04695f}
 .statusPill--featured{background:#ebe6ff;color:#5d31d6}
 .statusPill--archived{background:#ffe8f6;color:#b1217e}
@@ -703,7 +722,7 @@ a{text-decoration:none;color:inherit}
   padding:7px 10px;
   border-radius:999px;
   border:1px solid var(--line);
-  background:#f8fbff;
+  background:var(--surface2);
   color:var(--muted);
   font-size:11px;
   font-weight:800;
@@ -720,14 +739,14 @@ a{text-decoration:none;color:inherit}
 ========================= */
 .section--portfolio{
   background:
-    linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.02));
+    linear-gradient(180deg, color-mix(in srgb, var(--surface) 16%, transparent), color-mix(in srgb, var(--surface) 2%, transparent));
 }
 .section--portfolio .wrap{
   padding:34px clamp(18px, 2.4vw, 32px);
   border-radius:38px;
   border:1px solid rgba(124,58,237,.14);
   background:
-    linear-gradient(180deg, rgba(255,255,255,.84), rgba(245,249,252,.84));
+    linear-gradient(180deg, color-mix(in srgb, var(--surface) 84%, transparent), color-mix(in srgb, var(--surface2) 84%, transparent));
   box-shadow:var(--shadow3);
   backdrop-filter:blur(14px);
   position:relative;
@@ -759,7 +778,7 @@ a{text-decoration:none;color:inherit}
   padding:20px;
   border:1px solid rgba(124,58,237,.14);
   border-radius:26px;
-  background:rgba(255,255,255,.76);
+  background:color-mix(in srgb, var(--surface) 78%, transparent);
   backdrop-filter:blur(10px);
   box-shadow:var(--shadow);
 }
@@ -787,7 +806,7 @@ a{text-decoration:none;color:inherit}
   width:100%;
   border:1px solid var(--line2);
   border-radius:14px;
-  background:#fff;
+  background:var(--surface);
   color:var(--text);
   padding:12px 14px;
   outline:none;
@@ -829,7 +848,7 @@ a{text-decoration:none;color:inherit}
   color:var(--muted);
   font-weight:800;
   margin-bottom:18px;
-  background:rgba(255,255,255,.72);
+  background:color-mix(in srgb, var(--surface) 78%, transparent);
   position:relative;
   z-index:1;
 }
@@ -845,7 +864,7 @@ a{text-decoration:none;color:inherit}
   padding:36px clamp(18px, 2.4vw, 32px);
   border-radius:38px;
   border:1px solid rgba(0,217,255,.16);
-  background:rgba(255,255,255,.82);
+  background:color-mix(in srgb, var(--surface) 82%, transparent);
   box-shadow:var(--shadow3);
   backdrop-filter:blur(14px);
 }
@@ -865,8 +884,7 @@ a{text-decoration:none;color:inherit}
   padding:32px;
   border:1px solid rgba(0,217,255,.18);
   border-radius:30px;
-  background:
-    linear-gradient(180deg, rgba(243,252,255,.96), rgba(233,245,252,.94));
+  background:linear-gradient(180deg, var(--surface2), var(--surface3));
   box-shadow:var(--shadow2);
   min-height:260px;
   display:flex;
@@ -883,15 +901,14 @@ a{text-decoration:none;color:inherit}
   background:linear-gradient(90deg, var(--cyan), var(--cyan2), var(--violet));
 }
 .visualCard--alt{
-  background:
-    linear-gradient(180deg, rgba(249,244,255,.96), rgba(240,235,251,.94));
+  background:linear-gradient(180deg, color-mix(in srgb, var(--surface2) 92%, rgba(124,58,237,.08)), color-mix(in srgb, var(--surface3) 92%, rgba(124,58,237,.10)));
   border-color:rgba(124,58,237,.16);
 }
 .visualCard__badge{
   width:max-content;
   padding:8px 12px;
   border-radius:999px;
-  background:rgba(255,255,255,.86);
+  background:color-mix(in srgb, var(--surface) 88%, transparent);
   border:1px solid var(--line2);
   color:var(--violet);
   font-size:12px;
@@ -932,8 +949,7 @@ a{text-decoration:none;color:inherit}
   content:"";
   position:absolute;
   inset:0;
-  background:
-    linear-gradient(90deg, rgba(246,250,253,.92) 0%, rgba(246,250,253,.84) 42%, rgba(246,250,253,.64) 66%, rgba(246,250,253,.44) 100%);
+  background:transparent;
   pointer-events:none;
 }
 .section--systems .wrap{
@@ -942,7 +958,7 @@ a{text-decoration:none;color:inherit}
   padding:36px clamp(18px, 2.4vw, 32px);
   border-radius:38px;
   border:1px solid rgba(255,63,210,.14);
-  background:rgba(255,255,255,.72);
+  background:color-mix(in srgb, var(--surface) 74%, transparent);
   box-shadow:var(--shadow3);
   backdrop-filter:blur(14px);
 }
@@ -952,7 +968,7 @@ a{text-decoration:none;color:inherit}
 ========================= */
 .section--why{
   background:
-    linear-gradient(180deg, rgba(255,255,255,.44), rgba(255,255,255,.16));
+    linear-gradient(180deg, color-mix(in srgb, var(--surface) 44%, transparent), color-mix(in srgb, var(--surface) 16%, transparent));
 }
 .differentialsGrid{
   display:grid;
@@ -963,7 +979,7 @@ a{text-decoration:none;color:inherit}
   padding:22px;
   border:1px solid var(--line);
   border-radius:24px;
-  background:rgba(255,255,255,.82);
+  background:color-mix(in srgb, var(--surface) 84%, transparent);
   box-shadow:var(--shadow);
   backdrop-filter:blur(10px);
 }
@@ -986,7 +1002,7 @@ a{text-decoration:none;color:inherit}
 ========================= */
 .section--faq{
   background:
-    linear-gradient(180deg, #eef4fa, #e9f1f8);
+    linear-gradient(180deg, var(--surface3), var(--surface4));
 }
 .faqList{
   display:grid;
@@ -995,7 +1011,7 @@ a{text-decoration:none;color:inherit}
 .faqItem{
   border:1px solid var(--line);
   border-radius:20px;
-  background:rgba(255,255,255,.84);
+  background:color-mix(in srgb, var(--surface) 84%, transparent);
   overflow:hidden;
   backdrop-filter:blur(10px);
   box-shadow:var(--shadow);
@@ -1056,18 +1072,16 @@ a{text-decoration:none;color:inherit}
   content:"";
   position:absolute;
   inset:0;
-  background:
-    linear-gradient(135deg, rgba(0,217,255,.10), rgba(124,58,237,.08), rgba(255,63,210,.10)),
-    linear-gradient(180deg, rgba(255,255,255,.56), rgba(255,255,255,.34));
+  background:transparent;
   pointer-events:none;
 }
 .ctaPanel{
   position:relative;
   z-index:1;
   padding:38px;
-  border:1px solid rgba(255,255,255,.88);
+  border:1px solid color-mix(in srgb, var(--surface) 88%, transparent);
   border-radius:34px;
-  background:rgba(255,255,255,.72);
+  background:color-mix(in srgb, var(--surface) 74%, transparent);
   box-shadow:var(--shadow3);
   display:grid;
   gap:14px;
@@ -1090,7 +1104,7 @@ a{text-decoration:none;color:inherit}
 .footer{
   margin-top:0;
   border-top:1px solid rgba(41,92,255,.10);
-  background:linear-gradient(180deg, #edf3f9, #e5edf6);
+  background:linear-gradient(180deg, var(--surface3), var(--surface4));
 }
 .footer__inner{
   min-height:92px;
@@ -1129,7 +1143,7 @@ a{text-decoration:none;color:inherit}
   padding:10px 12px;
   border-radius:12px;
   border:1px solid var(--line2);
-  background:rgba(255,255,255,.78);
+  background:color-mix(in srgb, var(--surface) 80%, transparent);
   color:var(--text2);
   font-size:13px;
   font-weight:800;
@@ -1149,7 +1163,7 @@ a{text-decoration:none;color:inherit}
   align-items:center;
   justify-content:center;
   border-radius:18px;
-  background:rgba(255,255,255,.86);
+  background:color-mix(in srgb, var(--surface) 84%, transparent);
   box-shadow:0 16px 40px rgba(18,35,56,.14);
   border:1px solid var(--line);
   backdrop-filter:blur(10px);
@@ -1188,7 +1202,7 @@ a{text-decoration:none;color:inherit}
   max-height:min(88vh,900px);
   border:1px solid var(--line);
   border-radius:24px;
-  background:rgba(255,255,255,.92);
+  background:color-mix(in srgb, var(--surface) 92%, transparent);
   box-shadow:var(--shadow3);
   overflow:hidden;
   backdrop-filter:blur(16px);
@@ -1216,7 +1230,7 @@ a{text-decoration:none;color:inherit}
   height:48px;
   border:1px solid var(--line2);
   border-radius:14px;
-  background:#fff;
+  background:var(--surface);
   color:var(--text);
   font-size:30px;
   font-weight:900;
@@ -1239,7 +1253,7 @@ a{text-decoration:none;color:inherit}
 .modal__imageWrap{
   min-height:320px;
   max-height:calc(88vh - 86px);
-  background:#f4f8fc;
+  background:var(--surface2);
   border-right:1px solid var(--line);
   padding:18px;
   display:flex;
@@ -1251,7 +1265,7 @@ a{text-decoration:none;color:inherit}
   height:100%;
   object-fit:contain;
   border-radius:18px;
-  background:#fff;
+  background:var(--surface);
 }
 .modal__info{
   padding:20px;
@@ -1286,7 +1300,7 @@ a{text-decoration:none;color:inherit}
   color:var(--muted);
   text-align:center;
   font-weight:800;
-  background:rgba(255,255,255,.76);
+  background:color-mix(in srgb, var(--surface) 78%, transparent);
 }
 
 /* =========================
@@ -1374,11 +1388,6 @@ a{text-decoration:none;color:inherit}
     opacity:.26;
   }
 
-  .hero::after{
-    background:
-      linear-gradient(180deg, rgba(247,251,253,.70) 0%, rgba(247,251,253,.82) 32%, rgba(247,251,253,.92) 68%, rgba(247,251,253,.96) 100%);
-  }
-
   .hero__grid{
     align-items:end;
     gap:22px;
@@ -1394,8 +1403,8 @@ a{text-decoration:none;color:inherit}
   }
 
   .hero__card{
-    background:rgba(255,255,255,.62);
-    border-color:rgba(255,255,255,.82);
+    background:color-mix(in srgb, var(--surface) 66%, transparent);
+    border-color:color-mix(in srgb, var(--surface) 84%, transparent);
   }
 
   .section{
