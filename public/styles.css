@@ -1643,3 +1643,56 @@ a{text-decoration:none;color:inherit}
   position: relative;
   z-index: 1;
 }
+/* =========================
+   DESVANECER LAS UNIONES REALES DE LOS BACKGROUNDS
+========================= */
+
+.section--solutions,
+.section--featured,
+.section--portfolio,
+.section--autoadmin,
+.section--systems,
+.section--why,
+.section--faq,
+.section--contact{
+  position: relative;
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0,0,0,1) 14%,
+    rgba(0,0,0,1) 86%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0,0,0,1) 14%,
+    rgba(0,0,0,1) 86%,
+    transparent 100%
+  );
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+/* un poco mas suave en bloques con cards grandes */
+.section--portfolio,
+.section--autoadmin,
+.section--systems,
+.section--contact{
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0,0,0,1) 18%,
+    rgba(0,0,0,1) 82%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0,0,0,1) 18%,
+    rgba(0,0,0,1) 82%,
+    transparent 100%
+  );
+}
