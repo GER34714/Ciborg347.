@@ -1558,3 +1558,88 @@ a{text-decoration:none;color:inherit}
     gap:10px;
   }
 }
+/* =========================
+   DESVANECER UNION ENTRE SECCIONES CON BACKGROUND
+========================= */
+
+.section--solutions,
+.section--featured,
+.section--portfolio,
+.section--autoadmin,
+.section--systems,
+.section--why,
+.section--faq,
+.section--contact{
+  position: relative;
+  overflow: hidden;
+}
+
+/* capa de desvanecido superior e inferior */
+.section--solutions::after,
+.section--featured::after,
+.section--portfolio::after,
+.section--autoadmin::after,
+.section--systems::after,
+.section--why::after,
+.section--faq::after,
+.section--contact::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* cada seccion usa el color base que la rodea para fundirse mejor */
+.section--solutions::after{
+  background:
+    linear-gradient(to bottom, var(--bg2) 0%, transparent 12%, transparent 88%, var(--bg2) 100%);
+}
+
+.section--featured::after{
+  background:
+    linear-gradient(to bottom, var(--bg2) 0%, transparent 12%, transparent 88%, var(--bg2) 100%);
+}
+
+.section--portfolio::after{
+  background:
+    linear-gradient(to bottom, var(--bg2) 0%, transparent 10%, transparent 90%, var(--bg2) 100%);
+}
+
+.section--autoadmin::after{
+  background:
+    linear-gradient(to bottom, var(--bg2) 0%, transparent 12%, transparent 88%, var(--bg2) 100%);
+}
+
+.section--systems::after{
+  background:
+    linear-gradient(to bottom, var(--bg2) 0%, transparent 10%, transparent 90%, var(--bg2) 100%);
+}
+
+.section--why::after{
+  background:
+    linear-gradient(to bottom, var(--bg2) 0%, transparent 12%, transparent 88%, var(--bg2) 100%);
+}
+
+.section--faq::after{
+  background:
+    linear-gradient(to bottom, var(--bg2) 0%, transparent 12%, transparent 88%, var(--bg2) 100%);
+}
+
+.section--contact::after{
+  background:
+    linear-gradient(to bottom, var(--bg2) 0%, transparent 10%, transparent 90%, var(--bg2) 100%);
+}
+
+/* asegurar que el contenido quede por encima del fade */
+.section--solutions > .wrap,
+.section--featured > .wrap,
+.section--portfolio > .wrap,
+.section--autoadmin > .wrap,
+.section--systems > .wrap,
+.section--why > .wrap,
+.section--faq > .wrap,
+.section--contact > .wrap{
+  position: relative;
+  z-index: 1;
+}
