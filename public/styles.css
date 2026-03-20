@@ -1696,3 +1696,36 @@ a{text-decoration:none;color:inherit}
     transparent 100%
   );
 }
+/* DESVANECIDO MUY SUAVE */
+
+.section--solutions,
+.section--featured,
+.section--portfolio,
+.section--autoadmin,
+.section--systems,
+.section--why,
+.section--faq,
+.section--contact{
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0,0,0,.96) 4%,
+    rgba(0,0,0,1) 10%,
+    rgba(0,0,0,1) 90%,
+    rgba(0,0,0,.96) 96%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0,0,0,.96) 4%,
+    rgba(0,0,0,1) 10%,
+    rgba(0,0,0,1) 90%,
+    rgba(0,0,0,.96) 96%,
+    transparent 100%
+  );
+  -webkit-mask-size:100% 100%;
+  mask-size:100% 100%;
+  -webkit-mask-repeat:no-repeat;
+  mask-repeat:no-repeat;
+}
