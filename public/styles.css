@@ -72,10 +72,10 @@ body{
   font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
   color:var(--text);
   background:
-    radial-gradient(circle at 10% 10%, rgba(0,224,255,.08), transparent 22%),
-    radial-gradient(circle at 88% 14%, rgba(255,71,209,.07), transparent 18%),
-    radial-gradient(circle at 24% 80%, rgba(125,92,255,.07), transparent 16%),
-    linear-gradient(180deg, var(--bg), var(--bg2));
+    radial-gradient(circle at 10% 10%, rgba(0,224,255,.12), transparent 24%),
+    radial-gradient(circle at 88% 14%, rgba(255,71,209,.11), transparent 20%),
+    radial-gradient(circle at 24% 80%, rgba(125,92,255,.10), transparent 18%),
+    linear-gradient(180deg, #0a111b 0%, #101928 24%, #111c2a 58%, #0b1420 100%);
   min-height:100vh;
   overflow-x:hidden;
   position:relative;
@@ -98,7 +98,10 @@ body::after{
   inset:0;
   z-index:-2;
   pointer-events:none;
-  background:transparent;
+  background:
+    linear-gradient(180deg, rgba(5,10,18,.18), rgba(5,10,18,.38)),
+    radial-gradient(circle at 50% 0%, rgba(0,224,255,.06), transparent 30%),
+    radial-gradient(circle at 100% 20%, rgba(255,71,209,.05), transparent 26%);
 }
 
 img{max-width:100%;display:block}
@@ -117,10 +120,10 @@ a{text-decoration:none;color:inherit}
   position:sticky;
   top:0;
   z-index:60;
-  backdrop-filter:blur(12px);
-  background:color-mix(in srgb, var(--surface) 86%, transparent);
-  border-bottom:1px solid var(--line);
-  box-shadow:0 8px 24px rgba(31,50,75,.05);
+  backdrop-filter:blur(18px);
+  background:linear-gradient(180deg, rgba(10,17,27,.84), rgba(10,17,27,.68));
+  border-bottom:1px solid rgba(158,178,214,.12);
+  box-shadow:0 8px 24px rgba(0,0,0,.18);
 }
 .topbar__inner{
   min-height:78px;
@@ -245,26 +248,76 @@ a{text-decoration:none;color:inherit}
 /* HERO */
 .hero{
   position:relative;
-  padding:96px 0 84px;
+  padding:108px 0 92px;
   overflow:hidden;
-  min-height:clamp(660px, 92vh, 880px);
+  min-height:clamp(700px, 96vh, 920px);
   display:flex;
   align-items:center;
-  background-image:var(--heroImage);
-  background-size:cover;
-  background-position:center 28%;
+  background:
+    linear-gradient(180deg, rgba(5,10,18,.18), rgba(5,10,18,.58)),
+    radial-gradient(circle at 20% 18%, rgba(0,224,255,.16), transparent 28%),
+    radial-gradient(circle at 82% 20%, rgba(255,71,209,.14), transparent 24%),
+    var(--heroImage);
+  background-size:auto,auto,auto,cover;
+  background-position:center,20% 18%,82% 20%,center 28%;
   background-repeat:no-repeat;
 }
 .hero::before,
 .hero::after{
-  content:none !important;
-  display:none !important;
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
 }
-.hero__glow{display:none}
+.hero::before{
+  background:linear-gradient(180deg, rgba(8,14,24,.18) 0%, rgba(8,14,24,.42) 34%, rgba(8,14,24,.76) 100%);
+  z-index:0;
+}
+.hero::after{
+  inset:auto 0 0 0;
+  height:160px;
+  background:linear-gradient(180deg, rgba(11,20,32,0), rgba(11,20,32,.9));
+  z-index:1;
+}
+.hero__glow{
+  display:block;
+  position:absolute;
+  width:42rem;
+  height:42rem;
+  right:-10rem;
+  top:-12rem;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(0,224,255,.18), rgba(125,92,255,.12) 38%, rgba(255,71,209,0) 70%);
+  filter:blur(24px);
+  pointer-events:none;
+  z-index:0;
+}
 .hero__backgroundLayer,
 .hero__overlayLayer,
 .hero__video{
-  display:none !important;
+  position:absolute;
+  inset:0;
+  display:none;
+}
+.hero__backgroundLayer{
+  background-size:cover;
+  background-position:center;
+  opacity:.22;
+  mix-blend-mode:screen;
+  z-index:0;
+}
+.hero__overlayLayer{
+  background-size:cover;
+  background-position:center;
+  opacity:.16;
+  z-index:1;
+}
+.hero__video{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  opacity:.22;
+  z-index:0;
 }
 .hero__grid{
   position:relative;
@@ -277,6 +330,8 @@ a{text-decoration:none;color:inherit}
 }
 .hero__copy{
   max-width:780px;
+  position:relative;
+  z-index:2;
 }
 .hero__copy h1{
   margin:14px 0 12px;
@@ -296,6 +351,66 @@ a{text-decoration:none;color:inherit}
   font-size:16px;
   max-width:62ch;
   text-shadow:0 2px 12px rgba(12,24,40,.22);
+}
+.heroPain{
+  margin-top:20px;
+  max-width:700px;
+  padding:18px 18px 16px;
+  border-radius:22px;
+  border:1px solid rgba(255,255,255,.12);
+  background:linear-gradient(180deg, rgba(18,30,46,.52), rgba(18,30,46,.36));
+  box-shadow:0 20px 60px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.08);
+  backdrop-filter:blur(14px);
+}
+.heroPain__label{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:#99efff;
+}
+.heroPain__label::before{
+  content:"";
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:var(--cyan);
+  box-shadow:0 0 14px rgba(0,224,255,.8);
+}
+.heroPain strong{
+  display:block;
+  margin-top:10px;
+  color:#f7fbff;
+  font-size:22px;
+  line-height:1.2;
+}
+.heroPain p{
+  margin-top:8px;
+  font-size:14px;
+  line-height:1.7;
+  color:#d7e3f5;
+}
+.heroPain__tabs{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:16px;
+}
+.heroPain__tab{
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.04);
+  color:#eaf3ff;
+  padding:10px 14px;
+  border-radius:999px;
+  font-weight:800;
+}
+.heroPain__tab.isActive{
+  background:linear-gradient(135deg, rgba(57,102,255,.9), rgba(125,92,255,.88) 55%, rgba(255,71,209,.9));
+  border-color:transparent;
+  box-shadow:0 12px 26px rgba(125,92,255,.26);
 }
 .badge{
   display:inline-flex;
@@ -357,12 +472,14 @@ a{text-decoration:none;color:inherit}
 .hero__card{
   border:1px solid rgba(240,245,255,.18);
   border-radius:var(--radiusLg);
-  background:rgba(24,37,56,.34);
-  box-shadow:var(--shadow3);
+  background:linear-gradient(180deg, rgba(24,37,56,.44), rgba(24,37,56,.24));
+  box-shadow:var(--shadow3), 0 0 0 1px rgba(0,224,255,.06), 0 0 40px rgba(125,92,255,.14);
   overflow:hidden;
   padding:22px;
-  backdrop-filter:blur(14px);
+  backdrop-filter:blur(18px);
   align-self:end;
+  position:relative;
+  z-index:2;
 }
 .hero__logoWrap{
   min-height:320px;
@@ -412,6 +529,13 @@ a{text-decoration:none;color:inherit}
 .section{
   position:relative;
   padding:98px 0;
+}
+.section::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index:0;
 }
 .sectionAnchor{
   scroll-margin-top:98px;
@@ -1558,10 +1682,106 @@ a{text-decoration:none;color:inherit}
     gap:10px;
   }
 }
+
+
+.section--solutions .wrap,
+.section--featured .wrap,
+.section--portfolio .wrap,
+.section--autoadmin .wrap,
+.section--systems .wrap,
+.section--why .wrap,
+.section--faq .wrap,
+.section--contact .wrap{
+  position:relative;
+  z-index:1;
+}
+
+.section--solutions{
+  background-position:center 42%;
+}
+.section--featured{
+  background-position:center 42%;
+}
+.section--portfolio{
+  background-position:center 56%;
+}
+
+.section--solutions .wrap,
+.section--featured .wrap,
+.section--why .wrap,
+.section--faq .wrap{
+  padding:34px clamp(18px, 2.4vw, 32px);
+  border-radius:38px;
+  border:1px solid rgba(232,238,248,.12);
+  background:linear-gradient(180deg, rgba(15,24,38,.44), rgba(15,24,38,.26));
+  box-shadow:var(--shadow3);
+  backdrop-filter:blur(14px);
+}
+
+.visualCard,
+.diffCard,
+.authority__item,
+.solutionCard,
+.featuredCard,
+.projectCard,
+.faqItem,
+.ctaPanel{
+  box-shadow:var(--shadow2), 0 0 0 1px rgba(255,255,255,.03), 0 0 28px rgba(0,224,255,.05);
+}
+
+.ctaPanel--neon{
+  position:relative;
+  overflow:hidden;
+}
+.ctaPanel--neon::before{
+  content:"";
+  position:absolute;
+  inset:auto -12% -45% auto;
+  width:360px;
+  height:360px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(255,71,209,.22), rgba(125,92,255,.14) 38%, rgba(0,224,255,0) 70%);
+  filter:blur(18px);
+  pointer-events:none;
+}
+
+.hero__actions .btn--ghost{
+  color:#f5f8ff;
+  border-color:rgba(255,255,255,.18);
+  background:rgba(255,255,255,.06);
+}
+
+.footer{
+  position:relative;
+  background:linear-gradient(180deg, rgba(9,15,23,.92), rgba(8,13,21,1));
+  border-top:1px solid rgba(158,178,214,.12);
+}
+
+.waFloat{
+  box-shadow:0 12px 28px rgba(0,0,0,.22), 0 0 18px rgba(0,224,255,.16);
+}
+
+@media (max-width:640px){
+  .heroPain{
+    padding:16px;
+    border-radius:20px;
+  }
+  .heroPain strong{
+    font-size:18px;
+  }
+  .heroPain__tabs{
+    gap:8px;
+  }
+  .heroPain__tab{
+    width:auto;
+    padding:9px 12px;
+    font-size:12px;
+  }
+}
+
 /* =========================
    DESVANECER UNION ENTRE SECCIONES CON BACKGROUND
 ========================= */
-
 .section--solutions,
 .section--featured,
 .section--portfolio,
@@ -1570,250 +1790,18 @@ a{text-decoration:none;color:inherit}
 .section--why,
 .section--faq,
 .section--contact{
-  position: relative;
-  overflow: hidden;
-}
-
-/* capa de desvanecido superior e inferior */
-.section--solutions::after,
-.section--featured::after,
-.section--portfolio::after,
-.section--autoadmin::after,
-.section--systems::after,
-.section--why::after,
-.section--faq::after,
-.section--contact::after{
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* cada seccion usa el color base que la rodea para fundirse mejor */
-.section--solutions::after{
-  background:
-    linear-gradient(to bottom, var(--bg2) 0%, transparent 12%, transparent 88%, var(--bg2) 100%);
-}
-
-.section--featured::after{
-  background:
-    linear-gradient(to bottom, var(--bg2) 0%, transparent 12%, transparent 88%, var(--bg2) 100%);
-}
-
-.section--portfolio::after{
-  background:
-    linear-gradient(to bottom, var(--bg2) 0%, transparent 10%, transparent 90%, var(--bg2) 100%);
-}
-
-.section--autoadmin::after{
-  background:
-    linear-gradient(to bottom, var(--bg2) 0%, transparent 12%, transparent 88%, var(--bg2) 100%);
-}
-
-.section--systems::after{
-  background:
-    linear-gradient(to bottom, var(--bg2) 0%, transparent 10%, transparent 90%, var(--bg2) 100%);
-}
-
-.section--why::after{
-  background:
-    linear-gradient(to bottom, var(--bg2) 0%, transparent 12%, transparent 88%, var(--bg2) 100%);
-}
-
-.section--faq::after{
-  background:
-    linear-gradient(to bottom, var(--bg2) 0%, transparent 12%, transparent 88%, var(--bg2) 100%);
-}
-
-.section--contact::after{
-  background:
-    linear-gradient(to bottom, var(--bg2) 0%, transparent 10%, transparent 90%, var(--bg2) 100%);
-}
-
-/* asegurar que el contenido quede por encima del fade */
-.section--solutions > .wrap,
-.section--featured > .wrap,
-.section--portfolio > .wrap,
-.section--autoadmin > .wrap,
-.section--systems > .wrap,
-.section--why > .wrap,
-.section--faq > .wrap,
-.section--contact > .wrap{
-  position: relative;
-  z-index: 1;
-}
-/* =========================
-   DESVANECER LAS UNIONES REALES DE LOS BACKGROUNDS
-========================= */
-
-.section--solutions,
-.section--featured,
-.section--portfolio,
-.section--autoadmin,
-.section--systems,
-.section--why,
-.section--faq,
-.section--contact{
-  position: relative;
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    rgba(0,0,0,1) 14%,
-    rgba(0,0,0,1) 86%,
-    transparent 100%
-  );
-  mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    rgba(0,0,0,1) 14%,
-    rgba(0,0,0,1) 86%,
-    transparent 100%
-  );
-  -webkit-mask-size: 100% 100%;
-  mask-size: 100% 100%;
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-}
-
-/* un poco mas suave en bloques con cards grandes */
-.section--portfolio,
-.section--autoadmin,
-.section--systems,
-.section--contact{
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    rgba(0,0,0,1) 18%,
-    rgba(0,0,0,1) 82%,
-    transparent 100%
-  );
-  mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    rgba(0,0,0,1) 18%,
-    rgba(0,0,0,1) 82%,
-    transparent 100%
-  );
-}
-/* DESVANECIDO MUY SUAVE */
-
-.section--solutions,
-.section--featured,
-.section--portfolio,
-.section--autoadmin,
-.section--systems,
-.section--why,
-.section--faq,
-.section--contact{
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    rgba(0,0,0,.96) 4%,
-    rgba(0,0,0,1) 10%,
-    rgba(0,0,0,1) 90%,
-    rgba(0,0,0,.96) 96%,
-    transparent 100%
-  );
-  mask-image: linear-gradient(
-    to bottom,
-    transparent 0%,
-    rgba(0,0,0,.96) 4%,
-    rgba(0,0,0,1) 10%,
-    rgba(0,0,0,1) 90%,
-    rgba(0,0,0,.96) 96%,
-    transparent 100%
-  );
-  -webkit-mask-size:100% 100%;
-  mask-size:100% 100%;
-  -webkit-mask-repeat:no-repeat;
-  mask-repeat:no-repeat;
-}
-/* =========================
-   UNION SUAVE ENTRE SECCIONES
-   FONDO TINTEADO, NO BLANCO
-========================= */
-
-.section--solutions,
-.section--featured,
-.section--portfolio,
-.section--autoadmin,
-.section--systems,
-.section--why,
-.section--faq,
-.section--contact{
-  position: relative;
-  overflow: hidden;
-  -webkit-mask-image: none !important;
-  mask-image: none !important;
-}
-
-.section--solutions::after,
-.section--featured::after,
-.section--portfolio::after,
-.section--autoadmin::after,
-.section--systems::after,
-.section--why::after,
-.section--faq::after,
-.section--contact::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  z-index:0;
-}
-
-/* tono suave parecido al fondo general */
-.section--solutions::after,
-.section--featured::after,
-.section--portfolio::after,
-.section--autoadmin::after,
-.section--systems::after,
-.section--why::after,
-.section--faq::after,
-.section--contact::after{
-  background:
-    linear-gradient(
-      to bottom,
-      rgba(205,216,230,.78) 0%,
-      rgba(205,216,230,.24) 8%,
-      rgba(205,216,230,0) 16%,
-      rgba(205,216,230,0) 84%,
-      rgba(205,216,230,.24) 92%,
-      rgba(205,216,230,.78) 100%
-    );
-}
-
-/* en modo oscuro usa un tono suave oscuro, no negro bruto */
-body.theme-dark .section--solutions::after,
-body.theme-dark .section--featured::after,
-body.theme-dark .section--portfolio::after,
-body.theme-dark .section--autoadmin::after,
-body.theme-dark .section--systems::after,
-body.theme-dark .section--why::after,
-body.theme-dark .section--faq::after,
-body.theme-dark .section--contact::after{
-  background:
-    linear-gradient(
-      to bottom,
-      rgba(28,40,56,.72) 0%,
-      rgba(28,40,56,.20) 8%,
-      rgba(28,40,56,0) 16%,
-      rgba(28,40,56,0) 84%,
-      rgba(28,40,56,.20) 92%,
-      rgba(28,40,56,.72) 100%
-    );
-}
-
-/* asegurar que el contenido quede por arriba */
-.section--solutions > .wrap,
-.section--featured > .wrap,
-.section--portfolio > .wrap,
-.section--autoadmin > .wrap,
-.section--systems > .wrap,
-.section--why > .wrap,
-.section--faq > .wrap,
-.section--contact > .wrap{
   position:relative;
-  z-index:1;
+  overflow:hidden;
+}
+
+.section--solutions::before,
+.section--featured::before,
+.section--portfolio::before,
+.section--autoadmin::before,
+.section--systems::before,
+.section--why::before,
+.section--faq::before,
+.section--contact::before{
+  background:linear-gradient(180deg, rgba(11,20,32,.9) 0%, rgba(11,20,32,0) 18%, rgba(11,20,32,0) 82%, rgba(11,20,32,.92) 100%);
+  z-index:0;
 }
