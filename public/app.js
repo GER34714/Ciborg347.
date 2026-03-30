@@ -2,7 +2,7 @@ const SUPABASE_URL = "https://fhxcumwhgtfirznnznjx.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZoeGN1bXdoZ3RmaXJ6bm56bmp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc5OTYyNzEsImV4cCI6MjA4MzU3MjI3MX0.7z1B099L4yrA9k1JxwvYGCABzqiqYtkUClI3E8wQ2zA";
 const DEFAULT_WHATSAPP_NUMBER = "5491164499481";
 
-const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+const sb = window.supabase?.createClient ? window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY) : null;
 
 /* =========================
    DOM
@@ -33,6 +33,9 @@ const heroVideo = document.getElementById("heroVideo");
 const heroBadge = document.getElementById("heroBadge");
 const heroTitle = document.getElementById("heroTitle");
 const heroSubtitle = document.getElementById("heroSubtitle");
+const heroPainTitle = document.getElementById("heroPainTitle");
+const heroPainText = document.getElementById("heroPainText");
+const heroPainTabs = document.getElementById("heroPainTabs");
 
 const solutionsIntro = document.getElementById("solutionsIntro");
 
@@ -94,6 +97,15 @@ let searchTerm = "";
 let activeType = "__all__";
 let activeTag = "__all__";
 let visibleCount = 6;
+let heroPainIndex = 0;
+let heroPainTimer = null;
+
+const heroPainItems = [
+  { title: "Tu negocio depende solo de Instagram y WhatsApp.", text: "Creamos una estructura web clara para mostrar mejor, ordenar consultas y convertir más." },
+  { title: "Cada cambio no debería depender de tocar código.", text: "La base A/B permite administrar contenido, demos y bloques sin romper el frente público." },
+  { title: "Mostrar servicios no alcanza si no hay criterio comercial.", text: "La web tiene que guiar al cliente, destacar lo importante y cerrar mejor por WhatsApp o contacto directo." },
+  { title: "Tu marca puede verse potente y seguir siendo escalable.", text: "Diseño visual, lógica modular y una UX más sólida para crecer sin rehacer todo cada vez." },
+];
 
 /* =========================
    HELPERS
@@ -303,6 +315,27 @@ function applyGlobalContent() {
     if (finalCta.cta_label && finalWhatsAppBtn) finalWhatsAppBtn.textContent = finalCta.cta_label;
     if (finalCta.cta_url && finalWhatsAppBtn) finalWhatsAppBtn.href = finalCta.cta_url;
   }
+}
+
+
+function renderHeroPain(index = 0) {
+  if (!heroPainTitle || !heroPainText || !heroPainTabs) return;
+  heroPainIndex = index % heroPainItems.length;
+  const item = heroPainItems[heroPainIndex];
+  heroPainTitle.textContent = item.title;
+  heroPainText.textContent = item.text;
+
+  heroPainTabs.querySelectorAll("[data-pain]").forEach((btn, idx) => {
+    btn.classList.toggle("isActive", idx === heroPainIndex);
+  });
+}
+
+function startHeroPainRotation() {
+  if (!heroPainTabs || heroPainItems.length <= 1) return;
+  if (heroPainTimer) clearInterval(heroPainTimer);
+  heroPainTimer = setInterval(() => {
+    renderHeroPain((heroPainIndex + 1) % heroPainItems.length);
+  }, 4200);
 }
 
 function renderFaqs() {
@@ -576,6 +609,7 @@ function closeProjectModal() {
    LOADERS
 ========================= */
 async function loadCategories() {
+  if (!sb) return;
   const { data, error } = await sb
     .from("categories")
     .select("*")
@@ -593,6 +627,7 @@ async function loadCategories() {
 }
 
 async function loadProjects() {
+  if (!sb) return;
   const { data, error } = await sb
     .from("projects")
     .select("*")
@@ -614,6 +649,7 @@ async function loadProjects() {
 }
 
 async function loadTags() {
+  if (!sb) return;
   const { data, error } = await sb
     .from("tags")
     .select("*")
@@ -630,6 +666,7 @@ async function loadTags() {
 }
 
 async function loadProjectTags() {
+  if (!sb) return;
   const { data, error } = await sb
     .from("project_tags")
     .select("project_id, tag_id");
@@ -643,6 +680,7 @@ async function loadProjectTags() {
 }
 
 async function loadFaqs() {
+  if (!sb) return;
   const { data, error } = await sb
     .from("faqs")
     .select("*")
@@ -659,6 +697,7 @@ async function loadFaqs() {
 }
 
 async function loadSiteContent() {
+  if (!sb) return;
   const { data, error } = await sb
     .from("site_content")
     .select("*")
@@ -675,6 +714,7 @@ async function loadSiteContent() {
 }
 
 async function loadSiteSettings() {
+  if (!sb) return;
   const { data, error } = await sb
     .from("site_settings")
     .select("*")
@@ -692,6 +732,15 @@ async function loadSiteSettings() {
 
 async function init() {
   setDefaultWhatsAppLinks();
+  renderHeroPain(0);
+  startHeroPainRotation();
+
+  if (!sb) {
+    console.warn("Supabase no se cargó. La web sigue funcionando en modo visual.");
+    showState("No se pudo conectar con Supabase. La estructura visual sigue funcionando, pero el contenido dinámico no se cargó.");
+    return;
+  }
+
   showState("Cargando contenido...");
 
   await loadSiteSettings();
@@ -757,6 +806,16 @@ if (moreBtn) {
   });
 }
 
+if (heroPainTabs) {
+  heroPainTabs.querySelectorAll("[data-pain]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const next = Number(btn.getAttribute("data-pain") || 0);
+      renderHeroPain(next);
+      startHeroPainRotation();
+    });
+  });
+}
+
 if (modalBackdrop) {
   modalBackdrop.addEventListener("click", closeProjectModal);
 }
@@ -771,4 +830,8 @@ window.addEventListener("keydown", e => {
   }
 });
 
-init();
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", init);
+} else {
+  init();
+}
