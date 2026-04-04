@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="theme-color" content="#070a12" />
+  <meta name="theme-color" content="#0b0f19" />
 
   <title>CIBORG 347™ | Landing Pages & Web Designs</title>
   <meta name="description" content="CIBORG 347™ crea páginas web profesionales, demos reales por rubro, webs autoadministrables y sistemas con enfoque comercial." />
@@ -14,10 +14,15 @@
   <meta property="og:image" content="https://iili.io/fETkPEv.md.png" />
 
   <link id="dynamicFavicon" rel="icon" type="image/png" href="https://iili.io/fETkPEv.md.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./styles.css" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
+  <div class="bg-grid" aria-hidden="true"></div>
+
   <header class="topbar">
     <div class="wrap topbar__inner">
       <a class="brand" href="#inicio" aria-label="Ir al inicio">
@@ -28,7 +33,7 @@
         </div>
       </a>
 
-      <nav class="nav" id="nav">
+      <nav class="nav" id="nav" aria-label="Navegación principal">
         <a href="#soluciones">Soluciones</a>
         <a href="#destacados">Destacados</a>
         <a href="#trabajos">Portfolio</a>
@@ -58,14 +63,17 @@
 
   <main id="inicio">
     <section class="hero" id="heroSection">
-      <div class="hero__glow" aria-hidden="true"></div>
+      <div class="glow" aria-hidden="true"></div>
       <div id="heroBackgroundLayer" class="hero__backgroundLayer" aria-hidden="true"></div>
       <div id="heroOverlayLayer" class="hero__overlayLayer" aria-hidden="true"></div>
       <video id="heroVideo" class="hero__video" playsinline autoplay muted loop style="display:none"></video>
 
       <div class="wrap hero__grid">
         <div class="hero__copy">
-          <div class="badge" id="heroBadge">Diseño web profesional • Pago único • Buenos Aires, Argentina</div>
+          <div class="badge" id="heroBadge">
+            <span class="dot" aria-hidden="true"></span>
+            Diseño web profesional • Pago único • Buenos Aires, Argentina
+          </div>
 
           <h1 id="heroTitle">Páginas web que convierten visitas en clientes.</h1>
 
@@ -80,7 +88,7 @@
             <div class="heroPain__tabs" id="heroPainTabs">
               <button class="heroPain__tab isActive" type="button" data-pain="0">Presencia</button>
               <button class="heroPain__tab" type="button" data-pain="1">Control</button>
-              <button class="heroPain__tab" type="button" data-pain="2">Conversion</button>
+              <button class="heroPain__tab" type="button" data-pain="2">Conversión</button>
               <button class="heroPain__tab" type="button" data-pain="3">Escala</button>
             </div>
           </div>
@@ -91,33 +99,35 @@
           </div>
 
           <div class="hero__chips">
-            <span class="chip chip--static">Pago único</span>
-            <span class="chip chip--static">Full responsive</span>
-            <span class="chip chip--static">Listo para publicar</span>
+            <span class="kbd">Pago único</span>
+            <span class="kbd">Full responsive</span>
+            <span class="kbd">Listo para publicar</span>
           </div>
         </div>
 
         <div class="hero__card">
-          <div class="hero__logoWrap">
-            <img id="heroLogo" src="https://iili.io/fETkPEv.md.png" alt="Logo CIBORG 347" />
-          </div>
+          <div class="inner">
+            <div class="hero__logoWrap">
+              <img id="heroLogo" src="https://iili.io/fETkPEv.md.png" alt="Logo CIBORG 347" />
+            </div>
 
-          <div class="hero__miniGrid">
-            <article>
-              <strong>Demos reales</strong>
-              <span>Portfolio por rubros y proyectos visibles.</span>
-            </article>
+            <div class="hero__miniGrid">
+              <article>
+                <strong>Demos reales</strong>
+                <span>Portfolio por rubros y proyectos visibles.</span>
+              </article>
 
-            <article>
-              <strong>Sistema escalable</strong>
-              <span>Estructura pensada para crecer a A/B.</span>
-            </article>
+              <article>
+                <strong>Sistema escalable</strong>
+                <span>Base pensada para crecer a una estructura A/B.</span>
+              </article>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="authority sectionAnchor sectionDivider">
+    <section class="authority sectionAnchor">
       <div class="wrap">
         <div class="authority__grid" id="authorityGrid">
           <article class="authority__item">
@@ -143,11 +153,10 @@
       </div>
     </section>
 
-    <section id="soluciones" class="section sectionAnchor section--solutions">
+    <section id="soluciones" class="section sectionAnchor">
       <div class="wrap">
-        <div class="section__head section__head--spaced">
+        <div class="section__head">
           <div class="sectionIntro">
-            <span class="sectionKicker">Bloque 01</span>
             <h2>Soluciones</h2>
           </div>
           <p id="solutionsIntro">
@@ -183,11 +192,10 @@
       </div>
     </section>
 
-    <section id="destacados" class="section section--featured sectionAnchor">
+    <section id="destacados" class="section sectionAnchor">
       <div class="wrap">
-        <div class="section__head section__head--spaced">
+        <div class="section__head">
           <div class="sectionIntro">
-            <span class="sectionKicker">Bloque 02</span>
             <h2>Trabajos destacados</h2>
           </div>
           <p>Una selección curada para mostrar variedad, criterio y nivel de resolución.</p>
@@ -197,12 +205,11 @@
       </div>
     </section>
 
-    <section id="trabajos" class="section sectionAnchor section--portfolio">
-      <div class="wrap">
-        <div class="section__head section__head--spaced">
+    <section id="trabajos" class="section sectionAnchor">
+      <div class="wrap portfolioPanel">
+        <div class="section__head">
           <div class="sectionIntro">
-            <span class="sectionKicker">Bloque 03</span>
-            <h2>Portfolio explorables</h2>
+            <h2>Portfolio explorable</h2>
           </div>
           <p>Filtrá por rubro, buscá por nombre y explorá demos reales cargadas desde el sistema.</p>
         </div>
@@ -245,12 +252,11 @@
       </div>
     </section>
 
-    <section id="autoadmin" class="section section--soft sectionAnchor section--autoadmin">
-      <div class="wrap splitBlock">
+    <section id="autoadmin" class="section sectionAnchor">
+      <div class="wrap splitPanel">
         <div class="splitBlock__copy">
-          <div class="section__head section__head--left section__head--spaced">
+          <div class="section__head section__head--left">
             <div class="sectionIntro">
-              <span class="sectionKicker">Bloque 04</span>
               <h2 id="autoadminTitle">Webs autoadministrables</h2>
             </div>
             <p id="autoadminSubtitle">Sistema con panel para cargar y actualizar contenido.</p>
@@ -276,12 +282,11 @@
       </div>
     </section>
 
-    <section class="section sectionAnchor section--systems">
-      <div class="wrap splitBlock">
+    <section class="section sectionAnchor">
+      <div class="wrap splitPanel">
         <div class="splitBlock__copy">
-          <div class="section__head section__head--left section__head--spaced">
+          <div class="section__head section__head--left">
             <div class="sectionIntro">
-              <span class="sectionKicker">Bloque 05</span>
               <h2 id="budgetTitle">Sistema de presupuestos</h2>
             </div>
             <p id="budgetSubtitle">Herramienta o sistema especial para procesos comerciales.</p>
@@ -306,11 +311,10 @@
       </div>
     </section>
 
-    <section class="section section--soft sectionAnchor section--why">
+    <section class="section sectionAnchor">
       <div class="wrap">
-        <div class="section__head section__head--spaced">
+        <div class="section__head">
           <div class="sectionIntro">
-            <span class="sectionKicker">Bloque 06</span>
             <h2>Por qué CIBORG 347</h2>
           </div>
           <p id="differentialsSubtitle">Diseño, criterio y estructura pensada para vender mejor.</p>
@@ -340,11 +344,10 @@
       </div>
     </section>
 
-    <section id="faq" class="section sectionAnchor section--faq">
+    <section id="faq" class="section sectionAnchor">
       <div class="wrap">
-        <div class="section__head section__head--spaced">
+        <div class="section__head">
           <div class="sectionIntro">
-            <span class="sectionKicker">Bloque 07</span>
             <h2>Preguntas frecuentes</h2>
           </div>
           <p>Lo básico que conviene dejar claro antes de avanzar.</p>
@@ -354,10 +357,9 @@
       </div>
     </section>
 
-    <section id="contacto" class="section section--soft sectionAnchor section--contact">
+    <section id="contacto" class="section sectionAnchor">
       <div class="wrap ctaPanel ctaPanel--neon">
         <div>
-          <span class="sectionKicker sectionKicker--inside">Bloque 08</span>
           <h2 id="finalCtaTitle">¿Querés algo así para tu marca?</h2>
           <p id="finalCtaSubtitle">Contame tu rubro y vemos qué solución te conviene.</p>
         </div>
@@ -391,7 +393,7 @@
   </footer>
 
   <a id="waFloat" class="waFloat" href="#" target="_blank" rel="noopener" aria-label="WhatsApp">
-    <img src="https://iili.io/qBZhqGf.md.png" alt="WhatsApp" />
+    <img src="https://iili.io/BdFrUs1.webp" alt="WhatsApp" />
   </a>
 
   <div id="projectModal" class="modal" aria-hidden="true">
