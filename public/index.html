@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" /> 
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <meta name="theme-color" content="#0b0f19" />
+  <meta id="themeColorMeta" name="theme-color" content="#e8eef7" />
 
   <title>CIBORG 347™ | Landing Pages & Web Designs</title>
   <meta name="description" content="CIBORG 347™ crea páginas web profesionales, demos reales por rubro, webs autoadministrables y sistemas con enfoque comercial." />
@@ -43,6 +43,10 @@
       </nav>
 
       <div class="topbar__cta">
+        <button id="themeToggleBtn" class="themeToggle" type="button" aria-label="Cambiar tema" aria-pressed="false" title="Cambiar tema">
+          <span class="themeToggle__moon" aria-hidden="true">☾</span>
+          <span class="themeToggle__sun" aria-hidden="true">☀</span>
+        </button>
         <a id="topWhatsAppBtn" class="btn btn--primary" href="#" target="_blank" rel="noopener">WhatsApp</a>
         <button id="burgerBtn" class="burger" type="button" aria-label="Abrir menú" aria-expanded="false">
           <span></span><span></span><span></span>
@@ -57,7 +61,10 @@
       <a href="#autoadmin" data-close>Autoadministrable</a>
       <a href="#faq" data-close>FAQ</a>
       <a href="#contacto" data-close>Contacto</a>
-      <a id="mobileWhatsAppBtn" class="btn btn--primary btn--block" href="#" target="_blank" rel="noopener" data-close>WhatsApp</a>
+      <div class="mobileMenu__actions">
+        <a id="mobileWhatsAppBtn" class="btn btn--primary btn--block" href="#" target="_blank" rel="noopener" data-close>WhatsApp</a>
+        <button id="mobileThemeToggleBtn" class="themeToggle" type="button" aria-label="Cambiar tema" aria-pressed="false" title="Cambiar tema"></button>
+      </div>
     </div>
   </header>
 
