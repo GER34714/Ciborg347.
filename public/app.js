@@ -1,6 +1,7 @@
+
 const SUPABASE_URL = "https://fhxcumwhgtfirznnznjx.supabase.co";
-const SUPABASE_PUBLISHABLE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJIUzI1NiIsInR5cCI6IkpXVCJ9";
-const DEFAULT_WHATSAPP_NUMBER = "5491164499481";
+const SUPABASE_PUBLISHABLE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZoeGN1bXdoZ3RmaXJ6bm56bmp4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njc5OTYyNzEsImV4cCI6MjA4MzU3MjI3MX0.7z1B099L4yrA9k1JxwvYGCABzqiqYtkUClI3E8wQ2zA";
+const DEFAULT_WHATSAPP_NUMBER = "5491164499481"; 
 
 const sb = window.supabase?.createClient ? window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY) : null;
 
@@ -8,9 +9,6 @@ const burgerBtn = document.getElementById("burgerBtn");
 const mobileMenu = document.getElementById("mobileMenu");
 const topWhatsAppBtn = document.getElementById("topWhatsAppBtn");
 const mobileWhatsAppBtn = document.getElementById("mobileWhatsAppBtn");
-const themeToggleBtn = document.getElementById("themeToggleBtn");
-const mobileThemeToggleBtn = document.getElementById("mobileThemeToggleBtn");
-const themeColorMeta = document.getElementById("themeColorMeta");
 const heroWhatsAppBtn = document.getElementById("heroWhatsAppBtn");
 const finalWhatsAppBtn = document.getElementById("finalWhatsAppBtn");
 const waFloat = document.getElementById("waFloat");
@@ -84,44 +82,6 @@ let visibleCount = 6;
 let heroPainIndex = 0;
 let heroPainTimer = null;
 
-const THEME_STORAGE_KEY = "ciborg347-theme";
-
-function isDarkTheme() {
-  return document.body.classList.contains("theme-dark");
-}
-
-function updateThemeToggleButtons() {
-  const pressed = isDarkTheme();
-  [themeToggleBtn, mobileThemeToggleBtn].forEach(btn => {
-    if (!btn) return;
-    btn.setAttribute("aria-pressed", pressed ? "true" : "false");
-    btn.setAttribute("title", pressed ? "Cambiar a tema claro" : "Cambiar a tema oscuro");
-    if (btn === mobileThemeToggleBtn) btn.innerHTML = pressed ? "☀" : "☾";
-  });
-  if (themeColorMeta) themeColorMeta.setAttribute("content", pressed ? "#1c2938" : "#e8eef7");
-}
-
-function applyTheme(theme, persist = false) {
-  const nextTheme = theme === "dark" ? "dark" : "light";
-  document.body.classList.toggle("theme-dark", nextTheme === "dark");
-  updateThemeToggleButtons();
-  if (persist) localStorage.setItem(THEME_STORAGE_KEY, nextTheme);
-}
-
-function toggleTheme() {
-  applyTheme(isDarkTheme() ? "light" : "dark", true);
-}
-
-function initTheme() {
-  const savedTheme = localStorage.getItem(THEME_STORAGE_KEY);
-  if (savedTheme === "dark" || savedTheme === "light") {
-    applyTheme(savedTheme);
-    return;
-  }
-  const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
-  applyTheme(prefersDark ? "dark" : "light");
-}
-
 const heroPainItems = [
   { title: "Tu negocio depende solo de Instagram y WhatsApp.", text: "Creamos una estructura web clara para mostrar mejor, ordenar consultas y convertir más." },
   { title: "Cada cambio no debería depender de tocar código.", text: "La base A/B permite administrar contenido, demos y bloques sin romper el frente público." },
@@ -130,46 +90,15 @@ const heroPainItems = [
 ];
 
 function escapeHtml(s) {
-  return String(s ?? "")
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
+  return String(s ?? "").replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;").replaceAll('"', "&quot;").replaceAll("'", "&#039;");
 }
-
-function norm(s) {
-  return String(s || "").toLowerCase().trim();
-}
-
-function getCurrentWhatsAppNumber() {
-  return siteSettingsData?.whatsapp_number || DEFAULT_WHATSAPP_NUMBER;
-}
-
-function getWhatsAppUrl(text) {
-  return `https://wa.me/${getCurrentWhatsAppNumber()}?text=${encodeURIComponent(text)}`;
-}
-
-function findCategoryName(id) {
-  return categoriesData.find(c => String(c.id) === String(id))?.name || "Sin categoría";
-}
-
-function findSiteContent(key) {
-  return siteContentData.find(item => item.key === key && item.active);
-}
-
-function showState(msg) {
-  if (!stateBox) return;
-  stateBox.style.display = "block";
-  stateBox.textContent = msg;
-}
-
-function hideState() {
-  if (!stateBox) return;
-  stateBox.style.display = "none";
-  stateBox.textContent = "";
-}
-
+function norm(s) { return String(s || "").toLowerCase().trim(); }
+function getCurrentWhatsAppNumber() { return siteSettingsData?.whatsapp_number || DEFAULT_WHATSAPP_NUMBER; }
+function getWhatsAppUrl(text) { return `https://wa.me/${getCurrentWhatsAppNumber()}?text=${encodeURIComponent(text)}`; }
+function findCategoryName(id) { return categoriesData.find(c => String(c.id) === String(id))?.name || "Sin categoría"; }
+function findSiteContent(key) { return siteContentData.find(item => item.key === key && item.active); }
+function showState(msg) { if (!stateBox) return; stateBox.style.display = "block"; stateBox.textContent = msg; }
+function hideState() { if (!stateBox) return; stateBox.style.display = "none"; stateBox.textContent = ""; }
 function switchMobileMenu(force) {
   if (!mobileMenu || !burgerBtn) return;
   const open = typeof force === "boolean" ? force : !mobileMenu.classList.contains("isOpen");
@@ -177,63 +106,37 @@ function switchMobileMenu(force) {
   mobileMenu.setAttribute("aria-hidden", open ? "false" : "true");
   burgerBtn.setAttribute("aria-expanded", open ? "true" : "false");
 }
-
 function mapStatusLabel(status) {
-  const map = {
-    draft: "Borrador",
-    published: "Publicado",
-    featured: "Destacado",
-    archived: "Archivado",
-    new: "Nuevo"
-  };
+  const map = { draft: "Borrador", published: "Publicado", featured: "Destacado", archived: "Archivado", new: "Nuevo" };
   return map[status] || "Publicado";
 }
-
-function shouldShowFrontStatus(status) {
-  return status === "featured" || status === "new";
-}
-
+function shouldShowFrontStatus(status) { return status === "featured" || status === "new"; }
 function getProjectTags(projectId) {
-  const ids = projectTagsData
-    .filter(row => String(row.project_id) === String(projectId))
-    .map(row => String(row.tag_id));
-
+  const ids = projectTagsData.filter(row => String(row.project_id) === String(projectId)).map(row => String(row.tag_id));
   return tagsData.filter(tag => ids.includes(String(tag.id)));
 }
 
 function setDefaultWhatsAppLinks() {
   const msg = "Hola CIBORG 347, vi tus demos y quiero consultar por una web para mi marca o emprendimiento.";
-
   [topWhatsAppBtn, mobileWhatsAppBtn, heroWhatsAppBtn, finalWhatsAppBtn, waFloat].forEach(el => {
     if (!el) return;
     el.href = getWhatsAppUrl(msg);
     el.target = "_blank";
     el.rel = "noopener";
   });
-
-  if (autoadminBtn) {
-    autoadminBtn.href = getWhatsAppUrl("Hola CIBORG 347, quiero consultar por una web autoadministrable para mi proyecto.");
-  }
-
-  if (budgetBtn) {
-    budgetBtn.href = getWhatsAppUrl("Hola CIBORG 347, quiero consultar por un sistema o herramienta especial para mi negocio.");
-  }
-
-  if (siteSettingsData?.email_contact && emailContactBtn) {
-    emailContactBtn.href = `mailto:${siteSettingsData.email_contact}`;
-  }
+  if (autoadminBtn) autoadminBtn.href = getWhatsAppUrl("Hola CIBORG 347, quiero consultar por una web autoadministrable para mi proyecto.");
+  if (budgetBtn) budgetBtn.href = getWhatsAppUrl("Hola CIBORG 347, quiero consultar por un sistema o herramienta especial para mi negocio.");
+  if (siteSettingsData?.email_contact && emailContactBtn) emailContactBtn.href = `mailto:${siteSettingsData.email_contact}`;
 }
 
 function applySiteSettings() {
   const s = siteSettingsData;
   if (!s) return;
-
   const logo = s.logo_url || "https://iili.io/fETkPEv.md.png";
   const heroLogoUrl = s.hero_logo_url || logo;
   const footerLogo = s.footer_logo_url || logo;
   const siteTitle = s.site_title || "CIBORG 347™";
   const siteTagline = s.site_tagline || "Landing Pages & Web Designs";
-
   if (brandLogo) brandLogo.src = logo;
   if (heroLogo) heroLogo.src = heroLogoUrl;
   if (footerBrandLogo) footerBrandLogo.src = footerLogo;
@@ -242,16 +145,11 @@ function applySiteSettings() {
   if (footerBrandTitle) footerBrandTitle.textContent = siteTitle;
   if (brandTagline) brandTagline.textContent = siteTagline;
   if (footerBrandTagline) footerBrandTagline.textContent = siteTagline;
-
-  if (heroBadge && s.hero_badge) {
-    heroBadge.innerHTML = `<span class="dot" aria-hidden="true"></span>${escapeHtml(s.hero_badge)}`;
-  }
-
+  if (heroBadge && s.hero_badge) heroBadge.innerHTML = `<span class="dot" aria-hidden="true"></span>${escapeHtml(s.hero_badge)}`;
   if (heroTitle && s.hero_title) heroTitle.textContent = s.hero_title;
   if (heroSubtitle && s.hero_subtitle) heroSubtitle.textContent = s.hero_subtitle;
   if (heroWhatsAppBtn && s.hero_cta_label) heroWhatsAppBtn.textContent = s.hero_cta_label;
   if (heroWhatsAppBtn && s.hero_cta_url) heroWhatsAppBtn.href = s.hero_cta_url;
-
   if (heroBackgroundLayer) {
     if (s.use_background_image && s.background_image_url) {
       heroBackgroundLayer.style.backgroundImage = `url("${s.background_image_url}")`;
@@ -259,20 +157,14 @@ function applySiteSettings() {
     } else if (s.hero_image_url) {
       heroBackgroundLayer.style.backgroundImage = `url("${s.hero_image_url}")`;
       heroBackgroundLayer.style.display = "block";
-    } else {
-      heroBackgroundLayer.style.display = "none";
-    }
+    } else heroBackgroundLayer.style.display = "none";
   }
-
   if (heroOverlayLayer) {
     if (s.hero_overlay_url) {
       heroOverlayLayer.style.backgroundImage = `url("${s.hero_overlay_url}")`;
       heroOverlayLayer.style.display = "block";
-    } else {
-      heroOverlayLayer.style.display = "none";
-    }
+    } else heroOverlayLayer.style.display = "none";
   }
-
   if (heroVideo) {
     if (s.use_hero_video && s.hero_video_url) {
       heroVideo.src = s.hero_video_url;
@@ -283,7 +175,6 @@ function applySiteSettings() {
       heroVideo.style.display = "none";
     }
   }
-
   setDefaultWhatsAppLinks();
 }
 
@@ -293,12 +184,8 @@ function applyGlobalContent() {
     if (hero.title && heroTitle) heroTitle.textContent = hero.title;
     if (hero.subtitle && heroSubtitle) heroSubtitle.textContent = hero.subtitle;
   }
-
   const solutions = findSiteContent("solutions_intro");
-  if (solutions?.subtitle && solutionsIntro) {
-    solutionsIntro.textContent = solutions.subtitle;
-  }
-
+  if (solutions?.subtitle && solutionsIntro) solutionsIntro.textContent = solutions.subtitle;
   const autoadmin = findSiteContent("autoadmin_block");
   if (autoadmin) {
     if (autoadmin.title && autoadminTitle) autoadminTitle.textContent = autoadmin.title;
@@ -307,7 +194,6 @@ function applyGlobalContent() {
     if (autoadmin.cta_label && autoadminBtn) autoadminBtn.textContent = autoadmin.cta_label;
     if (autoadmin.cta_url && autoadminBtn) autoadminBtn.href = autoadmin.cta_url;
   }
-
   const budget = findSiteContent("budget_system_block");
   if (budget) {
     if (budget.title && budgetTitle) budgetTitle.textContent = budget.title;
@@ -316,12 +202,8 @@ function applyGlobalContent() {
     if (budget.cta_label && budgetBtn) budgetBtn.textContent = budget.cta_label;
     if (budget.cta_url && budgetBtn) budgetBtn.href = budget.cta_url;
   }
-
   const diff = findSiteContent("differentials");
-  if (diff?.subtitle && differentialsSubtitle) {
-    differentialsSubtitle.textContent = diff.subtitle;
-  }
-
+  if (diff?.subtitle && differentialsSubtitle) differentialsSubtitle.textContent = diff.subtitle;
   const finalCta = findSiteContent("final_cta");
   if (finalCta) {
     if (finalCta.title && finalCtaTitle) finalCtaTitle.textContent = finalCta.title;
@@ -333,38 +215,25 @@ function applyGlobalContent() {
 
 function renderHeroPain(index = 0) {
   if (!heroPainTitle || !heroPainText || !heroPainTabs) return;
-
   heroPainIndex = index % heroPainItems.length;
   const item = heroPainItems[heroPainIndex];
-
   heroPainTitle.textContent = item.title;
   heroPainText.textContent = item.text;
-
-  heroPainTabs.querySelectorAll("[data-pain]").forEach((btn, idx) => {
-    btn.classList.toggle("isActive", idx === heroPainIndex);
-  });
+  heroPainTabs.querySelectorAll("[data-pain]").forEach((btn, idx) => btn.classList.toggle("isActive", idx === heroPainIndex));
 }
-
 function startHeroPainRotation() {
   if (!heroPainTabs || heroPainItems.length <= 1) return;
   if (heroPainTimer) clearInterval(heroPainTimer);
-  heroPainTimer = setInterval(() => {
-    renderHeroPain((heroPainIndex + 1) % heroPainItems.length);
-  }, 4200);
+  heroPainTimer = setInterval(() => renderHeroPain((heroPainIndex + 1) % heroPainItems.length), 4200);
 }
 
 function renderFaqs() {
   if (!faqList) return;
-
-  const activeFaqs = faqsData
-    .filter(faq => faq.active)
-    .sort((a, b) => (a.order_index ?? 0) - (b.order_index ?? 0));
-
+  const activeFaqs = faqsData.filter(faq => faq.active).sort((a, b) => (a.order_index ?? 0) - (b.order_index ?? 0));
   if (!activeFaqs.length) {
     faqList.innerHTML = `<div class="emptyState">No hay preguntas frecuentes cargadas todavía.</div>`;
     return;
   }
-
   faqList.innerHTML = activeFaqs.map(faq => `
     <article class="faqItem card">
       <button class="faqItem__head" type="button">
@@ -376,12 +245,7 @@ function renderFaqs() {
       </div>
     </article>
   `).join("");
-
-  faqList.querySelectorAll(".faqItem").forEach(item => {
-    item.querySelector(".faqItem__head").addEventListener("click", () => {
-      item.classList.toggle("isOpen");
-    });
-  });
+  faqList.querySelectorAll(".faqItem").forEach(item => item.querySelector(".faqItem__head").addEventListener("click", () => item.classList.toggle("isOpen")));
 }
 
 function bindProjectOpeners(root) {
@@ -396,27 +260,18 @@ function bindProjectOpeners(root) {
 
 function renderFeatured() {
   if (!featuredGrid) return;
-
-  const list = projectsData
-    .filter(p => p.active && p.featured_home && p.status !== "archived")
-    .sort((a, b) => (a.order_index ?? 0) - (b.order_index ?? 0))
-    .slice(0, 6);
-
+  const list = projectsData.filter(p => p.active && p.featured_home && p.status !== "archived").sort((a, b) => (a.order_index ?? 0) - (b.order_index ?? 0)).slice(0, 6);
   if (!list.length) {
     featuredGrid.innerHTML = `<div class="emptyState">No hay destacados cargados.</div>`;
     return;
   }
-
   featuredGrid.innerHTML = list.map(project => {
     const tags = getProjectTags(project.id).slice(0, 2);
     const showStatus = shouldShowFrontStatus(project.status);
-
     return `
       <article class="featuredCard work" data-open-project="${project.id}">
         <div class="work-inner">
-          <div class="featuredCard__image thumb">
-            <img src="${escapeHtml(project.image_url)}" alt="${escapeHtml(project.title)}" loading="lazy" />
-          </div>
+          <div class="featuredCard__image thumb"><img src="${escapeHtml(project.image_url)}" alt="${escapeHtml(project.title)}" loading="lazy" /></div>
           <div class="featuredCard__body meta">
             <div class="featuredCard__topline topline">
               <span class="tag">${escapeHtml(findCategoryName(project.category_id))}</span>
@@ -427,111 +282,64 @@ function renderFeatured() {
             <div class="projectTagsRow">${tags.map(tag => `<span class="softTag">${escapeHtml(tag.name)}</span>`).join("")}</div>
           </div>
         </div>
-      </article>
-    `;
+      </article>`;
   }).join("");
-
   bindProjectOpeners(featuredGrid);
 }
 
 function renderCategoryChips() {
   if (!categoryChips) return;
-
-  const categories = categoriesData
-    .filter(c => c.active)
-    .sort((a, b) => (a.order_index ?? 0) - (b.order_index ?? 0));
-
+  const categories = categoriesData.filter(c => c.active).sort((a, b) => (a.order_index ?? 0) - (b.order_index ?? 0));
   const baseChip = `<button class="chip ${activeCategory === "__all__" ? "isActive" : ""}" data-category="__all__" type="button">Todas</button>`;
-  const chips = categories.map(cat => `
-    <button class="chip ${activeCategory === cat.id ? "isActive" : ""}" data-category="${cat.id}" type="button">${escapeHtml(cat.name)}</button>
-  `).join("");
-
+  const chips = categories.map(cat => `<button class="chip ${activeCategory === cat.id ? "isActive" : ""}" data-category="${cat.id}" type="button">${escapeHtml(cat.name)}</button>`).join("");
   categoryChips.innerHTML = baseChip + chips;
-
-  categoryChips.querySelectorAll("[data-category]").forEach(btn => {
-    btn.addEventListener("click", () => {
-      activeCategory = btn.getAttribute("data-category");
-      visibleCount = 6;
-      renderCategoryChips();
-      renderProjects();
-    });
-  });
+  categoryChips.querySelectorAll("[data-category]").forEach(btn => btn.addEventListener("click", () => {
+    activeCategory = btn.getAttribute("data-category");
+    visibleCount = 6;
+    renderCategoryChips();
+    renderProjects();
+  }));
 }
 
 function renderTagFilter() {
   if (!tagFilter) return;
-
-  const options = [
-    `<option value="__all__">Todos</option>`,
-    ...tagsData
-      .filter(tag => tag.active)
-      .sort((a, b) => a.name.localeCompare(b.name))
-      .map(tag => `<option value="${tag.id}">${escapeHtml(tag.name)}</option>`)
-  ].join("");
-
+  const options = [`<option value="__all__">Todos</option>`].concat(tagsData.filter(tag => tag.active).sort((a, b) => a.name.localeCompare(b.name)).map(tag => `<option value="${tag.id}">${escapeHtml(tag.name)}</option>`)).join("");
   tagFilter.innerHTML = options;
 }
 
 function getFilteredProjects() {
   let list = projectsData.filter(p => p.active && p.status !== "archived");
-
-  if (activeCategory !== "__all__") {
-    list = list.filter(p => String(p.category_id) === String(activeCategory));
-  }
-
-  if (activeType !== "__all__") {
-    list = list.filter(p => p.solution_type === activeType);
-  }
-
-  if (activeTag !== "__all__") {
-    list = list.filter(project =>
-      getProjectTags(project.id).some(tag => String(tag.id) === String(activeTag))
-    );
-  }
-
-  if (searchTerm) {
-    list = list.filter(project => {
-      const text = `${project.title} ${project.short_description} ${project.full_description || ""} ${findCategoryName(project.category_id)} ${project.solution_type} ${getProjectTags(project.id).map(t => t.name).join(" ")}`;
-      return norm(text).includes(searchTerm);
-    });
-  }
-
+  if (activeCategory !== "__all__") list = list.filter(p => String(p.category_id) === String(activeCategory));
+  if (activeType !== "__all__") list = list.filter(p => p.solution_type === activeType);
+  if (activeTag !== "__all__") list = list.filter(project => getProjectTags(project.id).some(tag => String(tag.id) === String(activeTag)));
+  if (searchTerm) list = list.filter(project => norm(`${project.title} ${project.short_description} ${project.full_description || ""} ${findCategoryName(project.category_id)} ${project.solution_type} ${getProjectTags(project.id).map(t => t.name).join(" ")}`).includes(searchTerm));
   list.sort((a, b) => {
     const ai = a.order_index ?? 0;
     const bi = b.order_index ?? 0;
     if (ai !== bi) return ai - bi;
     return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
   });
-
   return list;
 }
 
 function renderProjects() {
   if (!projectsGrid || !moreWrap) return;
-
   const filtered = getFilteredProjects();
-
   if (!filtered.length) {
     projectsGrid.innerHTML = "";
     moreWrap.style.display = "none";
     showState("No hay proyectos para mostrar con esos filtros.");
     return;
   }
-
   hideState();
-
   const slice = filtered.slice(0, visibleCount);
-
   projectsGrid.innerHTML = slice.map(project => {
     const tags = getProjectTags(project.id).slice(0, 2);
     const showStatus = shouldShowFrontStatus(project.status);
-
     return `
       <article class="projectCard work" data-open-project="${project.id}">
         <div class="work-inner">
-          <div class="projectCard__image thumb">
-            <img src="${escapeHtml(project.image_url)}" alt="${escapeHtml(project.title)}" loading="lazy" />
-          </div>
+          <div class="projectCard__image thumb"><img src="${escapeHtml(project.image_url)}" alt="${escapeHtml(project.title)}" loading="lazy" /></div>
           <div class="projectCard__body meta">
             <div class="projectCard__top topline">
               <span class="tag">${escapeHtml(findCategoryName(project.category_id))}</span>
@@ -543,58 +351,37 @@ function renderProjects() {
             <div class="projectTagsRow">${tags.map(tag => `<span class="softTag">${escapeHtml(tag.name)}</span>`).join("")}</div>
           </div>
         </div>
-      </article>
-    `;
+      </article>`;
   }).join("");
-
   bindProjectOpeners(projectsGrid);
   moreWrap.style.display = filtered.length > visibleCount ? "flex" : "none";
 }
 
 function openProjectModal(project) {
   if (!modal) return;
-
   const tags = getProjectTags(project.id);
   const showStatus = shouldShowFrontStatus(project.status);
-
   if (modalCategory) modalCategory.textContent = findCategoryName(project.category_id);
-
   if (modalStatus) {
     if (showStatus) {
       modalStatus.textContent = mapStatusLabel(project.status);
       modalStatus.className = `statusPill statusPill--${project.status}`;
       modalStatus.style.display = "inline-flex";
-    } else {
-      modalStatus.style.display = "none";
-    }
+    } else modalStatus.style.display = "none";
   }
-
   if (modalTitle) modalTitle.textContent = project.title;
-
-  if (modalImage) {
-    modalImage.src = project.image_url || "";
-    modalImage.alt = project.title || "";
-  }
-
+  if (modalImage) { modalImage.src = project.image_url || ""; modalImage.alt = project.title || ""; }
   if (modalType) modalType.textContent = project.solution_type || "-";
   if (modalPreviewType) modalPreviewType.textContent = project.preview_type || "image";
   if (modalShort) modalShort.textContent = project.short_description || "";
   if (modalFull) modalFull.textContent = project.full_description || "";
   if (modalDemoBtn) modalDemoBtn.href = project.demo_url || "#";
-
-  if (modalTagsList) {
-    modalTagsList.innerHTML = tags.map(tag => `<span class="softTag">${escapeHtml(tag.name)}</span>`).join("");
-  }
-
-  if (modalWhatsAppBtn) {
-    modalWhatsAppBtn.href = getWhatsAppUrl(`Hola CIBORG 347, vi la demo "${project.title}" (${findCategoryName(project.category_id)} - ${project.solution_type}) y quiero algo así para mi marca o emprendimiento.`);
-  }
-
+  if (modalTagsList) modalTagsList.innerHTML = tags.map(tag => `<span class="softTag">${escapeHtml(tag.name)}</span>`).join("");
+  if (modalWhatsAppBtn) modalWhatsAppBtn.href = getWhatsAppUrl(`Hola CIBORG 347, vi la demo "${project.title}" (${findCategoryName(project.category_id)} - ${project.solution_type}) y quiero algo así para mi marca o emprendimiento.`);
   modal.classList.add("isOpen");
   modal.setAttribute("aria-hidden", "false");
   document.body.classList.add("bodyLock");
 }
-
 function closeProjectModal() {
   if (!modal) return;
   modal.classList.remove("isOpen");
@@ -604,230 +391,72 @@ function closeProjectModal() {
 
 async function loadCategories() {
   if (!sb) return;
-  const { data, error } = await sb
-    .from("categories")
-    .select("*")
-    .eq("active", true)
-    .order("order_index", { ascending: true });
-
-  if (error) {
-    console.error(error);
-    showState("No se pudieron cargar las categorías.");
-    return;
-  }
-
+  const { data, error } = await sb.from("categories").select("*").eq("active", true).order("order_index", { ascending: true });
+  if (error) { console.error(error); showState("No se pudieron cargar las categorías."); return; }
   categoriesData = data || [];
   renderCategoryChips();
 }
-
 async function loadProjects() {
   if (!sb) return;
-  const { data, error } = await sb
-    .from("projects")
-    .select("*")
-    .eq("active", true)
-    .is("deleted_at", null)
-    .neq("status", "archived")
-    .order("order_index", { ascending: true })
-    .order("created_at", { ascending: false });
-
-  if (error) {
-    console.error(error);
-    showState("No se pudieron cargar los proyectos.");
-    return;
-  }
-
+  const { data, error } = await sb.from("projects").select("*").eq("active", true).is("deleted_at", null).neq("status", "archived").order("order_index", { ascending: true }).order("created_at", { ascending: false });
+  if (error) { console.error(error); showState("No se pudieron cargar los proyectos."); return; }
   projectsData = data || [];
   renderFeatured();
   renderProjects();
 }
-
 async function loadTags() {
   if (!sb) return;
-  const { data, error } = await sb
-    .from("tags")
-    .select("*")
-    .eq("active", true)
-    .order("name", { ascending: true });
-
-  if (error) {
-    console.error(error);
-    return;
-  }
-
+  const { data, error } = await sb.from("tags").select("*").eq("active", true).order("name", { ascending: true });
+  if (error) { console.error(error); return; }
   tagsData = data || [];
   renderTagFilter();
 }
-
 async function loadProjectTags() {
   if (!sb) return;
-  const { data, error } = await sb
-    .from("project_tags")
-    .select("project_id, tag_id");
-
-  if (error) {
-    console.error(error);
-    return;
-  }
-
+  const { data, error } = await sb.from("project_tags").select("project_id, tag_id");
+  if (error) { console.error(error); return; }
   projectTagsData = data || [];
 }
-
 async function loadFaqs() {
   if (!sb) return;
-  const { data, error } = await sb
-    .from("faqs")
-    .select("*")
-    .eq("active", true)
-    .order("order_index", { ascending: true });
-
-  if (error) {
-    console.error(error);
-    return;
-  }
-
+  const { data, error } = await sb.from("faqs").select("*").eq("active", true).order("order_index", { ascending: true });
+  if (error) { console.error(error); return; }
   faqsData = data || [];
   renderFaqs();
 }
-
 async function loadSiteContent() {
   if (!sb) return;
-  const { data, error } = await sb
-    .from("site_content")
-    .select("*")
-    .eq("active", true)
-    .order("order_index", { ascending: true });
-
-  if (error) {
-    console.error(error);
-    return;
-  }
-
+  const { data, error } = await sb.from("site_content").select("*").eq("active", true).order("order_index", { ascending: true });
+  if (error) { console.error(error); return; }
   siteContentData = data || [];
   applyGlobalContent();
 }
-
 async function loadSiteSettings() {
   if (!sb) return;
-  const { data, error } = await sb
-    .from("site_settings")
-    .select("*")
-    .eq("id", "global")
-    .maybeSingle();
-
-  if (error) {
-    console.error(error);
-    return;
-  }
-
+  const { data, error } = await sb.from("site_settings").select("*").eq("id", "global").maybeSingle();
+  if (error) { console.error(error); return; }
   siteSettingsData = data || null;
   applySiteSettings();
 }
-
 async function init() {
-  initTheme();
   setDefaultWhatsAppLinks();
   renderHeroPain(0);
   startHeroPainRotation();
-
-  if (!sb) {
-    showState("No se pudo conectar con Supabase. La estructura visual sigue funcionando, pero el contenido dinámico no se cargó.");
-    return;
-  }
-
+  if (!sb) { showState("No se pudo conectar con Supabase. La estructura visual sigue funcionando, pero el contenido dinámico no se cargó."); return; }
   showState("Cargando contenido...");
-
   await loadSiteSettings();
-  await Promise.all([
-    loadCategories(),
-    loadTags(),
-    loadProjectTags(),
-    loadProjects(),
-    loadFaqs(),
-    loadSiteContent()
-  ]);
-
-  if (!projectsData.length) {
-    showState("Todavía no hay proyectos para mostrar.");
-  } else {
-    hideState();
-  }
+  await Promise.all([loadCategories(), loadTags(), loadProjectTags(), loadProjects(), loadFaqs(), loadSiteContent()]);
+  if (!projectsData.length) showState("Todavía no hay proyectos para mostrar."); else hideState();
 }
 
-if (burgerBtn) {
-  burgerBtn.addEventListener("click", () => switchMobileMenu());
-}
-
-if (themeToggleBtn) {
-  themeToggleBtn.addEventListener("click", toggleTheme);
-}
-
-if (mobileThemeToggleBtn) {
-  mobileThemeToggleBtn.addEventListener("click", toggleTheme);
-}
-
-if (mobileMenu) {
-  mobileMenu.querySelectorAll("[data-close]").forEach(link => {
-    link.addEventListener("click", () => switchMobileMenu(false));
-  });
-}
-
-if (searchInput) {
-  searchInput.addEventListener("input", e => {
-    searchTerm = norm(e.target.value);
-    visibleCount = 6;
-    renderProjects();
-  });
-}
-
-if (typeFilter) {
-  typeFilter.addEventListener("change", e => {
-    activeType = e.target.value;
-    visibleCount = 6;
-    renderProjects();
-  });
-}
-
-if (tagFilter) {
-  tagFilter.addEventListener("change", e => {
-    activeTag = e.target.value;
-    visibleCount = 6;
-    renderProjects();
-  });
-}
-
-if (moreBtn) {
-  moreBtn.addEventListener("click", () => {
-    visibleCount += 6;
-    renderProjects();
-  });
-}
-
-if (heroPainTabs) {
-  heroPainTabs.querySelectorAll("[data-pain]").forEach(btn => {
-    btn.addEventListener("click", () => {
-      renderHeroPain(Number(btn.getAttribute("data-pain") || 0));
-      startHeroPainRotation();
-    });
-  });
-}
-
-if (modalBackdrop) {
-  modalBackdrop.addEventListener("click", closeProjectModal);
-}
-
-if (modalClose) {
-  modalClose.addEventListener("click", closeProjectModal);
-}
-
-window.addEventListener("keydown", e => {
-  if (e.key === "Escape" && modal && modal.classList.contains("isOpen")) {
-    closeProjectModal();
-  }
-});
-
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", init);
-} else {
-  init();
-}
+if (burgerBtn) burgerBtn.addEventListener("click", () => switchMobileMenu());
+if (mobileMenu) mobileMenu.querySelectorAll("[data-close]").forEach(link => link.addEventListener("click", () => switchMobileMenu(false)));
+if (searchInput) searchInput.addEventListener("input", e => { searchTerm = norm(e.target.value); visibleCount = 6; renderProjects(); });
+if (typeFilter) typeFilter.addEventListener("change", e => { activeType = e.target.value; visibleCount = 6; renderProjects(); });
+if (tagFilter) tagFilter.addEventListener("change", e => { activeTag = e.target.value; visibleCount = 6; renderProjects(); });
+if (moreBtn) moreBtn.addEventListener("click", () => { visibleCount += 6; renderProjects(); });
+if (heroPainTabs) heroPainTabs.querySelectorAll("[data-pain]").forEach(btn => btn.addEventListener("click", () => { renderHeroPain(Number(btn.getAttribute("data-pain") || 0)); startHeroPainRotation(); }));
+if (modalBackdrop) modalBackdrop.addEventListener("click", closeProjectModal);
+if (modalClose) modalClose.addEventListener("click", closeProjectModal);
+window.addEventListener("keydown", e => { if (e.key === "Escape" && modal && modal.classList.contains("isOpen")) closeProjectModal(); });
+if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init); else init();
