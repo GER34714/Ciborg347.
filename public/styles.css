@@ -1,32 +1,6 @@
 /* /public/styles.css */
 
 :root{ 
-  --bodyGrad:linear-gradient(180deg, #f3f7fc 0%, #e8eef7 26%, #dde7f3 58%, #d5e0ed 100%);
-  --bodyOverlay:linear-gradient(180deg, rgba(255,255,255,.10), rgba(180,197,219,.20)),
-    radial-gradient(circle at 50% 0%, rgba(0,224,255,.08), transparent 32%),
-    radial-gradient(circle at 100% 20%, rgba(255,71,209,.06), transparent 28%);
-  --topbarBg:linear-gradient(180deg, rgba(241,246,252,.92), rgba(235,242,249,.78));
-  --topbarBorder:rgba(110,129,152,.18);
-  --topbarShadow:0 8px 24px rgba(31,50,75,.10);
-  --heroShadeTop:rgba(234,241,249,.16);
-  --heroShadeBottom:rgba(217,228,241,.62);
-  --heroBeforeStart:rgba(244,248,252,.12);
-  --heroBeforeMid:rgba(227,236,246,.34);
-  --heroBeforeEnd:rgba(206,219,234,.74);
-  --heroAfterEnd:rgba(211,223,237,.94);
-  --heroTitle:#f4f8ff;
-  --heroText:#eef4fd;
-  --heroBadgeBg:rgba(26,40,58,.30);
-  --heroBadgeBorder:rgba(243,247,255,.20);
-  --heroBadgeText:#f4f7ff;
-  --heroGlass:linear-gradient(180deg, rgba(24,37,56,.44), rgba(24,37,56,.24));
-  --heroGlassSoft:rgba(18,30,46,.30);
-  --heroGlassBorder:rgba(240,245,255,.18);
-  --heroMiniText:#dce5f6;
-  --fieldLabel:#31425b;
-  --fieldBg:rgba(245,249,253,.92);
-  --fieldBorder:rgba(159,177,198,.55);
-  --fieldText:#243246;
   --bg:#ccd7e6;
   --bg2:#d6dfeb;
   --bg3:#c5d1e0;
@@ -67,32 +41,6 @@
 }
 
 body.theme-dark{
-  --bodyGrad:linear-gradient(180deg, #182432 0%, #1c2938 24%, #223142 58%, #1a2735 100%);
-  --bodyOverlay:linear-gradient(180deg, rgba(5,10,18,.18), rgba(5,10,18,.38)),
-    radial-gradient(circle at 50% 0%, rgba(0,224,255,.06), transparent 30%),
-    radial-gradient(circle at 100% 20%, rgba(255,71,209,.05), transparent 26%);
-  --topbarBg:linear-gradient(180deg, rgba(20,31,44,.88), rgba(20,31,44,.72));
-  --topbarBorder:rgba(158,178,214,.12);
-  --topbarShadow:0 8px 24px rgba(0,0,0,.18);
-  --heroShadeTop:rgba(5,10,18,.18);
-  --heroShadeBottom:rgba(5,10,18,.58);
-  --heroBeforeStart:rgba(8,14,24,.18);
-  --heroBeforeMid:rgba(8,14,24,.42);
-  --heroBeforeEnd:rgba(8,14,24,.76);
-  --heroAfterEnd:rgba(11,20,32,.90);
-  --heroTitle:#f3f7ff;
-  --heroText:#e9eef8;
-  --heroBadgeBg:rgba(26,40,58,.30);
-  --heroBadgeBorder:rgba(243,247,255,.20);
-  --heroBadgeText:#f4f7ff;
-  --heroGlass:linear-gradient(180deg, rgba(24,37,56,.44), rgba(24,37,56,.24));
-  --heroGlassSoft:rgba(18,30,46,.30);
-  --heroGlassBorder:rgba(240,245,255,.18);
-  --heroMiniText:#dce5f6;
-  --fieldLabel:#e7eefb;
-  --fieldBg:rgba(223,231,240,.88);
-  --fieldBorder:rgba(232,238,248,.16);
-  --fieldText:#243246;
   --bg:#172231;
   --bg2:#1b2838;
   --bg3:#213041;
@@ -127,7 +75,7 @@ body{
     radial-gradient(circle at 10% 10%, rgba(0,224,255,.12), transparent 24%),
     radial-gradient(circle at 88% 14%, rgba(255,71,209,.11), transparent 20%),
     radial-gradient(circle at 24% 80%, rgba(125,92,255,.10), transparent 18%),
-    var(--bodyGrad);
+    linear-gradient(180deg, #0a111b 0%, #101928 24%, #111c2a 58%, #0b1420 100%);
   min-height:100vh;
   overflow-x:hidden;
   position:relative;
@@ -150,7 +98,10 @@ body::after{
   inset:0;
   z-index:-2;
   pointer-events:none;
-  background:var(--bodyOverlay);
+  background:
+    linear-gradient(180deg, rgba(5,10,18,.18), rgba(5,10,18,.38)),
+    radial-gradient(circle at 50% 0%, rgba(0,224,255,.06), transparent 30%),
+    radial-gradient(circle at 100% 20%, rgba(255,71,209,.05), transparent 26%);
 }
 
 img{max-width:100%;display:block}
@@ -170,9 +121,9 @@ a{text-decoration:none;color:inherit}
   top:0;
   z-index:60;
   backdrop-filter:blur(18px);
-  background:var(--topbarBg);
-  border-bottom:1px solid var(--topbarBorder);
-  box-shadow:var(--topbarShadow);
+  background:linear-gradient(180deg, rgba(10,17,27,.84), rgba(10,17,27,.68));
+  border-bottom:1px solid rgba(158,178,214,.12);
+  box-shadow:0 8px 24px rgba(0,0,0,.18);
 }
 .topbar__inner{
   min-height:78px;
@@ -303,7 +254,7 @@ a{text-decoration:none;color:inherit}
   display:flex;
   align-items:center;
   background:
-    linear-gradient(180deg, var(--heroShadeTop), var(--heroShadeBottom)),
+    linear-gradient(180deg, rgba(5,10,18,.18), rgba(5,10,18,.58)),
     radial-gradient(circle at 20% 18%, rgba(0,224,255,.16), transparent 28%),
     radial-gradient(circle at 82% 20%, rgba(255,71,209,.14), transparent 24%),
     var(--heroImage);
@@ -319,13 +270,13 @@ a{text-decoration:none;color:inherit}
   pointer-events:none;
 }
 .hero::before{
-  background:linear-gradient(180deg, var(--heroBeforeStart) 0%, var(--heroBeforeMid) 34%, var(--heroBeforeEnd) 100%);
+  background:linear-gradient(180deg, rgba(8,14,24,.18) 0%, rgba(8,14,24,.42) 34%, rgba(8,14,24,.76) 100%);
   z-index:0;
 }
 .hero::after{
   inset:auto 0 0 0;
   height:160px;
-  background:linear-gradient(180deg, rgba(11,20,32,0), var(--heroAfterEnd));
+  background:linear-gradient(180deg, rgba(11,20,32,0), rgba(11,20,32,.9));
   z-index:1;
 }
 .hero__glow{
@@ -387,7 +338,7 @@ a{text-decoration:none;color:inherit}
   font-size:clamp(42px, 5vw, 74px);
   line-height:.97;
   letter-spacing:-1.2px;
-  color:var(--heroTitle);
+  color:#f3f7ff;
   max-width:11ch;
   text-shadow:
     0 4px 18px rgba(12,24,40,.26),
@@ -395,7 +346,7 @@ a{text-decoration:none;color:inherit}
 }
 .hero__copy p{
   margin:0;
-  color:var(--heroText);
+  color:#e9eef8;
   line-height:1.8;
   font-size:16px;
   max-width:62ch;
@@ -407,7 +358,7 @@ a{text-decoration:none;color:inherit}
   padding:18px 18px 16px;
   border-radius:22px;
   border:1px solid rgba(255,255,255,.12);
-  background:linear-gradient(180deg, color-mix(in srgb, var(--heroGlassSoft) 100%, transparent), color-mix(in srgb, var(--heroGlassSoft) 78%, transparent));
+  background:linear-gradient(180deg, rgba(18,30,46,.52), rgba(18,30,46,.36));
   box-shadow:0 20px 60px rgba(0,0,0,.18), inset 0 1px 0 rgba(255,255,255,.08);
   backdrop-filter:blur(14px);
 }
@@ -466,9 +417,9 @@ a{text-decoration:none;color:inherit}
   align-items:center;
   padding:10px 14px;
   border-radius:999px;
-  border:1px solid var(--heroBadgeBorder);
-  background:var(--heroBadgeBg);
-  color:var(--heroBadgeText);
+  border:1px solid rgba(243,247,255,.20);
+  background:rgba(26,40,58,.30);
+  color:#f4f7ff;
   box-shadow:var(--shadow);
   font-size:13px;
   font-weight:800;
@@ -493,7 +444,7 @@ a{text-decoration:none;color:inherit}
   border:none;
   padding:10px 14px;
   border-radius:999px;
-  background:color-mix(in srgb, var(--heroBadgeBg) 94%, transparent);
+  background:rgba(26,40,58,.28);
   border:1px solid rgba(243,247,255,.18);
   color:#eef3fb;
   font-weight:800;
@@ -519,9 +470,9 @@ a{text-decoration:none;color:inherit}
 }
 
 .hero__card{
-  border:1px solid var(--heroGlassBorder);
+  border:1px solid rgba(240,245,255,.18);
   border-radius:var(--radiusLg);
-  background:var(--heroGlass);
+  background:linear-gradient(180deg, rgba(24,37,56,.44), rgba(24,37,56,.24));
   box-shadow:var(--shadow3), 0 0 0 1px rgba(0,224,255,.06), 0 0 40px rgba(125,92,255,.14);
   overflow:hidden;
   padding:22px;
@@ -536,8 +487,8 @@ a{text-decoration:none;color:inherit}
   align-items:center;
   justify-content:center;
   border-radius:22px;
-  background:color-mix(in srgb, var(--heroGlassSoft) 100%, transparent);
-  border:1px solid color-mix(in srgb, var(--heroGlassBorder) 84%, transparent);
+  background:rgba(18,30,46,.30);
+  border:1px solid rgba(240,245,255,.12);
 }
 .hero__logoWrap img{
   width:100%;
@@ -557,7 +508,7 @@ a{text-decoration:none;color:inherit}
   padding:16px;
   border-radius:16px;
   border:1px solid rgba(240,245,255,.12);
-  background:color-mix(in srgb, var(--heroGlassSoft) 94%, transparent);
+  background:rgba(18,30,46,.28);
   backdrop-filter:blur(8px);
 }
 .hero__miniGrid strong{
@@ -568,7 +519,7 @@ a{text-decoration:none;color:inherit}
 .hero__miniGrid span{
   display:block;
   margin-top:6px;
-  color:var(--heroMiniText);
+  color:#dce5f6;
   font-size:13px;
   line-height:1.5;
   font-weight:700;
@@ -920,7 +871,7 @@ a{text-decoration:none;color:inherit}
   padding:20px;
   border:1px solid rgba(232,238,248,.16);
   border-radius:26px;
-  background:color-mix(in srgb, var(--heroGlassSoft) 94%, transparent);
+  background:rgba(18,30,46,.28);
   backdrop-filter:blur(10px);
   box-shadow:var(--shadow);
 }
@@ -937,7 +888,7 @@ a{text-decoration:none;color:inherit}
   gap:8px;
 }
 .field label{
-  color:var(--fieldLabel);
+  color:#e7eefb;
   font-size:12px;
   font-weight:900;
   text-transform:uppercase;
@@ -946,10 +897,10 @@ a{text-decoration:none;color:inherit}
 .field input,
 .field select{
   width:100%;
-  border:1px solid var(--fieldBorder);
+  border:1px solid rgba(232,238,248,.16);
   border-radius:14px;
-  background:var(--fieldBg);
-  color:var(--fieldText);
+  background:rgba(223,231,240,.88);
+  color:#243246;
   padding:12px 14px;
   outline:none;
 }
@@ -990,7 +941,7 @@ a{text-decoration:none;color:inherit}
   color:#eef3fb;
   font-weight:800;
   margin-bottom:18px;
-  background:color-mix(in srgb, var(--heroGlassSoft) 94%, transparent);
+  background:rgba(18,30,46,.28);
   position:relative;
   z-index:1;
 }
@@ -1040,7 +991,7 @@ a{text-decoration:none;color:inherit}
   padding:32px;
   border:1px solid rgba(232,238,248,.16);
   border-radius:30px;
-  background:color-mix(in srgb, var(--heroGlassSoft) 94%, transparent);
+  background:rgba(18,30,46,.28);
   box-shadow:var(--shadow2);
   min-height:260px;
   display:flex;
@@ -1079,7 +1030,7 @@ a{text-decoration:none;color:inherit}
 }
 .visualCard span{
   margin-top:12px;
-  color:var(--heroMiniText);
+  color:#dce5f6;
   line-height:1.75;
   font-weight:700;
 }
@@ -1148,7 +1099,7 @@ a{text-decoration:none;color:inherit}
   padding:22px;
   border:1px solid rgba(232,238,248,.18);
   border-radius:24px;
-  background:color-mix(in srgb, var(--heroGlassSoft) 94%, transparent);
+  background:rgba(18,30,46,.28);
   box-shadow:var(--shadow2);
   backdrop-filter:blur(10px);
 }
@@ -1161,7 +1112,7 @@ a{text-decoration:none;color:inherit}
 .diffCard span{
   display:block;
   margin-top:12px;
-  color:var(--heroMiniText);
+  color:#dce5f6;
   line-height:1.7;
   font-size:14px;
   font-weight:700;
@@ -1195,7 +1146,7 @@ a{text-decoration:none;color:inherit}
 .faqItem{
   border:1px solid rgba(232,238,248,.18);
   border-radius:20px;
-  background:color-mix(in srgb, var(--heroGlassSoft) 94%, transparent);
+  background:rgba(18,30,46,.28);
   overflow:hidden;
   backdrop-filter:blur(10px);
   box-shadow:var(--shadow2);
@@ -1226,7 +1177,7 @@ a{text-decoration:none;color:inherit}
 }
 .faqItem__body p{
   margin:0;
-  color:var(--heroMiniText);
+  color:#dce5f6;
   line-height:1.75;
   font-weight:700;
 }
@@ -1266,7 +1217,7 @@ a{text-decoration:none;color:inherit}
 }
 .ctaPanel p{
   margin:10px 0 0;
-  color:var(--heroMiniText);
+  color:#dce5f6;
   line-height:1.75;
   font-weight:700;
 }
@@ -1854,63 +1805,3 @@ a{text-decoration:none;color:inherit}
   background:linear-gradient(180deg, rgba(11,20,32,.9) 0%, rgba(11,20,32,0) 18%, rgba(11,20,32,0) 82%, rgba(11,20,32,.92) 100%);
   z-index:0;
 }
-
-
-.themeToggle{
-  width:48px;
-  height:48px;
-  border:1px solid var(--line2);
-  border-radius:14px;
-  background:color-mix(in srgb, var(--surface) 86%, transparent);
-  color:var(--text);
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  font-size:18px;
-  font-weight:900;
-  box-shadow:var(--shadow);
-}
-.themeToggle:hover{transform:translateY(-1px)}
-.themeToggle .themeToggle__sun{display:none}
-.themeToggle .themeToggle__moon{display:inline}
-body.theme-dark .themeToggle .themeToggle__sun{display:inline}
-body.theme-dark .themeToggle .themeToggle__moon{display:none}
-.mobileMenu__actions{
-  display:grid;
-  grid-template-columns:1fr auto;
-  gap:10px;
-}
-body:not(.theme-dark) .hero__copy h1,
-body:not(.theme-dark) .hero__copy p,
-body:not(.theme-dark) .heroPain strong,
-body:not(.theme-dark) .heroPain p,
-body:not(.theme-dark) .heroPain__tab,
-body:not(.theme-dark) .badge,
-body:not(.theme-dark) .chip,
-body:not(.theme-dark) .hero__miniGrid strong,
-body:not(.theme-dark) .hero__miniGrid span{
-  text-shadow:none;
-}
-body:not(.theme-dark) .heroPain,
-body:not(.theme-dark) .hero__card,
-body:not(.theme-dark) .hero__logoWrap,
-body:not(.theme-dark) .hero__miniGrid article,
-body:not(.theme-dark) .badge,
-body:not(.theme-dark) .chip{
-  backdrop-filter:blur(14px);
-}
-body:not(.theme-dark) .hero__copy h1{color:#15314e}
-body:not(.theme-dark) .hero__copy p{color:#28415f}
-body:not(.theme-dark) .heroPain{border-color:rgba(49,66,91,.12)}
-body:not(.theme-dark) .heroPain strong{color:#17324c}
-body:not(.theme-dark) .heroPain p{color:#39506e}
-body:not(.theme-dark) .heroPain__tab{border-color:rgba(49,66,91,.14);background:rgba(255,255,255,.46);color:#213650}
-body:not(.theme-dark) .badge{background:rgba(255,255,255,.46);border-color:rgba(49,66,91,.12);color:#1d3450}
-body:not(.theme-dark) .chip{background:rgba(255,255,255,.42);border-color:rgba(49,66,91,.12);color:#213650}
-body:not(.theme-dark) .hero__card{box-shadow:0 30px 72px rgba(31,50,75,.14),0 0 0 1px rgba(0,224,255,.05),0 0 40px rgba(125,92,255,.10)}
-body:not(.theme-dark) .hero__logoWrap,
-body:not(.theme-dark) .hero__miniGrid article{background:rgba(255,255,255,.34)}
-body:not(.theme-dark) .hero__miniGrid strong{color:#1d3450}
-body:not(.theme-dark) .hero__miniGrid span{color:#49617c}
-.field input::placeholder{color:var(--muted2)}
-.field select option{color:#243246}
