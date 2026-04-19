@@ -1,388 +1,181 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es-AR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pintacolor | Pinturas y Membranas</title>
-  <meta name="description" content="Pintacolor. Pinturas, revestimientos e impermeabilizantes para cliente final, corralones y distribuidores. Catálogo con carrito y pedido por WhatsApp." />
-  <meta property="og:title" content="Pintacolor | Pinturas y Membranas" />
-  <meta property="og:description" content="Venta por mayor y menor. Catálogo de productos, colores y pedido por WhatsApp." />
-  <meta property="og:image" content="https://iili.io/B9ycQG1.png" />
+  <meta charset="utf-8" /> 
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#0b0f19" />
+
+  <title>CIBORG 347™ | Landing Pages & Web Designs - Futurista Edition</title>
+  <meta name="description" content="CIBORG 347™ crea páginas web profesionales, demos reales por rubro, webs autoadministrables y sistemas con enfoque comercial. Experiencia UX futurista." />
+
+  <meta property="og:title" content="CIBORG 347™ | Landing Pages & Web Designs - Futurista Edition" />
+  <meta property="og:description" content="Portfolio real, soluciones por nivel y demos administrables desde panel. UX futurista de vanguardia." />
   <meta property="og:type" content="website" />
-  <meta name="theme-color" content="#f47b20" />
-  <link rel="manifest" href="manifest.json" />
-  <link rel="stylesheet" href="styles.css" />
+  <meta property="og:image" content="https://iili.io/fETkPEv.md.png" />
+
+  <link id="dynamicFavicon" rel="icon" type="image/png" href="https://iili.io/fETkPEv.md.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Sora:wght@400;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./ciborg347-styles-futurista.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
-  <header class="topbar">
-    <div class="container topbar-inner">
-      <a href="#inicio" class="brand-mini" aria-label="Ir al inicio">
-        <span class="brand-badge">P</span>
-        <span>Pintacolor</span>
+  <!-- Animated Background Elements -->
+  <div class="bg-grid" aria-hidden="true"></div>
+  <div class="floating-particles" id="particles"></div>
+
+  <!-- Futuristic Header -->
+  <header class="topbar" id="topbar">
+    <div class="topbar__inner">
+      <a class="brand" href="#inicio" aria-label="Ir al inicio">
+        <img id="brandLogo" class="brand__logo" src="https://iili.io/fETkPEv.md.png" alt="CIBORG 347" />
+        <div class="brand__text">
+          <strong id="brandTitle">CIBORG 347™</strong>
+          <span id="brandTagline">Landing Pages & Web Designs</span>
+        </div>
       </a>
 
-      <nav class="nav" aria-label="Principal">
-        <a href="#productos">Productos</a>
-        <a href="#videos">Videos</a>
-        <a href="#aplicaciones">Aplicaciones</a>
-        <a href="#carritoDrawer">Carrito</a>
+      <nav class="nav" id="nav" aria-label="Navegación principal">
+        <a href="#soluciones">Soluciones</a>
+        <a href="#destacados">Destacados</a>
+        <a href="#trabajos">Portfolio</a>
+        <a href="#autoadmin">Autoadministrable</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contacto">Contacto</a>
       </nav>
 
-      <div class="topbar-actions">
-        <button class="icon-btn cart-trigger" id="openCartBtn" aria-label="Abrir carrito">
-          <span>Carrito</span>
-          <strong id="cartCountBadge">0</strong>
+      <div class="topbar__cta">
+        <a id="topWhatsAppBtn" class="btn btn--primary" href="#" target="_blank" rel="noopener">WhatsApp</a>
+        <button id="burgerBtn" class="burger" type="button" aria-label="Abrir menú" aria-expanded="false">
+          <span></span>
+          <span></span>
+          <span></span>
         </button>
-        <a class="btn btn-primary mobile-wa" id="mobileWhatsAppLink" href="https://wa.me/541131708830?text=Hola%20Pintacolor%2C%20quiero%20hacer%20una%20consulta">WhatsApp</a>
       </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div class="mobileMenu" id="mobileMenu" aria-hidden="true">
+      <a href="#soluciones" data-close>Soluciones</a>
+      <a href="#destacados" data-close>Destacados</a>
+      <a href="#trabajos" data-close>Portfolio</a>
+      <a href="#autoadmin" data-close>Autoadministrable</a>
+      <a href="#faq" data-close>FAQ</a>
+      <a href="#contacto" data-close>Contacto</a>
+      <a id="mobileWhatsAppBtn" class="btn btn--primary btn--block" href="#" target="_blank" rel="noopener" data-close>WhatsApp</a>
     </div>
   </header>
 
-  <main>
-    <section class="hero" id="inicio">
-      <div class="container">
-        <div class="hero-shell">
-          <div class="hero-grid">
-            <div class="hero-left">
-              <img id="heroLogoImage" src="https://iili.io/B9ycNQS.png" alt="Logo Pintacolor" />
-            </div>
-            <div class="hero-right">
-              <div class="pill-row">
-                <span class="pill">Venta por mayor y menor</span>
-                <span class="pill">Envios a CABA y AMBA</span>
-                <span class="pill">Pedido por WhatsApp</span>
-              </div>
-              <h1 id="heroMainTitle">Pinturas, revestimientos e impermeabilizantes para obra, hogar y reventa.</h1>
-              <p id="heroMainDescription">Pinturas, revestimientos e impermeabilizantes para cliente final, corralones y distribuidores, con atencion comercial directa y pedido por WhatsApp.</p>
-              <div class="hero-actions">
-                <a class="btn btn-primary" id="heroPrimaryCta" href="#productos">Ver productos</a>
-                <a class="btn btn-secondary" id="heroSecondaryCta" href="#videos">Ver videos</a>
-                <a class="btn btn-secondary" id="heroWhatsAppCta" href="https://wa.me/541131708830?text=Hola%20Pintacolor%2C%20quiero%20recibir%20asesoramiento">Pedir asesoramiento</a>
-              </div>
-              <div class="metrics">
-                <div class="metric"><b>6</b><span>Lineas destacadas</span></div>
-                <div class="metric"><b>9</b><span>Colores disponibles</span></div>
-                <div class="metric"><b>24 hs</b><span>Atencion comercial</span></div>
-              </div>
-            </div>
+  <main id="inicio">
+    <!-- Futuristic Hero Section -->
+    <section class="hero" id="heroSection">
+      <div class="hero__grid">
+        <div class="hero__copy">
+          <h1 id="heroTitle">Páginas web que convierten visitas en clientes.</h1>
+          <p id="heroSubtitle">
+            CIBORG 347 crea landings, webs profesionales y sistemas con enfoque comercial, demos reales por rubro y soluciones listas para crecer.
+          </p>
+          <div class="hero__actions">
+            <a id="heroWhatsAppBtn" class="btn btn--primary" href="#" target="_blank" rel="noopener">
+              <span>Pedí tu web</span>
+              <span class="loading" style="display: none;"></span>
+            </a>
+            <a class="btn btn--ghost" href="#trabajos">Ver trabajos</a>
+          </div>
+        </div>
+
+        <div class="hero__card">
+          <div class="hero__logoWrap">
+            <img id="heroLogo" src="https://iili.io/fETkPEv.md.png" alt="Logo CIBORG 347" />
+          </div>
+          <div style="text-align: center;">
+            <h3 style="color: var(--text-primary); margin-bottom: 1rem;">Diseño Futurista</h3>
+            <p style="color: var(--text-secondary); font-size: 0.875rem;">
+              Experiencia UX de vanguardia con tecnologías de última generación
+            </p>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="subbrands-banner">
-      <div class="container">
-        <div class="subbrands-banner-box">
-          <img id="subbrandsBannerImage" src="https://iili.io/B8EdPYG.png" alt="Linea de productos Pintacolor" />
-        </div>
+    <!-- Solutions Section -->
+    <section id="soluciones" class="section">
+      <div class="section__head">
+        <h2>Soluciones</h2>
+        <p id="solutionsIntro">
+          No todo negocio necesita lo mismo. Estas son las soluciones base sobre las que trabajo y escalo cada proyecto.
+        </p>
+      </div>
+
+      <div class="solutionsGrid">
+        <article class="solutionCard fade-in">
+          <div class="solutionCard__icon">01</div>
+          <h3>Landing Pages</h3>
+          <p>La opción más directa para mostrar bien, generar confianza y llevar tráfico a WhatsApp.</p>
+        </article>
+
+        <article class="solutionCard fade-in">
+          <div class="solutionCard__icon">02</div>
+          <h3>Webs Profesionales</h3>
+          <p>Más profundidad, más secciones y mejor organización para marcas que necesitan sostener su presencia.</p>
+        </article>
+
+        <article class="solutionCard fade-in">
+          <div class="solutionCard__icon">03</div>
+          <h3>Webs Autoadministrables</h3>
+          <p>Frente público + panel privado para administrar contenido sin tocar código.</p>
+        </article>
+
+        <article class="solutionCard fade-in">
+          <div class="solutionCard__icon">04</div>
+          <h3>Sistemas / Soluciones Especiales</h3>
+          <p>Estructuras más personalizadas para casos donde una web simple ya no alcanza.</p>
+        </article>
       </div>
     </section>
 
-    <section class="video-section" id="videos">
-      <div class="container">
-        <div class="section-head compact">
-          <div>
-            <h2>Videos explicativos</h2>
-            <p>Miniaturas para mostrar aplicaciones, explicaciones de uso y contexto del producto sin recargar la portada.</p>
-          </div>
-          <a class="text-link" id="videoSectionWhatsAppLink" href="https://wa.me/541131708830?text=Hola%20Pintacolor%2C%20quiero%20mas%20informacion%20sobre%20las%20lineas">Consultar una linea</a>
-        </div>
-        <div class="video-grid" id="videoGrid"></div>
+    <!-- Projects Section -->
+    <section id="trabajos" class="section">
+      <div class="section__head">
+        <h2>Portfolio</h2>
+        <p>Filtrá por rubro, buscá por nombre y explorá demos reales cargadas desde el sistema.</p>
+      </div>
+
+      <div class="projectsGrid" id="projectsGrid">
+        <!-- Projects will be loaded dynamically -->
       </div>
     </section>
 
-    <section>
-      <div class="container">
-        <div class="section-head compact">
-          <div>
-            <h2>Soluciones para cada necesidad</h2>
-          </div>
-          <p>Productos pensados para proteger, renovar y dar mejor terminacion a superficies expuestas, con opciones para obra, mantenimiento y reventa.</p>
-        </div>
-        <div class="benefits">
-          <article class="benefit">
-            <h4>Lineas destacadas</h4>
-            <p>Productos para impermeabilizacion, terminacion, proteccion exterior y superficies de mayor exigencia.</p>
-          </article>
-          <article class="benefit">
-            <h4>Variedad de colores</h4>
-            <p>Distintas opciones de color para adaptar cada producto al trabajo, la superficie y la terminacion buscada.</p>
-          </article>
-          <article class="benefit">
-            <h4>Aplicacion practica</h4>
-            <p>Lineas pensadas para trabajos de mantenimiento, proteccion, impermeabilizacion y terminacion en distintos tipos de superficies.</p>
-          </article>
-          <article class="benefit">
-            <h4>Atencion mayorista y minorista</h4>
-            <p>Atencion para cliente final, corralones, distribuidores y compras de mayor volumen.</p>
-          </article>
-        </div>
+    <!-- Contact Section -->
+    <section id="contacto" class="section">
+      <div class="section__head">
+        <h2 id="finalCtaTitle">¿Querés algo así para tu marca?</h2>
+        <p id="finalCtaSubtitle">Contame tu rubro y vemos qué solución te conviene.</p>
       </div>
-    </section>
 
-    <section id="productos">
-      <div class="container">
-        <div class="section-head compact">
-          <div>
-            <h2>Productos destacados</h2>
-            <p>Mini imagen, nombre claro y acceso rapido al producto. El detalle y la compra viven adentro del modal.</p>
-          </div>
-          <button class="btn btn-secondary desktop-cart-btn" id="openCartBtnTop" type="button">Abrir carrito</button>
-        </div>
-        <div class="grid-products" id="productGrid"></div>
-      </div>
-    </section>
-
-    <section id="recomendaciones" class="recommendations-section hidden">
-      <div class="container">
-        <div class="section-head compact">
-          <div>
-            <h2>Recomendados para ti</h2>
-            <p>Productos seleccionados según tus intereses y preferencias.</p>
-          </div>
-        </div>
-        <div class="recommendations-grid" id="recommendationsGrid"></div>
-      </div>
-    </section>
-
-    <section id="aplicaciones">
-      <div class="container">
-        <div class="section-head compact">
-          <div>
-            <h2>Aplicaciones y usos</h2>
-          </div>
-          <p>Las imagenes se usan para dar contexto real al producto: chapa, techos, exterior, impermeabilizacion y superficies de alto desgaste.</p>
-        </div>
-        <div class="gallery-apps">
-          <article class="app-shot">
-            <img src="https://iili.io/BHHjKss.png" alt="Aplicacion de membrana sobre techo" />
-            <span class="label">Impermeabilizacion de techos</span>
-          </article>
-          <article class="app-shot">
-            <img src="https://iili.io/BHHjJeI.png" alt="Aplicacion sobre chapa" />
-            <span class="label">Superficies de chapa</span>
-          </article>
-          <article class="app-shot">
-            <img src="https://iili.io/BHHjH5N.png" alt="Uso en exterior" />
-            <span class="label">Exterior y proteccion</span>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section id="mayoristas">
-      <div class="container">
-        <div class="section-head compact">
-          <div>
-            <h2>Venta para ambos perfiles</h2>
-          </div>
-          <p>La web puede hablarle al usuario que compra para su casa y tambien al distribuidor que necesita una marca mas ordenada para revender.</p>
-        </div>
-        <div class="audience">
-          <article class="aud-card">
-            <h3>Cliente final</h3>
-            <p>Consulta de productos, colores disponibles, usos recomendados y pedido rapido por WhatsApp con un flujo simple y entendible.</p>
-          </article>
-          <article class="aud-card">
-            <h3>Corralones y distribuidores</h3>
-            <p>Presentacion mas seria de la marca, lineas visibles, atencion mayorista y posibilidad de canal comercial para reventa.</p>
-          </article>
-        </div>
+      <div class="hero__actions" style="justify-content: center; margin-top: 2rem;">
+        <a id="finalWhatsAppBtn" class="btn btn--primary" href="#" target="_blank" rel="noopener">Hablar por WhatsApp</a>
+        <a id="emailContactBtn" class="btn btn--ghost" href="mailto:ciborg347@gmail.com">Enviar email</a>
       </div>
     </section>
   </main>
 
-  <footer class="footer">
-    <div class="container">
-      <div class="footer-box">
-        <div>
-          <strong>Pintacolor</strong>
-          <p>Fabrica de pinturas, revestimientos e impermeabilizantes. Venta por mayor y menor.</p>
-        </div>
-        <div class="footer-links">
-          <a id="footerWhatsAppLink" href="https://wa.me/541131708830?text=Hola%20Pintacolor%2C%20quiero%20hacer%20un%20pedido">Hablar por WhatsApp</a>
-          <a href="https://ciborg347oficial.onrender.com" target="_blank" rel="noopener">Creado y diseñado por Ciborg 347</a>
-        </div>
-      </div>
+  <!-- Futuristic Modal -->
+  <div id="projectModal" class="modal" aria-hidden="true">
+    <button class="modal__backdrop" type="button" aria-label="Cerrar"></button>
+    <div class="modal__panel">
+      <!-- Modal content will be loaded dynamically -->
     </div>
-  </footer>
+  </div>
 
-  <a class="floating-wa" id="floatingWhatsAppLink" href="https://wa.me/541131708830?text=Hola%20Pintacolor%2C%20quiero%20hacer%20una%20consulta" aria-label="WhatsApp">
-    <img src="https://iili.io/BdFrUs1.webp" alt="WhatsApp" />
+  <!-- Futuristic WhatsApp Float -->
+  <a id="waFloat" class="waFloat" href="#" target="_blank" rel="noopener" aria-label="WhatsApp">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-1.04L12 13V7c0-1.103-.897-2-2-2s-2 .897-2 2v6l-3.442-2.658c-.272-.173-1.733-.891-2.03-1.04-.23-.115-.478-.198-.75-.198-.447 0-.87.173-1.192.432L2.5 12.5c-.5.5-.5 1.207-.5 1.707v4c0 .827.673 1.5 1.5 1.5h16c.827 0 1.5-.673 1.5-1.5v-4c0-.5-.5-1.207-.5-1.707l-3.778-3.778c-.259-.259-.745-.432-1.192-.432-.272 0-.52.083-.75.198z"/>
+    </svg>
   </a>
 
-  <aside class="cart-drawer" id="cartDrawer" aria-hidden="true">
-    <div class="drawer-backdrop" id="drawerBackdrop"></div>
-    <div class="drawer-panel">
-      <div class="drawer-head">
-        <div>
-          <h3>Carrito</h3>
-          <p>Resumen compacto del pedido con color, cantidad y total.</p>
-        </div>
-        <button class="icon-close" id="closeCartBtn" aria-label="Cerrar carrito">×</button>
-      </div>
-      <div class="cart-list" id="cartList"></div>
-      <div class="coupon-box">
-        <div class="coupon-head">
-          <strong>Codigo de descuento</strong>
-          <button type="button" class="text-link" id="toggleCouponBtn">Aplicar</button>
-        </div>
-        <div class="coupon-form" id="couponForm">
-          <input type="text" id="couponInput" placeholder="Ingresar codigo" />
-          <button class="btn btn-secondary" id="applyCouponBtn" type="button">Validar</button>
-        </div>
-        <div class="coupon-message" id="couponMessage"></div>
-      </div>
-      <div class="cart-summary">
-        <div><span>Subtotal</span><strong id="cartSubtotal">$0</strong></div>
-        <div><span>Descuento</span><strong id="cartDiscount">$0</strong></div>
-        <div class="grand-total"><span>Total final</span><strong id="cartTotal">$0</strong></div>
-      </div>
-      <button class="btn btn-primary" id="checkoutBtn" type="button">Finalizar pedido por WhatsApp</button>
-    </div>
-  </aside>
-
-  <div class="overlay" id="productOverlay" aria-hidden="true">
-    <div class="modal product-modal" role="dialog" aria-modal="true" aria-labelledby="productTitle">
-      <button class="modal-close" id="closeModal" aria-label="Cerrar">×</button>
-      <div class="modal-grid">
-        <div class="modal-media">
-          <img id="modalImage" src="" alt="Producto Pintacolor" />
-        </div>
-        <div class="modal-body">
-          <div class="modal-topline">
-            <span class="tag" id="modalTag"></span>
-            <div class="badge-stack" id="modalBadgeStack"></div>
-          </div>
-          <h3 id="productTitle"></h3>
-          <p id="modalDescription"></p>
-          <div class="modal-price-row">
-            <div class="modal-price" id="modalPrice"></div>
-            <a class="text-link" href="#" id="openProductPageLink">Ver ficha tecnica completa</a>
-          </div>
-
-          <div class="modal-box gift-box hidden" id="giftBox">
-            <div class="gift-head">
-              <div>
-                <h4>Regalito disponible</h4>
-                <p id="giftDescription">Completando un formulario simple podes recibir un codigo de descuento para aplicar en el carrito.</p>
-              </div>
-              <button class="gift-btn" type="button" id="openGiftFormBtn">Abrir regalo</button>
-            </div>
-            <form class="gift-form hidden" id="giftForm">
-              <input type="text" id="giftName" placeholder="Nombre" required />
-              <input type="email" id="giftEmail" placeholder="Email" required />
-              <input type="tel" id="giftPhone" placeholder="Celular" required />
-              <button class="btn btn-primary" type="submit">Generar codigo</button>
-            </form>
-            <div class="gift-result" id="giftResult"></div>
-          </div>
-
-          <div class="modal-box">
-            <h4>Descripcion tecnica</h4>
-            <p id="modalTechnical"></p>
-          </div>
-
-          <div class="modal-box two-cols">
-            <div>
-              <h4>Superficies recomendadas</h4>
-              <p id="modalSurfaces"></p>
-            </div>
-            <div>
-              <h4>Aplicacion y beneficios</h4>
-              <p id="modalBenefits"></p>
-            </div>
-          </div>
-
-          <div class="modal-box buy-box">
-            <div>
-              <h4>Elegi color</h4>
-              <div class="color-grid" id="colorGrid"></div>
-              <div class="selected-row">
-                <span>Color seleccionado</span>
-                <strong id="selectedColorLabel">-</strong>
-              </div>
-            </div>
-            <div>
-              <h4>Cantidad</h4>
-              <div class="qty-row">
-                <div class="qty-wrap">
-                  <button type="button" id="decreaseQtyBtn">−</button>
-                  <input type="number" id="modalQty" value="1" min="1" />
-                  <button type="button" id="increaseQtyBtn">+</button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="modal-actions">
-            <button class="btn btn-primary" id="addToCartBtn" type="button">Agregar al carrito</button>
-            <button class="btn btn-secondary" id="contactBtn" type="button">Consultar por WhatsApp</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="overlay" id="videoOverlay" aria-hidden="true">
-    <div class="modal video-modal" role="dialog" aria-modal="true" aria-labelledby="videoTitle">
-      <button class="modal-close" id="closeVideoModal" aria-label="Cerrar">×</button>
-      <div class="video-modal-body">
-        <div class="video-frame-wrap">
-          <iframe id="videoFrame" src="" title="Video explicativo" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-        </div>
-        <div class="video-copy">
-          <h3 id="videoTitle"></h3>
-          <p id="videoDescription"></p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="product-page hidden" id="productPage">
-    <div class="container product-page-shell">
-      <div class="product-page-head">
-        <button class="text-link" id="backToHomeBtn" type="button">← Volver a la tienda</button>
-      </div>
-      <div class="product-page-grid">
-        <div class="product-page-media">
-          <img id="pageImage" src="" alt="Producto" />
-        </div>
-        <div class="product-page-copy">
-          <div class="badge-stack" id="pageBadgeStack"></div>
-          <h1 id="pageTitle"></h1>
-          <p id="pageDescription"></p>
-          <div class="page-price" id="pagePrice"></div>
-          <div class="page-ctas">
-            <button class="btn btn-primary" id="pageBuyBtn" type="button">Comprar este producto</button>
-            <a class="btn btn-secondary" id="pageWhatsAppBtn" href="#">Consultar por WhatsApp</a>
-          </div>
-          <div class="page-boxes">
-            <article class="modal-box">
-              <h4>Descripcion tecnica</h4>
-              <p id="pageTechnical"></p>
-            </article>
-            <article class="modal-box">
-              <h4>Superficies recomendadas</h4>
-              <p id="pageSurfaces"></p>
-            </article>
-            <article class="modal-box">
-              <h4>Aplicacion y beneficios</h4>
-              <p id="pageBenefits"></p>
-            </article>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <script>
-  window.PANEL_A_CONFIG = {
-    SUPABASE_URL: "https://jtkavafnxcuvzkbrzldi.supabase.co",
-    SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp0a2F2YWZueGN1dnprYnJ6bGRpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYyMDE1NzAsImV4cCI6MjA5MTc3NzU3MH0.tnQYu-8540uWS50XTYVHxXCUEOeKTIFLickhdeMxJLI"
-  };
-</script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="app.js"></script>
+  <script src="./ciborg347-app-futurista.js"></script>
 </body>
 </html>
