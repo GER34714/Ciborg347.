@@ -16,8 +16,8 @@
   <link id="dynamicFavicon" rel="icon" type="image/png" href="https://iili.io/fETkPEv.md.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Sora:wght@400;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./ciborg347-styles-futurista.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Sora:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./ciborg347-styles-futurista-v2.css" />
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
@@ -70,112 +70,395 @@
   <main id="inicio">
     <!-- Futuristic Hero Section -->
     <section class="hero" id="heroSection">
+      <div class="hero__glow" aria-hidden="true"></div>
+      <div id="heroBackgroundLayer" class="hero__backgroundLayer" aria-hidden="true"></div>
+      <div id="heroOverlayLayer" class="hero__overlayLayer" aria-hidden="true"></div>
+      <video id="heroVideo" class="hero__video" playsinline autoplay muted loop style="display:none"></video>
+
       <div class="hero__grid">
         <div class="hero__copy">
+          <div class="badge" id="heroBadge">
+            <span class="dot" aria-hidden="true"></span>
+            Diseño web profesional • Pago único • Buenos Aires, Argentina
+          </div>
+
           <h1 id="heroTitle">Páginas web que convierten visitas en clientes.</h1>
+
           <p id="heroSubtitle">
             CIBORG 347 crea landings, webs profesionales y sistemas con enfoque comercial, demos reales por rubro y soluciones listas para crecer.
           </p>
+
+          <div class="heroPain" aria-live="polite">
+            <span class="heroPain__label">Dolor detectado</span>
+            <strong id="heroPainTitle">Tu negocio depende solo de Instagram y WhatsApp.</strong>
+            <p id="heroPainText">Creamos una estructura web clara para mostrar mejor, ordenar consultas y convertir más.</p>
+            <div class="heroPain__tabs" id="heroPainTabs">
+              <button class="heroPain__tab isActive" type="button" data-pain="0">Presencia</button>
+              <button class="heroPain__tab" type="button" data-pain="1">Control</button>
+              <button class="heroPain__tab" type="button" data-pain="2">Conversión</button>
+              <button class="heroPain__tab" type="button" data-pain="3">Escala</button>
+            </div>
+          </div>
+
           <div class="hero__actions">
             <a id="heroWhatsAppBtn" class="btn btn--primary" href="#" target="_blank" rel="noopener">
-              <span>Pedí tu web</span>
+              <span>Pedí tu web por WhatsApp</span>
               <span class="loading" style="display: none;"></span>
             </a>
-            <a class="btn btn--ghost" href="#trabajos">Ver trabajos</a>
+            <a class="btn btn--ghost" href="#trabajos">Ver trabajos reales</a>
+          </div>
+
+          <div class="hero__chips">
+            <span class="kbd">Pago único</span>
+            <span class="kbd">Full responsive</span>
+            <span class="kbd">Listo para publicar</span>
           </div>
         </div>
 
         <div class="hero__card">
-          <div class="hero__logoWrap">
-            <img id="heroLogo" src="https://iili.io/fETkPEv.md.png" alt="Logo CIBORG 347" />
+          <div class="inner">
+            <div class="hero__logoWrap">
+              <img id="heroLogo" src="https://iili.io/fETkPEv.md.png" alt="Logo CIBORG 347" />
+            </div>
+
+            <div class="hero__miniGrid">
+              <article>
+                <strong>Demos reales</strong>
+                <span>Portfolio por rubros y proyectos visibles.</span>
+              </article>
+
+              <article>
+                <strong>Sistema escalable</strong>
+                <span>Base pensada para crecer a una estructura A/B.</span>
+              </article>
+            </div>
           </div>
-          <div style="text-align: center;">
-            <h3 style="color: var(--text-primary); margin-bottom: 1rem;">Diseño Futurista</h3>
-            <p style="color: var(--text-secondary); font-size: 0.875rem;">
-              Experiencia UX de vanguardia con tecnologías de última generación
-            </p>
-          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Authority Section -->
+    <section class="authority sectionAnchor">
+      <div class="wrap">
+        <div class="authority__grid" id="authorityGrid">
+          <article class="authority__item">
+            <strong>Demos reales por rubro</strong>
+            <span>Portfolio visible y explorable</span>
+          </article>
+
+          <article class="authority__item">
+            <strong>Diseño + estructura</strong>
+            <span>No solo visual, también criterio comercial</span>
+          </article>
+
+          <article class="authority__item">
+            <strong>Full responsive</strong>
+            <span>Bien resuelto en celular y escritorio</span>
+          </article>
+
+          <article class="authority__item">
+            <strong>Escalable</strong>
+            <span>Base preparada para crecer</span>
+          </article>
         </div>
       </div>
     </section>
 
     <!-- Solutions Section -->
-    <section id="soluciones" class="section">
-      <div class="section__head">
-        <h2>Soluciones</h2>
-        <p id="solutionsIntro">
-          No todo negocio necesita lo mismo. Estas son las soluciones base sobre las que trabajo y escalo cada proyecto.
-        </p>
-      </div>
+    <section id="soluciones" class="section section--solutions">
+      <div class="wrap">
+        <div class="section__head">
+          <div class="sectionIntro">
+            <h2>Soluciones</h2>
+          </div>
+          <p id="solutionsIntro">
+            No todo negocio necesita lo mismo. Estas son las soluciones base sobre las que trabajo y escalo cada proyecto.
+          </p>
+        </div>
 
-      <div class="solutionsGrid">
-        <article class="solutionCard fade-in">
-          <div class="solutionCard__icon">01</div>
-          <h3>Landing Pages</h3>
-          <p>La opción más directa para mostrar bien, generar confianza y llevar tráfico a WhatsApp.</p>
-        </article>
+        <div class="solutionsGrid">
+          <article class="solutionCard">
+            <div class="solutionCard__icon">01</div>
+            <h3>Landing Pages</h3>
+            <p>La opción más directa para mostrar bien, generar confianza y llevar tráfico a WhatsApp.</p>
+          </article>
 
-        <article class="solutionCard fade-in">
-          <div class="solutionCard__icon">02</div>
-          <h3>Webs Profesionales</h3>
-          <p>Más profundidad, más secciones y mejor organización para marcas que necesitan sostener su presencia.</p>
-        </article>
+          <article class="solutionCard">
+            <div class="solutionCard__icon">02</div>
+            <h3>Webs Profesionales</h3>
+            <p>Más profundidad, más secciones y mejor organización para marcas que necesitan sostener su presencia.</p>
+          </article>
 
-        <article class="solutionCard fade-in">
-          <div class="solutionCard__icon">03</div>
-          <h3>Webs Autoadministrables</h3>
-          <p>Frente público + panel privado para administrar contenido sin tocar código.</p>
-        </article>
+          <article class="solutionCard">
+            <div class="solutionCard__icon">03</div>
+            <h3>Webs Autoadministrables</h3>
+            <p>Frente público + panel privado para administrar contenido sin tocar código.</p>
+          </article>
 
-        <article class="solutionCard fade-in">
-          <div class="solutionCard__icon">04</div>
-          <h3>Sistemas / Soluciones Especiales</h3>
-          <p>Estructuras más personalizadas para casos donde una web simple ya no alcanza.</p>
-        </article>
+          <article class="solutionCard">
+            <div class="solutionCard__icon">04</div>
+            <h3>Sistemas / Soluciones Especiales</h3>
+            <p>Estructuras más personalizadas para casos donde una web simple ya no alcanza.</p>
+          </article>
+        </div>
       </div>
     </section>
 
-    <!-- Projects Section -->
-    <section id="trabajos" class="section">
-      <div class="section__head">
-        <h2>Portfolio</h2>
-        <p>Filtrá por rubro, buscá por nombre y explorá demos reales cargadas desde el sistema.</p>
-      </div>
+    <!-- Featured Section -->
+    <section id="destacados" class="section section--featured">
+      <div class="wrap">
+        <div class="section__head">
+          <div class="sectionIntro">
+            <h2>Trabajos destacados</h2>
+          </div>
+          <p>Una selección curada para mostrar variedad, criterio y nivel de resolución.</p>
+        </div>
 
-      <div class="projectsGrid" id="projectsGrid">
-        <!-- Projects will be loaded dynamically -->
+        <div class="featuredGrid" id="featuredGrid"></div>
+      </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="trabajos" class="section section--portfolio">
+      <div class="wrap portfolioPanel">
+        <div class="section__head">
+          <div class="sectionIntro">
+            <h2>Portfolio explorable</h2>
+          </div>
+          <p>Filtrá por rubro, buscá por nombre y explorá demos reales cargadas desde el sistema.</p>
+        </div>
+
+        <div class="toolbar toolbar--panel">
+          <div class="chips" id="categoryChips"></div>
+
+          <div class="toolbar__right toolbar__right--triple">
+            <div class="field">
+              <label for="searchInput">Buscar</label>
+              <input id="searchInput" type="search" placeholder="Ej: radio, nails, refacciones..." />
+            </div>
+
+            <div class="field field--small">
+              <label for="typeFilter">Tipo</label>
+              <select id="typeFilter">
+                <option value="__all__">Todos</option>
+                <option value="Landing Pages">Landing Pages</option>
+                <option value="Webs Profesionales">Webs Profesionales</option>
+                <option value="Webs Autoadministrables">Webs Autoadministrables</option>
+                <option value="Sistemas / Soluciones Especiales">Sistemas / Soluciones Especiales</option>
+              </select>
+            </div>
+
+            <div class="field field--small">
+              <label for="tagFilter">Tag</label>
+              <select id="tagFilter">
+                <option value="__all__">Todos</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div id="stateBox" class="state" aria-live="polite"></div>
+        <div id="projectsGrid" class="projectsGrid"></div>
+
+        <div class="moreWrap" id="moreWrap" style="display:none">
+          <button id="moreBtn" class="btn btn--ghost" type="button">Ver más</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Autoadmin Section -->
+    <section id="autoadmin" class="section section--autoadmin">
+      <div class="wrap splitPanel">
+        <div class="splitBlock__copy">
+          <div class="section__head section__head--left">
+            <div class="sectionIntro">
+              <h2 id="autoadminTitle">Webs autoadministrables</h2>
+            </div>
+            <p id="autoadminSubtitle">Sistema con panel para cargar y actualizar contenido.</p>
+          </div>
+
+          <div class="richText" id="autoadminContent">
+            Frente público + panel privado. Ideal para proyectos que necesitan actualizar demos, productos, trabajos, imágenes o bloques sin tocar código.
+          </div>
+
+          <div class="hero__actions">
+            <a id="autoadminBtn" class="btn btn--primary" href="#" target="_blank" rel="noopener">Quiero algo así</a>
+            <a class="btn btn--ghost" href="#contacto">Ver contacto</a>
+          </div>
+        </div>
+
+        <div class="splitBlock__visual">
+          <div class="visualCard">
+            <div class="visualCard__badge">A/B</div>
+            <strong>Frente A + Panel B</strong>
+            <span>Arquitectura pensada para mostrar, administrar y crecer.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Budget Section -->
+    <section class="section section--systems">
+      <div class="wrap splitPanel">
+        <div class="splitBlock__copy">
+          <div class="section__head section__head--left">
+            <div class="sectionIntro">
+              <h2 id="budgetTitle">Sistema de presupuestos</h2>
+            </div>
+            <p id="budgetSubtitle">Herramienta o sistema especial para procesos comerciales.</p>
+          </div>
+
+          <div class="richText" id="budgetContent">
+            También puedo integrar o desarrollar herramientas especiales según la necesidad del proyecto y el proceso comercial que quieras resolver.
+          </div>
+
+          <div class="hero__actions">
+            <a id="budgetBtn" class="btn btn--primary" href="#" target="_blank" rel="noopener">Consultar sistema</a>
+          </div>
+        </div>
+
+        <div class="splitBlock__visual">
+          <div class="visualCard visualCard--alt">
+            <div class="visualCard__badge">Sistema</div>
+            <strong>Herramientas propias</strong>
+            <span>La idea es que CIBORG 347 no sea solo una web linda, sino una base operativa real.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why Section -->
+    <section class="section section--why">
+      <div class="wrap">
+        <div class="section__head">
+          <div class="sectionIntro">
+            <h2>Por qué CIBORG 347</h2>
+          </div>
+          <p id="differentialsSubtitle">Diseño, criterio y estructura pensada para vender mejor.</p>
+        </div>
+
+        <div class="differentialsGrid">
+          <article class="diffCard">
+            <strong>Demos reales</strong>
+            <span>Portfolio real por rubros, no promesas vacías.</span>
+          </article>
+
+          <article class="diffCard">
+            <strong>Trato directo</strong>
+            <span>Hablás conmigo y bajamos cada solución a tu caso.</span>
+          </article>
+
+          <article class="diffCard">
+            <strong>Enfoque comercial</strong>
+            <span>No solo diseño: estructura pensada para contacto real.</span>
+          </article>
+
+          <article class="diffCard">
+            <strong>Escalable</strong>
+            <span>La base puede crecer a autoadministrable y más.</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="section section--faq">
+      <div class="wrap">
+        <div class="section__head">
+          <div class="sectionIntro">
+            <h2>Preguntas frecuentes</h2>
+          </div>
+          <p>Lo básico que conviene dejar claro antes de avanzar.</p>
+        </div>
+
+        <div id="faqList" class="faqList"></div>
       </div>
     </section>
 
     <!-- Contact Section -->
-    <section id="contacto" class="section">
-      <div class="section__head">
-        <h2 id="finalCtaTitle">¿Querés algo así para tu marca?</h2>
-        <p id="finalCtaSubtitle">Contame tu rubro y vemos qué solución te conviene.</p>
-      </div>
+    <section id="contacto" class="section section--contact">
+      <div class="wrap ctaPanel ctaPanel--neon">
+        <div>
+          <h2 id="finalCtaTitle">¿Querés algo así para tu marca?</h2>
+          <p id="finalCtaSubtitle">Contame tu rubro y vemos qué solución te conviene.</p>
+        </div>
 
-      <div class="hero__actions" style="justify-content: center; margin-top: 2rem;">
-        <a id="finalWhatsAppBtn" class="btn btn--primary" href="#" target="_blank" rel="noopener">Hablar por WhatsApp</a>
-        <a id="emailContactBtn" class="btn btn--ghost" href="mailto:ciborg347@gmail.com">Enviar email</a>
+        <div class="hero__actions">
+          <a id="finalWhatsAppBtn" class="btn btn--primary" href="#" target="_blank" rel="noopener">Hablar por WhatsApp</a>
+          <a id="emailContactBtn" class="btn btn--ghost" href="mailto:ciborg347@gmail.com">Enviar email</a>
+        </div>
       </div>
     </section>
   </main>
 
-  <!-- Futuristic Modal -->
-  <div id="projectModal" class="modal" aria-hidden="true">
-    <button class="modal__backdrop" type="button" aria-label="Cerrar"></button>
-    <div class="modal__panel">
-      <!-- Modal content will be loaded dynamically -->
+  <!-- Futuristic Footer -->
+  <footer class="footer" id="siteFooter">
+    <div class="wrap footer__inner">
+      <div class="footer__brand">
+        <img id="footerBrandLogo" src="https://iili.io/fETkPEv.md.png" alt="CIBORG 347" />
+        <div>
+          <strong id="footerBrandTitle">CIBORG 347™</strong>
+          <span id="footerBrandTagline">Landing Pages & Web Designs</span>
+        </div>
+      </div>
+
+      <div class="footer__links">
+        <a href="#soluciones">Soluciones</a>
+        <a href="#destacados">Destacados</a>
+        <a href="#trabajos">Portfolio</a>
+        <a href="#autoadmin">Autoadministrable</a>
+        <a href="#contacto">Contacto</a>
+      </div>
     </div>
-  </div>
+  </footer>
 
   <!-- Futuristic WhatsApp Float -->
   <a id="waFloat" class="waFloat" href="#" target="_blank" rel="noopener" aria-label="WhatsApp">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-1.04L12 13V7c0-1.103-.897-2-2-2s-2 .897-2 2v6l-3.442-2.658c-.272-.173-1.733-.891-2.03-1.04-.23-.115-.478-.198-.75-.198-.447 0-.87.173-1.192.432L2.5 12.5c-.5.5-.5 1.207-.5 1.707v4c0 .827.673 1.5 1.5 1.5h16c.827 0 1.5-.673 1.5-1.5v-4c0-.5-.5-1.207-.5-1.707l-3.778-3.778c-.259-.259-.745-.432-1.192-.432-.272 0-.52.083-.75.198z"/>
-    </svg>
+    <img src="https://iili.io/BdFrUs1.webp" alt="WhatsApp" />
   </a>
 
-  <script src="./ciborg347-app-futurista.js"></script>
+  <!-- Futuristic Modal -->
+  <div id="projectModal" class="modal" aria-hidden="true">
+    <button id="modalBackdrop" class="modal__backdrop" type="button" aria-label="Cerrar"></button>
+
+    <div class="modal__panel" role="dialog" aria-modal="true">
+      <div class="modal__header">
+        <div>
+          <div class="modal__tagsRow">
+            <span id="modalCategory" class="tag">Categoría</span>
+            <span id="modalStatus" class="statusPill">Publicado</span>
+          </div>
+          <h3 id="modalTitle">Proyecto</h3>
+        </div>
+
+        <button id="modalClose" class="iconBtn" type="button" aria-label="Cerrar">×</button>
+      </div>
+
+      <div class="modal__content">
+        <div class="modal__imageWrap">
+          <img id="modalImage" src="" alt="" />
+        </div>
+
+        <div class="modal__info">
+          <div class="metaList">
+            <div><strong>Tipo:</strong> <span id="modalType"></span></div>
+            <div><strong>Preview:</strong> <span id="modalPreviewType"></span></div>
+          </div>
+
+          <div id="modalTagsList" class="modal__tagsList"></div>
+
+          <p id="modalShort"></p>
+          <p id="modalFull" class="muted"></p>
+
+          <div class="hero__actions hero__actions--column">
+            <a id="modalDemoBtn" class="btn btn--primary" href="#" target="_blank" rel="noopener">Abrir demo</a>
+            <a id="modalWhatsAppBtn" class="btn btn--ghost" href="#" target="_blank" rel="noopener">Quiero algo así</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="./ciborg347-app-futurista-v2.js"></script>
 </body>
 </html>
