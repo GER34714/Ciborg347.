@@ -1,4 +1,4 @@
-// ===== CIBORG 347 FUTURISTIC JAVASCRIPT SYSTEM ===== 
+// ===== CIBORG 347 FUTURISTIC JAVASCRIPT SYSTEM =====
 // Integración completa con Supabase + UX Futurista
 
 // Supabase Configuration
